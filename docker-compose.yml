@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: django_db
+      POSTGRES_USER: django_user
+      POSTGRES_PASSWORD: HFbJWt15Mt1e4
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    container_name: django_app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DATABASE_NAME: django_db
+      DATABASE_USER: django_user
+      DATABASE_PASSWORD: HFbJWt15Mt1e4
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DEBUG: "True"
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: >
+      sh -c "./wait-for-it.sh &&
+             python django_auth/manage.py migrate &&
+             python django_auth/manage.py runserver 0.0.0.0:8000"
+
+volumes:
+  postgres_data:
