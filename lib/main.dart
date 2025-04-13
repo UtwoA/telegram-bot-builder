@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/start_page.dart';
-
+import 'package:telegram_bot_builder/login_page.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -14,7 +14,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const StartPage(),
+      initialRoute: "/start",
+      routes: {
+        "/start": (context)=>StartPage(),
+        "/login": (context)=>LoginPage()
+      },
     );
   }
 }
