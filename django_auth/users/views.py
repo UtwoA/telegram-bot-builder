@@ -91,3 +91,4 @@ def authenticate_user(request):
             {'error': f'An error occurred: {str(e)}'},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+

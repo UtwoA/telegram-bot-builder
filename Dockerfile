@@ -1,22 +1,21 @@
 # Используем официальный образ Python
-FROM python:3.11
+FROM python:3.12-slim
 
-# Устанавливаем рабочую директорию внутри контейнера
+# Установка необходимых пакетов
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends postgresql-client netcat-openbsd && \
+    rm -rf /var/lib/apt/lists/*
+
+# Рабочая директория внутри контейнера
 WORKDIR /app
 
-# Копируем файлы проекта в контейнер
+
+# Копируем зависимости
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Копируем исходный код
 COPY . .
 
-RUN apt-get update && apt-get install -y postgresql-client
-
-# Устанавливаем зависимости
-RUN pip install --upgrade pip && pip install -r requirements.txt
-
-# Ожидание готовности базы перед запуском
-RUN chmod +x /app/wait-for-it.sh
-
-# Открываем порт для Django (необязательно, но полезно)
-EXPOSE 8000
-
-# Запуск сервера Django
+# Команда по умолчанию — запуск сервера (можно переопределить в compose)
 CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
