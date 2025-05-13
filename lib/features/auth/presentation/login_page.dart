@@ -1,0 +1,121 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'auth_view_model.dart';
+import 'widgets/login_form.dart';
+import 'package:telegram_bot_builder/custom_button.dart';
+import 'package:telegram_bot_builder/custom_image.dart';
+import 'package:telegram_bot_builder/text_widget.dart';
+import 'package:telegram_bot_builder/wsized.dart';
+
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => AuthViewModel(),
+      child: Scaffold(
+        backgroundColor: const Color(0xFF242F3D),
+        body: Column(
+          children: [
+            // Верхняя часть (шапка с картинкой)
+            Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                // Фон шапки
+                const CustomImageWidget(
+                  height: 0.35264054514,
+                  width: 1,
+                  imgpath: 'assets/images/reg_up.jpg',
+                ),
+
+                // Логотип бота
+                const CustomImageWidget(
+                  height: 0.35264054514,
+                  width: 0.22898230088,
+                  imgpath: 'assets/images/207.png',
+                ),
+              ],
+            ),
+
+            // Основная форма
+            Expanded(
+              child: _buildLoginForm(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoginForm(BuildContext context) {
+    final viewModel = Provider.of<AuthViewModel>(context);
+
+    return Center(
+      child: Container(
+        width: 440,
+        height: 440,
+        decoration: BoxDecoration(
+          color: const Color(0xFF17212B),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            WSizedBox(wval: 0, hval: 0.02),
+
+            // Заголовок
+            TextWidget(
+              text: 'Добро пожаловать!',
+              textcolor: const Color(0xFFD9D9D9),
+              textsize: 16,
+              fontWeight: FontWeight.normal,
+            ),
+
+            // Вкладки: Вход / Регистрация
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
+                  child: CustomButton(
+                    buttontext: 'Вход',
+                    width: 0.1,
+                    height: 0.05,
+                    bordercolor: const Color(0xFF41ACE4),
+                    borderradius: 12,
+                    fontsize: 12,
+                    fontweight: FontWeight.bold,
+                    fontcolor: Colors.white,
+                    onPressed: () {},
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  child: CustomButton(
+                    buttontext: 'Регистрация',
+                    width: 0.1,
+                    height: 0.05,
+                    bordercolor: const Color(0xFF41ACE4),
+                    borderradius: 12,
+                    fontsize: 12,
+                    fontweight: FontWeight.bold,
+                    fontcolor: Colors.white,
+                    onPressed: () {
+                      // TODO: переход на RegisterPage
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+            // Форма входа
+            Padding(
+              padding: const EdgeInsets.fromLTRB(100, 20, 100, 20),
+              child: LoginForm(viewModel: viewModel),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
