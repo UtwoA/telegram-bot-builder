@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'auth_view_model.dart';
 import 'widgets/login_form.dart';
-import 'package:telegram_bot_builder/custom_button.dart';
-import 'package:telegram_bot_builder/custom_image.dart';
-import 'package:telegram_bot_builder/text_widget.dart';
-import 'package:telegram_bot_builder/wsized.dart';
+import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
+import 'package:telegram_bot_builder/core/widgets/custom_image.dart';
+import 'package:telegram_bot_builder/core/widgets/text_widget.dart';
+import 'package:telegram_bot_builder/core/widgets/wsized.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -49,7 +49,7 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _buildLoginForm(BuildContext context) {
-    final viewModel = Provider.of<AuthViewModel>(context);
+    final viewModel = Provider.of<AuthViewModel>(context); 
 
     return Center(
       child: Container(
@@ -86,6 +86,7 @@ class LoginPage extends StatelessWidget {
                     fontsize: 12,
                     fontweight: FontWeight.bold,
                     fontcolor: Colors.white,
+                    containercolor: const Color(0xFF41ACE4),
                     onPressed: () {},
                   ),
                 ),
@@ -95,14 +96,16 @@ class LoginPage extends StatelessWidget {
                     buttontext: 'Регистрация',
                     width: 0.1,
                     height: 0.05,
-                    bordercolor: const Color(0xFF41ACE4),
+                    bordercolor: const Color(0xFF17212B),
                     borderradius: 12,
                     fontsize: 12,
                     fontweight: FontWeight.bold,
                     fontcolor: Colors.white,
+                    containercolor: const Color(0xFF41ACE4),
                     onPressed: () {
-                      // TODO: переход на RegisterPage
-                    },
+                      Navigator.pushNamed(context, "/register");
+                      viewModel.clearError();
+                      }
                   ),
                 ),
               ],

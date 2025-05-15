@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import '../auth_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:telegram_bot_builder/custom_button.dart';
+import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
+import 'package:telegram_bot_builder/core/theme/app_colors.dart';
+import 'package:telegram_bot_builder/core/theme/app_text_styles.dart';
+
 class LoginForm extends StatelessWidget {
   final AuthViewModel viewModel;
 
@@ -13,56 +16,30 @@ class LoginForm extends StatelessWidget {
       child: ListBody(
         children: <Widget>[
           TextField(
+            style: AppTextStyles.textFieldLabel,
             controller: viewModel.emailController,
             decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
               labelText: 'Email',
-              labelStyle: const TextStyle(color: Colors.grey, fontSize: 12),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.blue),
-              ),
+              labelStyle: AppTextStyles.textFieldLabel,
             ),
           ),
           const SizedBox(height: 10),
           TextField(
+            style: AppTextStyles.textFieldLabel,
             controller: viewModel.passwordController,
             obscureText: true,
             decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
               labelText: 'Пароль',
-              labelStyle: const TextStyle(color: Colors.grey, fontSize: 12),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.blue),
-              ),
+              labelStyle: AppTextStyles.textFieldLabel,
             ),
           ),
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
               onPressed: () {},
-              child: const Text(
+              child: Text(
                 'Забыли пароль?',
-                style: TextStyle(color: Colors.white60, fontSize: 10),
+                style: AppTextStyles.link,
               ),
             ),
           ),
@@ -71,7 +48,7 @@ class LoginForm extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4),
               child: Text(
                 viewModel.error!,
-                style: const TextStyle(color: Colors.red, fontSize: 10),
+                style: AppTextStyles.error,
               ),
             ),
           const SizedBox(height: 8),
@@ -79,11 +56,12 @@ class LoginForm extends StatelessWidget {
             buttontext: 'Войти',
             width: 0.08,
             height: 0.05,
-            bordercolor: const Color(0xFF41ACE4),
+            bordercolor: AppColors.primary,
             borderradius: 10,
             fontsize: 10,
             fontweight: FontWeight.bold,
-            fontcolor: Colors.white,
+            fontcolor: AppColors.secondary,
+            containercolor: AppColors.primary,
             onPressed: () {
               viewModel.login();
             },
@@ -93,11 +71,12 @@ class LoginForm extends StatelessWidget {
             buttontext: 'Google',
             width: 0.08,
             height: 0.05,
-            bordercolor: Colors.white,
+            bordercolor: AppColors.secondary,
             borderradius: 10,
             fontsize: 10,
             fontweight: FontWeight.bold,
             fontcolor: Colors.black,
+            containercolor: AppColors.secondary,
             onPressed: () {},
           ),
           const SizedBox(height: 6),
@@ -110,6 +89,7 @@ class LoginForm extends StatelessWidget {
             fontsize: 10,
             fontweight: FontWeight.bold,
             fontcolor: Colors.white,
+            containercolor: const Color(0xFF456DBE),
             onPressed: () {},
           ),
         ],

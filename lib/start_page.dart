@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:telegram_bot_builder/custom_button.dart';
-import 'package:telegram_bot_builder/custom_image.dart';
-import 'package:telegram_bot_builder/text_widget.dart';
-import 'package:telegram_bot_builder/wsized.dart';
+import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
+import 'package:telegram_bot_builder/core/widgets/custom_image.dart';
+import 'package:telegram_bot_builder/core/widgets/text_widget.dart';
+import 'package:telegram_bot_builder/core/widgets/wsized.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:telegram_bot_builder/login_page.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({Key? key}) : super(key: key);
@@ -62,6 +61,7 @@ class StartPage extends StatelessWidget {
                     fontsize: 17,
                     fontweight: FontWeight.bold,
                     fontcolor: Colors.white,
+                    containercolor: const Color(0xFF17212B),
                     onPressed: () => Navigator.pushNamed(context, "/login"),
                   )
                 ])

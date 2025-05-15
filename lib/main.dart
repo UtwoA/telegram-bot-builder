@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:telegram_bot_builder/start_page.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/login_page.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/register_page.dart';
 import 'package:provider/provider.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/auth_view_model.dart';
+import 'features/auth/presentation/auth_view_model.dart';
+import 'core/routes/app_router.dart';
+import 'core/theme/app_theme.dart';
 
 void main() {
   runApp(
@@ -15,22 +14,18 @@ void main() {
     ),
   );
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      initialRoute: "/login",
-      routes: {
-        "/start": (context)=>StartPage(),
-        "/login": (context)=>LoginPage(),
-        "/register": (context)=>RegisterPage()
-      },
+      title: 'Telegram Bot Builder',
+      theme: AppTheme.darkTheme,
+      initialRoute: '/start', // начальная страница
+      onGenerateRoute: AppRouter.generateRoute, // навигация через AppRouter
+      debugShowCheckedModeBanner: false,
     );
   }
 }

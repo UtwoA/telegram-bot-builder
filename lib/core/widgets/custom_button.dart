@@ -11,7 +11,7 @@ class CustomButton extends StatelessWidget {
   final double height;
   final String? mode;
   final Color bordercolor;
-  //final Color containercolor;
+  final Color containercolor;
   final double borderradius;
   final double fontsize;
   final FontWeight fontweight;
@@ -22,7 +22,7 @@ class CustomButton extends StatelessWidget {
 
   const CustomButton({
     Key? key,
-    //required this.containercolor,
+    required this.containercolor,
     required this.buttontext,
     this.onPressed,
     required this.width,
@@ -48,6 +48,7 @@ class CustomButton extends StatelessWidget {
         onPressed: onPressed,
         color: bordercolor,
         shape: RoundedRectangleBorder(
+          side:BorderSide(color: containercolor),
           borderRadius: cardStyle == null
               ? BorderRadius.circular(borderradius)
               : BorderRadius.only(

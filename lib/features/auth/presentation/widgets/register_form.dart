@@ -1,56 +1,113 @@
 import 'package:flutter/material.dart';
 import '../auth_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
+import 'package:telegram_bot_builder/core/theme/app_text_styles.dart';
+class RegisterForm extends StatelessWidget {
+  final AuthViewModel viewModel;
 
-class RegisterForm extends StatefulWidget {
-  const RegisterForm({super.key});
-
-  @override
-  State<RegisterForm> createState() => _RegisterFormState();
-}
-
-class _RegisterFormState extends State<RegisterForm> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  const RegisterForm({Key? key, required this.viewModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<AuthViewModel>(context);
-    return Container(
-      width: 400,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: const Color(0xFF2A2A3C),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text('Регистрация', style: TextStyle(fontSize: 20, color: Colors.white)),
-          const SizedBox(height: 16),
+    return SingleChildScrollView(
+      child: ListBody(
+        children: <Widget>[
+          // Email
           TextField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email'),
+            controller: viewModel.emailController,
+            style: AppTextStyles.textFieldLabel, // ✅ Цвет вводимого текста
+            decoration: InputDecoration(
+              labelText: 'Email',
+              labelStyle: AppTextStyles.textFieldLabel,
+            ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 10),
+
+          // Пароль
           TextField(
-            controller: _passwordController,
+            controller: viewModel.passwordController,
             obscureText: true,
-            decoration: const InputDecoration(labelText: 'Пароль'),
+            style: AppTextStyles.textFieldLabel, // ✅ Белый текст
+            decoration: InputDecoration(
+              labelText: 'Пароль',
+              labelStyle: AppTextStyles.textFieldLabel,
+            ),
           ),
+          const SizedBox(height: 10),
+
+          // Повторите пароль
+          TextField(
+            obscureText: true,
+            style: AppTextStyles.textFieldLabel, // ✅ Белый текст
+            decoration: InputDecoration(
+              labelText: 'Повторите пароль',
+              labelStyle: AppTextStyles.textFieldLabel,
+            ),
+          ),
+
+          // Ошибка
+          if (viewModel.error != null && viewModel.passwordController.text.isEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                viewModel.error!,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.red,
+                      fontSize: 10,
+                    ),
+              ),
+            ),
+
           const SizedBox(height: 8),
-          ElevatedButton(
+
+          // Кнопка "Зарегистрироваться"
+          CustomButton(
+            buttontext: 'Зарегистрироваться',
+            width: 0.08,
+            height: 0.05,
+            borderradius: 10,
+            bordercolor: const Color(0xFF41ACE4),
+            fontsize: 10,
+            fontweight: FontWeight.bold,
+            fontcolor: Colors.white,
+            containercolor: const Color(0xFF41ACE4),
             onPressed: () {
-              viewModel.register(
-                _emailController.text,
-                _passwordController.text,
-              );
+              // TODO: реализация регистрации
             },
-            child: const Text('Зарегистрироваться'),
           ),
-          const SizedBox(height: 16),
-          if (viewModel.error != null)
-            Text(viewModel.error!, style: const TextStyle(color: Colors.red)),
+
+          const SizedBox(height: 10),
+
+          // Google
+          CustomButton(
+            buttontext: 'Google',
+            width: 0.08,
+            height: 0.05,
+            borderradius: 10,
+            bordercolor: Colors.white,
+            fontsize: 10,
+            fontweight: FontWeight.bold,
+            fontcolor: Colors.black,
+            containercolor: Colors.white,
+            onPressed: () {},
+          ),
+
+          const SizedBox(height: 6),
+
+          // VK
+          CustomButton(
+            buttontext: 'VK',
+            width: 0.08,
+            height: 0.05,
+            borderradius: 10,
+            bordercolor: const Color(0xFF456DBE),
+            fontsize: 10,
+            fontweight: FontWeight.bold,
+            fontcolor: Colors.white,
+            containercolor: const Color(0xFF456DBE),
+            onPressed: () {},
+          ),
         ],
       ),
     );
