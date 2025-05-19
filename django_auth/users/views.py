@@ -1,14 +1,17 @@
 from rest_framework.views import APIView
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.signals import user_logged_in
-from rest_framework_simplejwt.tokens import RefreshToken  # Используем JWT из DRF Simple JWT
-from django.conf import settings
+
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.exceptions import ObjectDoesNotExist
-from .serializers import UserSerializer  # Импортируем сериализатор
+
+from .serializers import UserSerializer 
 
 
 User = get_user_model()
@@ -92,3 +95,20 @@ def authenticate_user(request):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
+class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        # Можно отправлять как вложенный объект "user", так и напрямую
+        data = request.data.get('user', request.data)
+        serializer = self.get_serializer(self.request.user, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
