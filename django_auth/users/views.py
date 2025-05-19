@@ -7,11 +7,22 @@ from rest_framework import status
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.signals import user_logged_in
+from django.contrib.auth.tokens import default_token_generator
+
+from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.conf import settings
+from django.contrib.auth import get_user_model
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.exceptions import ObjectDoesNotExist
 
-from .serializers import UserSerializer 
+from .serializers import (
+    UserSerializer,
+    PasswordResetSerializer,
+    PasswordResetConfirmSerializer,
+)
 
 
 User = get_user_model()
@@ -38,10 +49,6 @@ class CreateUserAPIView(APIView):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def authenticate_user(request):
-    """
-    API View для аутентификации пользователя.
-    Возвращает JWT токен и данные пользователя при успешной аутентификации.
-    """
     try:
         # Извлекаем email и password из запроса
         email = request.data.get('email')
@@ -112,3 +119,74 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class PasswordResetView(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        serializer = PasswordResetSerializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+            try:
+                user = User.objects.get(email=email)
+
+                # Генерация токена и uid
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
+                token = default_token_generator.make_token(user)
+
+                # Формируем ссылку
+                reset_link = f"{settings.FRONTEND_URL}/reset-password/{uid}/{token}/"
+
+                # Отправка письма
+                send_mail(
+                    subject="Восстановление пароля",
+                    message=f"Для восстановления пароля перейдите по ссылке: {reset_link}",
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[email],
+                )
+
+                return Response(
+                    {"message": "Ссылка для восстановления пароля отправлена"},
+                    status=status.HTTP_200_OK
+                )
+            except User.DoesNotExist:
+                return Response(
+                    {"error": "Пользователь с таким email не найден"},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+  # View для подтверждения сброса пароля
+class PasswordResetConfirmView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, uidb64, token):
+        serializer = PasswordResetConfirmSerializer(data=request.data)
+        if serializer.is_valid():
+            new_password = serializer.validated_data['new_password']
+
+            try:
+                uid = force_str(urlsafe_base64_decode(uidb64))
+                user = User.objects.get(pk=uid)
+            except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+                return Response(
+                    {"error": "Неверная ссылка или пользователь не найден"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            if not default_token_generator.check_token(user, token):
+                return Response(
+                    {"error": "Неверный или истекший токен"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Устанавливаем новый пароль
+            user.set_password(new_password)
+            user.save()
+
+            return Response(
+                {"message": "Пароль успешно изменён"},
+                status=status.HTTP_200_OK
+            )
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
