@@ -87,7 +87,10 @@ class LoginPage extends StatelessWidget {
                     fontweight: FontWeight.bold,
                     fontcolor: Colors.white,
                     containercolor: const Color(0xFF41ACE4),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/main");
+                      viewModel.clearError();
+                      }
                   ),
                 ),
                 Padding(

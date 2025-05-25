@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/features/auth/presentation/login_page.dart';
 import 'package:telegram_bot_builder/features/auth/presentation/register_page.dart';
+import 'package:telegram_bot_builder/features/bot_builder/presentation/pages/bot_builder_page.dart';
 import 'package:telegram_bot_builder/features/dashboard/dashboard_page.dart';
 import 'package:telegram_bot_builder/start_page.dart';
 
@@ -17,6 +18,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const RegisterPage());
       case '/dashboard':
         return MaterialPageRoute(builder: (_) => const DashboardPage());
+      case '/main':
+        return MaterialPageRoute(builder: (_) => const BotBuilderPage());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(

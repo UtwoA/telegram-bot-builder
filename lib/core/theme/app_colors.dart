@@ -10,4 +10,6 @@ class AppColors {
   static const Color textFieldLabel = Colors.white;
   static const Color textFieldBorder = Colors.white;
   static const Color textFieldFocusedBorder = Colors.blue;
+  static const Color menuItemSelected = Color(0xFF41ACE4); // голубой;
+  static const Color menuItemDefault = Color(0xFF545454);
 }

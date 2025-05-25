@@ -68,20 +68,22 @@ class LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           CustomButton(
-            buttontext: 'Google',
+            buttontext: 'Продолжить с Google',
+            leadingIconPath: 'assets/images/ggl.png', // твой путь к картинке
             width: 0.08,
             height: 0.05,
-            bordercolor: AppColors.secondary,
+            bordercolor: Colors.white,
             borderradius: 10,
             fontsize: 10,
             fontweight: FontWeight.bold,
             fontcolor: Colors.black,
-            containercolor: AppColors.secondary,
+            containercolor: Colors.white,
             onPressed: () {},
           ),
           const SizedBox(height: 6),
           CustomButton(
-            buttontext: 'VK',
+            buttontext: 'Продолжить с VK',
+            leadingIconPath: 'assets/images/vk.png', // твой путь к картинке
             width: 0.08,
             height: 0.05,
             bordercolor: const Color(0xFF456DBE),
