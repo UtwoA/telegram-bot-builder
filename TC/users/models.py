@@ -10,6 +10,11 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError('Почта должна существовать')
 
+        telegram_login = extra_fields.get('telegram_login')
+        if telegram_login:
+            if User.objects.filter(telegram_login=telegram_login).exists():
+                raise ValidationError('Telegram-логин должен быть уникальным.')
+
         try:
             with transaction.atomic():
                 user = self.model(email=email, **extra_fields)
@@ -27,12 +32,12 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-
         return self._create_user(email, password=password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
     
     email = models.EmailField(max_length=40, unique=True)
+    telegram_login = models.CharField(max_length=100, blank=True, null=True, unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     is_active = models.BooleanField(default=True)
@@ -45,5 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     def save(self, *args, **kwargs):
+        if self.telegram_login == '':
+            self.telegram_login = None
         super(User, self).save(*args, **kwargs)
         return self

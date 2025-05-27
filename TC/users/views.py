@@ -51,24 +51,27 @@ class CreateUserAPIView(APIView):
 def authenticate_user(request):
     try:
         # Извлекаем email и password из запроса
-        email = request.data.get('email')
+        login_input = request.data.get('login')
         password = request.data.get('password')
 
         # Проверяем, что email и password предоставлены
-        if not email or not password:
+        if not login_input or not password:
             return Response(
-                {'error': 'Please provide both email and password'},
+                {'error': 'Представьте логин и пароль'},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         # Пытаемся найти пользователя по email
         try:
-            user = User.objects.get(email=email)
-        except ObjectDoesNotExist:
-            return Response(
-                {'error': 'User with this email does not exist'},
-                status=status.HTTP_404_NOT_FOUND
-            )
+            user = User.objects.get(email=login_input)
+        except User.DoesNotExist:
+            try:
+                user = User.objects.get(telegram_login=login_input)
+            except User.DoesNotExist:
+                return Response(
+                    {'error': 'Нет логина'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
 
         # Проверяем пароль
         if not user.check_password(password):
@@ -86,8 +89,14 @@ def authenticate_user(request):
 
         # Формируем данные для ответа
         user_details = {
-            'name': f"{user.first_name} {user.last_name}",
-            'token': token,
+            "user": {
+                "email": user.email,
+                "telegram_login": user.telegram_login or None,
+            },
+            "tokens": {
+                "access": str(refresh.access_token),
+                "refresh": str(refresh),
+            }
         }
 
         # Отправляем сигнал о входе пользователя
