@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import '../auth_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/core/theme/app_text_styles.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/auth_view_model.dart';
+import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
+
 class RegisterForm extends StatelessWidget {
   final AuthViewModel viewModel;
+  final TextEditingController confirmController = TextEditingController();
 
-  const RegisterForm({Key? key, required this.viewModel}) : super(key: key);
+  RegisterForm({Key? key, required this.viewModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class RegisterForm extends StatelessWidget {
           // Email
           TextField(
             controller: viewModel.emailController,
-            style: AppTextStyles.textFieldLabel, // ✅ Цвет вводимого текста
+            style: AppTextStyles.textFieldLabel,
             decoration: InputDecoration(
               labelText: 'Email',
               labelStyle: AppTextStyles.textFieldLabel,
@@ -28,7 +30,7 @@ class RegisterForm extends StatelessWidget {
           TextField(
             controller: viewModel.passwordController,
             obscureText: true,
-            style: AppTextStyles.textFieldLabel, // ✅ Белый текст
+            style: AppTextStyles.textFieldLabel,
             decoration: InputDecoration(
               labelText: 'Пароль',
               labelStyle: AppTextStyles.textFieldLabel,
@@ -38,8 +40,9 @@ class RegisterForm extends StatelessWidget {
 
           // Повторите пароль
           TextField(
+            controller: confirmController,
             obscureText: true,
-            style: AppTextStyles.textFieldLabel, // ✅ Белый текст
+            style: AppTextStyles.textFieldLabel,
             decoration: InputDecoration(
               labelText: 'Повторите пароль',
               labelStyle: AppTextStyles.textFieldLabel,
@@ -47,7 +50,7 @@ class RegisterForm extends StatelessWidget {
           ),
 
           // Ошибка
-          if (viewModel.error != null && viewModel.passwordController.text.isEmpty)
+          if (viewModel.error != null)
             Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(
@@ -73,7 +76,27 @@ class RegisterForm extends StatelessWidget {
             fontcolor: Colors.white,
             containercolor: const Color(0xFF41ACE4),
             onPressed: () {
-              // TODO: реализация регистрации
+              final email = viewModel.emailController.text.trim();
+              final password = viewModel.passwordController.text.trim();
+              final confirmPassword = confirmController.text.trim();
+
+              if (password.isEmpty || confirmPassword.isEmpty) {
+                viewModel.setError('Заполните все поля');
+                return;
+              }
+
+              if (password.length < 6) {
+                viewModel.setError('Пароль должен быть не короче 6 символов');
+                return;
+              }
+
+              if (password != confirmPassword) {
+                viewModel.setError('Пароли не совпадают');
+                return;
+              }
+
+              viewModel.setError(null);
+              viewModel.register(email, password);
             },
           ),
 

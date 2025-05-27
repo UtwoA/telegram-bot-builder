@@ -17,14 +17,16 @@ class AuthRepository {
   }
 
   Future<void> register(String email, String password) async {
-    try {
-      final result = await api.register(email, password);
-      await prefs.saveToken(result['token']['access']);
-    } 
-    catch (e) {
-      rethrow;
-    }
-  }
+  final result = await api.register(email, password);
+  final token = result['token']['access'];
 
-  Future<String?> getToken() => prefs.getToken();
+  await prefs.saveToken(token);
+
+  if (!result.containsKey('user')) {
+    throw Exception('Не удалось создать пользователя');
+  }
+}
+  Future<String?> getToken() async {
+  return prefs.getToken();
+}
 }

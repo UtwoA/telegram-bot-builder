@@ -1,56 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'auth_view_model.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/auth_view_model.dart';
 import 'widgets/login_form.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_image.dart';
 import 'package:telegram_bot_builder/core/widgets/text_widget.dart';
 import 'package:telegram_bot_builder/core/widgets/wsized.dart';
+import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
+import 'package:telegram_bot_builder/features/auth/dao/auth_api.dart';
+import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final repository = AuthRepository(AuthApi(), AuthPrefs());
+
     return ChangeNotifierProvider(
-      create: (_) => AuthViewModel(),
-      child: Scaffold(
-        backgroundColor: const Color(0xFF242F3D),
-        body: Column(
-          children: [
-            // Верхняя часть (шапка с картинкой)
-            Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                // Фон шапки
-                const CustomImageWidget(
-                  height: 0.35264054514,
-                  width: 1,
-                  imgpath: 'assets/images/reg_up.jpg',
+      create: (_) => AuthViewModel(repository),
+      child: Builder(
+        builder: (context) {
+          final viewModel = Provider.of<AuthViewModel>(context);
+
+          // Автоматический переход при авторизации
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (viewModel.isAuthenticated && context.mounted) {
+              Navigator.pushReplacementNamed(context, '/main');
+            }
+          });
+
+          return Scaffold(
+            backgroundColor: const Color(0xFF242F3D),
+            body: Column(
+              children: [
+                // Верхняя часть
+                Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    const CustomImageWidget(
+                      height: 0.35264054514,
+                      width: 1,
+                      imgpath: 'assets/images/reg_up.jpg',
+                    ),
+                    const CustomImageWidget(
+                      height: 0.35264054514,
+                      width: 0.22898230088,
+                      imgpath: 'assets/images/207.png',
+                    ),
+                  ],
                 ),
 
-                // Логотип бота
-                const CustomImageWidget(
-                  height: 0.35264054514,
-                  width: 0.22898230088,
-                  imgpath: 'assets/images/207.png',
+                // Форма входа
+                Expanded(
+                  child: _buildLoginForm(context, viewModel),
                 ),
               ],
             ),
-
-            // Основная форма
-            Expanded(
-              child: _buildLoginForm(context),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildLoginForm(BuildContext context) {
-    final viewModel = Provider.of<AuthViewModel>(context); 
-
+  Widget _buildLoginForm(BuildContext context, AuthViewModel viewModel) {
     return Center(
       child: Container(
         width: 440,
@@ -88,9 +101,8 @@ class LoginPage extends StatelessWidget {
                     fontcolor: Colors.white,
                     containercolor: const Color(0xFF41ACE4),
                     onPressed: () {
-                      Navigator.pushNamed(context, "/main");
                       viewModel.clearError();
-                      }
+                    },
                   ),
                 ),
                 Padding(
@@ -106,15 +118,15 @@ class LoginPage extends StatelessWidget {
                     fontcolor: Colors.white,
                     containercolor: const Color(0xFF41ACE4),
                     onPressed: () {
-                      Navigator.pushNamed(context, "/register");
+                      Navigator.pushReplacementNamed(context, "/register");
                       viewModel.clearError();
-                      }
+                    },
                   ),
                 ),
               ],
             ),
 
-            // Форма входа
+            // Форма
             Padding(
               padding: const EdgeInsets.fromLTRB(100, 20, 100, 20),
               child: LoginForm(viewModel: viewModel),

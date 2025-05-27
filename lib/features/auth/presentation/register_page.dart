@@ -1,56 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'auth_view_model.dart';
-import 'widgets/register_form.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_image.dart';
 import 'package:telegram_bot_builder/core/widgets/text_widget.dart';
 import 'package:telegram_bot_builder/core/widgets/wsized.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/auth_view_model.dart';
+import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
+import 'package:telegram_bot_builder/features/auth/dao/auth_api.dart';
+import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/widgets/register_form.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final repository = AuthRepository(AuthApi(), AuthPrefs());
+
     return ChangeNotifierProvider(
-      create: (_) => AuthViewModel(),
-      child: Scaffold(
-        backgroundColor: const Color(0xFF242F3D),
-        body: Column(
-          children: [
-            // Верхняя часть (шапка с картинкой)
-            Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                // Фон шапки
-                const CustomImageWidget(
-                  height: 0.35264054514,
-                  width: 1,
-                  imgpath: 'assets/images/reg_up.jpg',
+      create: (_) => AuthViewModel(repository),
+      child: Builder(
+        builder: (context) {
+          final viewModel = Provider.of<AuthViewModel>(context);
+
+          // Слушаем изменения состояния
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (viewModel.isAuthenticated && context.mounted) {
+              Navigator.pushReplacementNamed(context, '/main');
+            }
+          });
+
+          return Scaffold(
+            backgroundColor: const Color(0xFF242F3D),
+            body: Column(
+              children: [
+                // Верхняя часть
+                Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    const CustomImageWidget(
+                      height: 0.35264054514,
+                      width: 1,
+                      imgpath: 'assets/images/reg_up.jpg',
+                    ),
+                    const CustomImageWidget(
+                      height: 0.35264054514,
+                      width: 0.22898230088,
+                      imgpath: 'assets/images/207.png',
+                    ),
+                  ],
                 ),
 
-                // Логотип бота
-                const CustomImageWidget(
-                  height: 0.35264054514,
-                  width: 0.22898230088,
-                  imgpath: 'assets/images/207.png',
+                // Форма регистрации
+                Expanded(
+                  child: _buildRegisterForm(context, viewModel),
                 ),
               ],
             ),
-
-            // Основная форма
-            Expanded(
-              child: _buildRegisterForm(context),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildRegisterForm(BuildContext context) {
-    final viewModel = Provider.of<AuthViewModel>(context);
-
+  Widget _buildRegisterForm(BuildContext context, AuthViewModel viewModel) {
     return Center(
       child: Container(
         width: 440,

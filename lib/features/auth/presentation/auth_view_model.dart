@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
-import 'package:telegram_bot_builder/features/auth/dao/auth_api.dart';
-import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
 
 class AuthViewModel extends ChangeNotifier {
   String? error;
@@ -11,29 +9,35 @@ class AuthViewModel extends ChangeNotifier {
 
   late final AuthRepository _repository;
 
-  AuthViewModel() {
-    _repository = AuthRepository(AuthApi(), AuthPrefs());
+  bool get isAuthenticated => _token != null;
+  String? _token;
+
+  AuthViewModel(AuthRepository repository) {
+    _repository = repository;
   }
 
   Future<void> login() async {
-    final email = emailController.text;
-    final password = passwordController.text;
+  final email = emailController.text.trim();
+  final password = passwordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
-      error = 'Заполните все поля';
-      notifyListeners();
-      return;
-    }
-
-    try {
-      await _repository.login(email, password);
-      error = null;
-    } catch (e) {
-      error = e.toString();
-    }
-
+  if (email.isEmpty || password.isEmpty) {
+    error = 'Заполните все поля';
     notifyListeners();
+    return;
   }
+
+  try {
+    await _repository.login(email, password);
+    error = null;
+    _token = await _repository.getToken();
+  } on Exception catch (e) {
+    error = e.toString().replaceAll('Exception: ', '');
+  } catch (_) {
+    error = 'Ошибка входа';
+  }
+
+  notifyListeners();
+}
 
   Future<void> register(String email, String password) async {
     if (password.length < 6) {
@@ -45,10 +49,16 @@ class AuthViewModel extends ChangeNotifier {
     try {
       await _repository.register(email, password);
       error = null;
+      _token = await _repository.getToken(); // Получаем токен после регистрации
     } catch (e) {
-      error = e.toString();
+      error = e.toString().replaceAll('Exception: ', '');
     }
 
+    notifyListeners();
+  }
+
+  void setError(String? message) {
+    error = message;
     notifyListeners();
   }
 
