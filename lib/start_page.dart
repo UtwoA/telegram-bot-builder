@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_image.dart';
 import 'package:telegram_bot_builder/core/widgets/text_widget.dart';
@@ -37,7 +38,7 @@ class StartPage extends StatelessWidget {
                 child: Column(children: [
                   WSizedBox(wval: 0, hval:0.1),
                   Center(child: TextWidget(
-                    text: 'Product name',
+                    text: 'Добро пожаловать',
                     textcolor: Color(0xFFD3DDEA),
                     textsize: 24,
                     fontWeight: FontWeight.normal
@@ -45,7 +46,7 @@ class StartPage extends StatelessWidget {
                   ),
                   WSizedBox(wval: 0, hval:0.03),
                   Center(child: TextWidget(
-                    text: 'Registry name',
+                    text: 'Tele_bot',
                     textcolor: Color(0xFFD9D9D9),
                     textsize: 16,
                     fontWeight: FontWeight.normal
@@ -53,7 +54,7 @@ class StartPage extends StatelessWidget {
                   ),
                   WSizedBox(wval: 0, hval:0.1),
                   CustomButton(
-                    buttontext: 'Button text',
+                    buttontext: 'Продолжить',
                     width: 0.33185840708,
                     height: 0.09540034071,
                     bordercolor: Color(0xFF41ACE4),
@@ -61,7 +62,7 @@ class StartPage extends StatelessWidget {
                     fontsize: 17,
                     fontweight: FontWeight.bold,
                     fontcolor: Colors.white,
-                    containercolor: const Color(0xFF17212B),
+                    containercolor: Color(0xFF41ACE4),
                     onPressed: () => Navigator.pushNamed(context, "/login"),
                   )
                 ])

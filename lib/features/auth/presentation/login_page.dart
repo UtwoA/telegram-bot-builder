@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:telegram_bot_builder/features/auth/presentation/auth_view_model.dart';
@@ -111,12 +112,12 @@ class LoginPage extends StatelessWidget {
                     buttontext: 'Регистрация',
                     width: 0.1,
                     height: 0.05,
-                    bordercolor: const Color(0xFF17212B),
+                    bordercolor: const Color(0xFF41ACE4),
                     borderradius: 12,
                     fontsize: 12,
                     fontweight: FontWeight.bold,
                     fontcolor: Colors.white,
-                    containercolor: const Color(0xFF41ACE4),
+                    containercolor: const Color(0xFF17212B),
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, "/register");
                       viewModel.clearError();

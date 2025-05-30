@@ -21,7 +21,6 @@ class AuthRepository {
   final token = result['token']['access'];
 
   await prefs.saveToken(token);
-
   if (!result.containsKey('user')) {
     throw Exception('Не удалось создать пользователя');
   }

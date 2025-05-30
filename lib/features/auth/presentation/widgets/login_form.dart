@@ -5,10 +5,37 @@ import 'package:telegram_bot_builder/features/auth/presentation/auth_view_model.
 import 'package:telegram_bot_builder/core/theme/app_text_styles.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   final AuthViewModel viewModel;
 
   const LoginForm({Key? key, required this.viewModel}) : super(key: key);
+
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  bool _obscurePassword = true;
+
+  InputDecoration _buildInputDecoration(String label, {Widget? suffixIcon}) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(color: AppColors.textFieldLabel),
+      filled: true,
+      fillColor: AppColors.textFieldFill,
+      isDense: true,
+      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      suffixIcon: suffixIcon,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: AppColors.textFieldBorder),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: AppColors.textFieldFocusedBorder),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,23 +44,30 @@ class LoginForm extends StatelessWidget {
         children: <Widget>[
           // Email
           TextField(
-            controller: viewModel.emailController,
-            style: AppTextStyles.textFieldLabel,
-            decoration: InputDecoration(
-              labelText: 'Email',
-              labelStyle: AppTextStyles.textFieldLabel,
-            ),
+            controller: widget.viewModel.emailController,
+            style: const TextStyle(color: AppColors.textFieldText),
+            decoration: _buildInputDecoration('Email'),
           ),
           const SizedBox(height: 10),
 
           // Пароль
           TextField(
-            controller: viewModel.passwordController,
-            obscureText: true,
-            style: AppTextStyles.textFieldLabel,
-            decoration: InputDecoration(
-              labelText: 'Пароль',
-              labelStyle: AppTextStyles.textFieldLabel,
+            controller: widget.viewModel.passwordController,
+            obscureText: _obscurePassword,
+            style: const TextStyle(color: AppColors.textFieldText),
+            decoration: _buildInputDecoration(
+              'Пароль',
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                  color: AppColors.textFieldLabel,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscurePassword = !_obscurePassword;
+                  });
+                },
+              ),
             ),
           ),
 
@@ -49,11 +83,11 @@ class LoginForm extends StatelessWidget {
           ),
 
           // Ошибка
-          if (viewModel.error != null)
+          if (widget.viewModel.error != null)
             Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(
-                viewModel.error!,
+                widget.viewModel.error!,
                 style: AppTextStyles.error,
               ),
             ),
@@ -72,16 +106,16 @@ class LoginForm extends StatelessWidget {
             fontcolor: AppColors.secondary,
             containercolor: AppColors.primary,
             onPressed: () {
-              final email = viewModel.emailController.text.trim();
-              final password = viewModel.passwordController.text.trim();
+              final email = widget.viewModel.emailController.text.trim();
+              final password = widget.viewModel.passwordController.text.trim();
 
               if (email.isEmpty || password.isEmpty) {
-                viewModel.setError('Заполните все поля');
+                widget.viewModel.setError('Заполните все поля');
                 return;
               }
 
-              viewModel.setError(null);
-              viewModel.login(); // вызываем без контекста
+              widget.viewModel.setError(null);
+              widget.viewModel.login();
             },
           ),
 

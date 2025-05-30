@@ -6,38 +6,53 @@ class AuthViewModel extends ChangeNotifier {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmController = TextEditingController();
+
+  bool _isPasswordVisible = false;
+  bool get isPasswordVisible => _isPasswordVisible;
+
+  bool _isConfirmPasswordVisible = false;
+  bool get isConfirmPasswordVisible => _isConfirmPasswordVisible;
 
   late final AuthRepository _repository;
+  String? _token;
 
   bool get isAuthenticated => _token != null;
-  String? _token;
 
   AuthViewModel(AuthRepository repository) {
     _repository = repository;
   }
 
-  Future<void> login() async {
-  final email = emailController.text.trim();
-  final password = passwordController.text.trim();
-
-  if (email.isEmpty || password.isEmpty) {
-    error = 'Заполните все поля';
+  void togglePasswordVisibility() {
+    _isPasswordVisible = !_isPasswordVisible;
     notifyListeners();
-    return;
   }
 
-  try {
-    await _repository.login(email, password);
-    error = null;
-    _token = await _repository.getToken();
-  } on Exception catch (e) {
-    error = e.toString().replaceAll('Exception: ', '');
-  } catch (_) {
-    error = 'Ошибка входа';
+  void toggleConfirmPasswordVisibility() {
+    _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+    notifyListeners();
   }
 
-  notifyListeners();
-}
+  Future<void> login() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      error = 'Заполните все поля';
+      notifyListeners();
+      return;
+    }
+
+    try {
+      await _repository.login(email, password);
+      error = null;
+      _token = await _repository.getToken();
+    } catch (e) {
+      error = e.toString().replaceAll('Exception: ', '');
+    }
+
+    notifyListeners();
+  }
 
   Future<void> register(String email, String password) async {
     if (password.length < 6) {
@@ -49,7 +64,7 @@ class AuthViewModel extends ChangeNotifier {
     try {
       await _repository.register(email, password);
       error = null;
-      _token = await _repository.getToken(); // Получаем токен после регистрации
+      _token = await _repository.getToken();
     } catch (e) {
       error = e.toString().replaceAll('Exception: ', '');
     }
@@ -70,6 +85,7 @@ class AuthViewModel extends ChangeNotifier {
   void disposeControllers() {
     emailController.dispose();
     passwordController.dispose();
+    confirmController.dispose();
     notifyListeners();
   }
 }

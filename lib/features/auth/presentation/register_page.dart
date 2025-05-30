@@ -94,12 +94,12 @@ class RegisterPage extends StatelessWidget {
                     buttontext: 'Вход',
                     width: 0.1,
                     height: 0.05,
-                    bordercolor: const Color(0xFF17212B),
+                    bordercolor: const Color(0xFF41ACE4),
                     borderradius: 12,
                     fontsize: 12,
                     fontweight: FontWeight.bold,
                     fontcolor: Colors.white,
-                    containercolor: const Color(0xFF41ACE4),
+                    containercolor: const Color(0xFF17212B),
                     onPressed: () {
                       // Переход на LoginPage
                       Navigator.pushReplacementNamed(context, '/login');
@@ -127,7 +127,7 @@ class RegisterPage extends StatelessWidget {
 
             // Форма регистрации
             Padding(
-              padding: const EdgeInsets.fromLTRB(100, 20, 100, 20),
+              padding: const EdgeInsets.fromLTRB(100, 10, 100, 20),
               child: RegisterForm(viewModel: viewModel),
             ),
           ],

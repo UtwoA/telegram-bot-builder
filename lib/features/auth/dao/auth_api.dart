@@ -34,7 +34,7 @@ class AuthApi {
   final data = jsonDecode(response.body);
 
   // Если статус ошибочный
-  if (response.statusCode != 200) {
+  if (response.statusCode != 201) {
     throw Exception(data['message'] ?? 'Не удалось зарегистрироваться');
   }
 

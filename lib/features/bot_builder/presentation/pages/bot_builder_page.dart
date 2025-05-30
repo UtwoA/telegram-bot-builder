@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/features/auth/presentation/register_page.dart';
 import 'package:telegram_bot_builder/features/bot_builder/presentation/widgets/bot_constructor_area.dart';
 import 'package:telegram_bot_builder/features/bot_builder/presentation/widgets/bot_header.dart';
+import 'package:telegram_bot_builder/features/bot_builder/presentation/widgets/personal_account.dart';
 import '../widgets/bot_sidebar.dart';
 
 class BotBuilderPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _BotBuilderPageState extends State<BotBuilderPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    Text(''),
+    PersonalAccount(),
     Text(''),
     Text(''),
     Text(''),
@@ -56,7 +57,7 @@ class _BotBuilderPageState extends State<BotBuilderPage> {
           
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(0),
               child: _pages[_selectedIndex],
             ),
           )

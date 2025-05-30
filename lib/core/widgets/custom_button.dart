@@ -5,15 +5,15 @@ class CustomButton extends StatelessWidget {
   final String buttontext;
   final double width;
   final double height;
-  final Color bordercolor;
+  final Color bordercolor; // Цвет контура кнопки
   final double borderradius;
   final double fontsize;
   final FontWeight fontweight;
   final Color fontcolor;
   final VoidCallback? onPressed;
-  final Color containercolor;
-  final String? leadingIconPath; // путь к иконке
-  final IconData? icon;         // можно оставить, если ещё используется
+  final Color containercolor; // Цвет фона кнопки
+  final String? leadingIconPath; // путь к иконке (например, AssetImage)
+  final IconData? icon; // можно удалить, если не используется
   final Color? iconColor;
 
   const CustomButton({
@@ -26,8 +26,8 @@ class CustomButton extends StatelessWidget {
     required this.fontsize,
     required this.fontweight,
     required this.fontcolor,
+    required this.containercolor,
     this.onPressed,
-    this.containercolor = Colors.transparent,
     this.leadingIconPath,
     this.icon,
     this.iconColor,
@@ -40,11 +40,12 @@ class CustomButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width * width,
       child: MaterialButton(
         elevation: 0,
-        onPressed: onPressed,
-        color: containercolor ?? bordercolor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderradius),
+          side: BorderSide(color: bordercolor), // ⬅️ Контур кнопки
         ),
+        color: containercolor, // ⬅️ Фон кнопки
+        onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -53,9 +54,9 @@ class CustomButton extends StatelessWidget {
                 leadingIconPath!,
                 width: fontsize + 4,
                 height: fontsize + 4,
-                color: iconColor, // цвет можно менять при необходимости
+                color: iconColor, // цвет иконки (если нужен)
               ),
-            if (icon != null)
+            if (icon != null && leadingIconPath == null)
               Icon(
                 icon,
                 size: fontsize + 4,
@@ -65,10 +66,12 @@ class CustomButton extends StatelessWidget {
               const SizedBox(width: 8),
             Text(
               buttontext,
-              style: TextStyle(
-                color: fontcolor,
-                fontSize: fontsize,
-                fontWeight: fontweight,
+              style: GoogleFonts.ubuntu(
+                textStyle: TextStyle(
+                  color: fontcolor,
+                  fontSize: fontsize,
+                  fontWeight: fontweight,
+                ),
               ),
             ),
           ],
