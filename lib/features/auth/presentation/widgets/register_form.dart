@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'package:telegram_bot_builder/core/theme/app_text_styles.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/auth_view_model.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
 
 class RegisterForm extends StatefulWidget {
   final AuthViewModel viewModel;
@@ -39,85 +39,97 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return SingleChildScrollView(
-      child: ListBody(
+      child: Column(
         children: <Widget>[
-          // Email
-          TextField(
-            controller: widget.viewModel.emailController,
-            style: const TextStyle(color: AppColors.textFieldText),
-            decoration: _buildInputDecoration('Email'),
+          // Поле Email
+          SizedBox(
+            width: screenWidth * 0.2,
+            child: TextField(
+              controller: widget.viewModel.emailController,
+              style: const TextStyle(color: AppColors.textFieldText),
+              decoration: _buildInputDecoration('Email'),
+            ),
           ),
-          const SizedBox(height: 10),
+
+          const SizedBox(height: 16),
 
           // Пароль
-          TextField(
-            controller: widget.viewModel.passwordController,
-            obscureText: _obscurePassword,
-            style: const TextStyle(color: AppColors.textFieldText),
-            decoration: _buildInputDecoration(
-              'Пароль',
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                  color: AppColors.textFieldLabel,
+          SizedBox(
+            width: screenWidth * 0.2,
+            child: TextField(
+              controller: widget.viewModel.passwordController,
+              obscureText: _obscurePassword,
+              style: const TextStyle(color: AppColors.textFieldText),
+              decoration: _buildInputDecoration(
+                'Пароль',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                    color: AppColors.textFieldLabel,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
                 ),
-                onPressed: () {
-                  setState(() {
-                    _obscurePassword = !_obscurePassword;
-                  });
-                },
               ),
             ),
           ),
           const SizedBox(height: 10),
-
+                      
           // Повторите пароль
-          TextField(
-            controller: confirmController,
-            obscureText: _obscurePassword,
-            style: const TextStyle(color: AppColors.textFieldText),
-            decoration: _buildInputDecoration(
-              'Повторите пароль',
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                  color: AppColors.textFieldLabel,
+          SizedBox(
+            width: screenWidth * 0.2,
+            child: TextField(
+              controller: confirmController,
+              obscureText: _obscurePassword,
+              style: const TextStyle(color: AppColors.textFieldText),
+              decoration: _buildInputDecoration(
+                'Пароль',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                    color: AppColors.textFieldLabel,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
                 ),
-                onPressed: () {
-                  setState(() {
-                    _obscurePassword = !_obscurePassword;
-                  });
-                },
               ),
             ),
           ),
 
-          // Ошибка
+          // Сообщение об ошибке
           if (widget.viewModel.error != null)
             Padding(
-              padding: const EdgeInsets.only(top: 4),
+              padding: const EdgeInsets.only(top: 8),
               child: Text(
                 widget.viewModel.error!,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.red,
-                      fontSize: 10,
-                    ),
+                style: AppTextStyles.error,
+                textAlign: TextAlign.center,
               ),
             ),
-          const SizedBox(height: 8),
+
+          const SizedBox(height: 24),
 
           // Кнопка "Зарегистрироваться"
           CustomButton(
             buttontext: 'Зарегистрироваться',
-            width: 0.08,
-            height: 0.05,
-            borderradius: 10,
-            bordercolor: const Color(0xFF41ACE4),
-            fontsize: 10,
+            width: screenWidth * 0.2,
+            height: screenHeight * 0.04,
+            borderradius: 20,
+            bordercolor: AppColors.primary,
+            fontsize: 16,
             fontweight: FontWeight.bold,
             fontcolor: Colors.white,
-            containercolor: const Color(0xFF41ACE4),
+            containercolor: AppColors.primary,
             onPressed: () {
               final email = widget.viewModel.emailController.text.trim();
               final password = widget.viewModel.passwordController.text.trim();
@@ -143,33 +155,35 @@ class _RegisterFormState extends State<RegisterForm> {
             },
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 24),
 
+          // Продолжить с Google
           CustomButton(
-            buttontext: 'Google',
+            buttontext: 'Продолжить с Google',
             leadingIconPath: 'assets/images/ggl.png',
-            width: 0.08,
-            height: 0.05,
+            width: screenWidth * 0.2,
+            height: screenHeight * 0.04,
             bordercolor: Colors.white,
-            borderradius: 10,
-            fontsize: 10,
+            borderradius: 20,
+            fontsize: 16,
             fontweight: FontWeight.bold,
             fontcolor: Colors.black,
             containercolor: Colors.white,
             onPressed: () {},
           ),
 
+
           const SizedBox(height: 6),
 
-          // VK
+          // Продолжить с VK
           CustomButton(
-            buttontext: 'VK',
+            buttontext: 'Продолжить с VK',
             leadingIconPath: 'assets/images/vk.png',
-            width: 0.08,
-            height: 0.05,
+            width: screenWidth * 0.2,
+            height: screenHeight * 0.04,
             bordercolor: const Color(0xFF456DBE),
-            borderradius: 10,
-            fontsize: 10,
+            borderradius: 20,
+            fontsize: 16,
             fontweight: FontWeight.bold,
             fontcolor: Colors.white,
             containercolor: const Color(0xFF456DBE),

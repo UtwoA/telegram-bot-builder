@@ -5,19 +5,19 @@ class CustomButton extends StatelessWidget {
   final String buttontext;
   final double width;
   final double height;
-  final Color bordercolor; // Цвет контура кнопки
+  final Color bordercolor;
   final double borderradius;
   final double fontsize;
   final FontWeight fontweight;
   final Color fontcolor;
   final VoidCallback? onPressed;
-  final Color containercolor; // Цвет фона кнопки
-  final String? leadingIconPath; // путь к иконке (например, AssetImage)
-  final IconData? icon; // можно удалить, если не используется
+  final String? leadingIconPath;
+  final IconData? icon;
   final Color? iconColor;
+  final Color containercolor;
 
   const CustomButton({
-    Key? key,
+    super.key,
     required this.buttontext,
     required this.width,
     required this.height,
@@ -31,20 +31,26 @@ class CustomButton extends StatelessWidget {
     this.leadingIconPath,
     this.icon,
     this.iconColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * height,
-      width: MediaQuery.of(context).size.width * width,
-      child: MaterialButton(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderradius),
-          side: BorderSide(color: bordercolor), // ⬅️ Контур кнопки
+      width: width,
+      height: height,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: containercolor,
+          foregroundColor: fontcolor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderradius),
+            side: BorderSide(color: bordercolor),
+          ),
+          padding: EdgeInsets.zero, // убираем внутренние отступы
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          alignment: Alignment.center,
+          fixedSize: Size(width, height), // фиксируем размер
         ),
-        color: containercolor, // ⬅️ Фон кнопки
         onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +60,7 @@ class CustomButton extends StatelessWidget {
                 leadingIconPath!,
                 width: fontsize + 4,
                 height: fontsize + 4,
-                color: iconColor, // цвет иконки (если нужен)
+                color: iconColor,
               ),
             if (icon != null && leadingIconPath == null)
               Icon(
@@ -63,12 +69,11 @@ class CustomButton extends StatelessWidget {
                 color: iconColor ?? Colors.white,
               ),
             if (leadingIconPath != null || icon != null)
-              const SizedBox(width: 8),
+              SizedBox(width: fontsize.toDouble()), // адаптивный отступ
             Text(
               buttontext,
               style: GoogleFonts.ubuntu(
                 textStyle: TextStyle(
-                  color: fontcolor,
                   fontSize: fontsize,
                   fontWeight: fontweight,
                 ),

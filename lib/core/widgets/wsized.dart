@@ -1,3 +1,4 @@
+
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
@@ -7,10 +8,10 @@ class WSizedBox extends StatelessWidget {
   var wval = 0.0;
   var hval = 0.0;
   WSizedBox({
-    Key? key,
+    super.key,
     required this.wval,
     required this.hval,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

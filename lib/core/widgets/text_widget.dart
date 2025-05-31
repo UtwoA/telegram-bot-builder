@@ -20,13 +20,13 @@ class TextWidget extends StatelessWidget {
   String? underline;
 
   TextWidget({
-    Key? key,
+    super.key,
     required this.text,
     this.textsize,
     this.textcolor,
     this.fontWeight,
     this.underline,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

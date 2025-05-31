@@ -7,7 +7,7 @@ import 'package:telegram_bot_builder/core/widgets/wsized.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class StartPage extends StatelessWidget {
-  const StartPage({Key? key}) : super(key: key);
+  const StartPage({super.key});
 
   @override
   Widget build(BuildContext context) {

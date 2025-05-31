@@ -11,14 +11,14 @@ class CustomImageWidget extends StatelessWidget {
   final double? borderradius;
   final String? cardStyle;
   const  CustomImageWidget({
-    Key? key,
+    super.key,
      this.imgpath,
     required this.width,
     required this.height,
     this.borderradius,
     this.cardStyle,
      this.imgpathNet,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

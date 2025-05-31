@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/register_page.dart';
-import 'package:telegram_bot_builder/features/bot_builder/presentation/widgets/bot_constructor_area.dart';
-import 'package:telegram_bot_builder/features/bot_builder/presentation/widgets/bot_header.dart';
-import 'package:telegram_bot_builder/features/bot_builder/presentation/widgets/personal_account.dart';
+import 'package:telegram_bot_builder/features/profile/presentation/pages/personal_account.dart';
 import '../widgets/bot_sidebar.dart';
 
 class BotBuilderPage extends StatefulWidget {

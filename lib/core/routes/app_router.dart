@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/login_page.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/register_page.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/login_page.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/register_page.dart';
 import 'package:telegram_bot_builder/features/bot_builder/presentation/pages/bot_builder_page.dart';
-import 'package:telegram_bot_builder/features/dashboard/dashboard_page.dart';
-import 'package:telegram_bot_builder/start_page.dart';
+import 'package:telegram_bot_builder/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:telegram_bot_builder/pages/start_page.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
