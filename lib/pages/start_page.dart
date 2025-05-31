@@ -11,62 +11,90 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+
     return Scaffold(
-      body: Column(
+      backgroundColor: const Color(0xFF242F3D),
+      body: Stack(
         children: [
-          Stack(
-            children: <Widget>[
-              Center(child: 
-                const CustomImageWidget(
-                  height: 0.35264054514,
-                  width: 1,
-                  imgpath: 'assets/images/reg_up.jpg',
-                )
+          // Градиентный фон верхней части
+          Container(
+            height: screenHeight * 0.3,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF41ACE4),
+                  Color(0xFF242F3D),
+                ],
               ),
-              Center(child: 
-                const CustomImageWidget(
-                  height: 0.35264054514,
-                  width: 0.22898230088,
-                  imgpath: 'assets/images/207.png',
-                )
-              ),
-            ],
+            ),
           ),
-          Expanded(
-              child: Container(
-                color: const Color(0xFF17212B),
-                child: Column(children: [
-                  WSizedBox(wval: 0, hval:0.1),
-                  Center(child: TextWidget(
-                    text: 'Добро пожаловать',
-                    textcolor: Color(0xFFD3DDEA),
-                    textsize: 24,
-                    fontWeight: FontWeight.normal
-                    )
+          Container(
+            padding: EdgeInsets.only(top: screenHeight * 0.01), // 10% от высоты экрана сверху
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Логотип Telegram
+                Align(
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    'assets/images/icon207.png',
+                    width: screenWidth * 0.15,
+                    height: screenWidth * 0.15,
                   ),
-                  WSizedBox(wval: 0, hval:0.03),
-                  Center(child: TextWidget(
-                    text: 'Tele_bot',
-                    textcolor: Color(0xFFD9D9D9),
+                ),
+
+                // Текст приветствия
+                Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.1), // 10% от высоты экрана сверху
+                  child: TextWidget(
+                    text: 'Добро пожаловать!',
+                    textcolor: Colors.white,
+                    textsize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                // Текст добавочный
+                Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.1), // 10% от высоты экрана сверху
+                  child: TextWidget(
+                    text: 'Начните творить что-то там...',
+                    textcolor: Colors.white,
                     textsize: 16,
-                    fontWeight: FontWeight.normal
-                    )
+                    fontWeight: FontWeight.normal,
                   ),
-                  WSizedBox(wval: 0, hval:0.1),
-                  CustomButton(
-                    buttontext: 'Продолжить',
-                    width: 0.33185840708,
-                    height: 0.09540034071,
-                    bordercolor: Color(0xFF41ACE4),
-                    borderradius: 5,
-                    fontsize: 17,
-                    fontweight: FontWeight.bold,
-                    fontcolor: Colors.white,
-                    containercolor: Color(0xFF41ACE4),
-                    onPressed: () => Navigator.pushNamed(context, "/login"),
-                  )
-                ])
-              ))
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    Padding(
+                      padding: EdgeInsets.only(top: screenHeight * 0.1), // 10% от высоты экрана сверху
+                      child: CustomButton(
+                        buttontext: 'Создать своего телеграм бота',
+                        width: screenWidth * 0.2,
+                        height: screenHeight * 0.05,
+                        bordercolor: const Color(0xFF41ACE4),
+                        borderradius: 20,
+                        fontsize: 14,
+                        fontweight: FontWeight.bold,
+                        fontcolor: Colors.white,
+                        containercolor: const Color(0xFF41ACE4),
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, "/login");
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
