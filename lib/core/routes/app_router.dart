@@ -37,7 +37,7 @@ class AppRouter {
       case '/tariff':
         return MaterialPageRoute(builder: (_) => const TariffPage());
       case '/stats':
-        return MaterialPageRoute(builder: (_) => const StatsPage());
+        return MaterialPageRoute(builder: (_) => StatsPage());
       case '/constructor':
         return MaterialPageRoute(builder: (_) => const ConstructorPage());
       case '/profile':

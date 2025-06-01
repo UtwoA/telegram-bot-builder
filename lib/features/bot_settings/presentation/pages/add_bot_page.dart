@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:telegram_bot_builder/core/services/bot.dart';
+import 'package:telegram_bot_builder/core/services/bot_storage.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'package:telegram_bot_builder/core/theme/app_text_styles.dart';
-import 'package:telegram_bot_builder/features/bot_settings/presentation/pages/bot_settings_page.dart';
 
 class AddBotPage extends StatefulWidget {
   const AddBotPage({Key? key}) : super(key: key);
@@ -139,7 +140,24 @@ class _AddBotPageState extends State<AddBotPage> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)),
           ),
-          onPressed: onPressed,
+          onPressed: () {
+    if (_formKey.currentState?.validate() == true) {
+      final newBot = Bot(
+        name: _nameController.text,
+        description: _descriptionController.text,
+        token: _tokenController.text,
+        status: true,
+          );
+          // Добавляем бота в временное хранилище
+          BotStorage().bots.add(newBot);
+
+          Navigator.of(context).pop(newBot);
+        } else {
+          setState(() {
+            _autoValidate = true;
+              });
+            }
+          },
           child: Text(text),
         ),
       ),

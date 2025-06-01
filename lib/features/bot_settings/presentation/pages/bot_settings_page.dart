@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:telegram_bot_builder/core/services/bot.dart';
+import 'package:telegram_bot_builder/core/services/bot_storage.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'package:telegram_bot_builder/core/theme/app_text_styles.dart';
 import 'package:telegram_bot_builder/features/bot_settings/presentation/widgets/AddBotModal.dart';
 import 'package:telegram_bot_builder/features/bot_settings/presentation/widgets/BotDetailsModal.dart';
-import 'bot_details_page.dart'; // должен содержать BotDetailsPage и BotDetailsModal
-import 'add_bot_page.dart';
 
 class BotSettingsPage extends StatefulWidget {
   const BotSettingsPage({Key? key}) : super(key: key);
@@ -16,10 +16,15 @@ class BotSettingsPage extends StatefulWidget {
 }
 
 class _BotSettingsPageState extends State<BotSettingsPage> {
-  final List<Bot> bots = [
-    Bot(name: "Мистер Бот", description: "Лучший бот в мире", status: true, token: 'TOKEN!1'),
-    Bot(name: "Тестовый бот", description: "Для теста", status: false, token: 'TOKEN@2'),
-  ];
+  
+
+  late List<Bot> bots;
+
+  @override
+  void initState() {
+    super.initState();
+    bots = BotStorage().bots; // ← Берём данные из хранилища
+  }
 
   void _showAddBotModal(BuildContext context) async {
   final newBot = await showDialog<Bot>(
@@ -157,31 +162,3 @@ class _BotSettingsPageState extends State<BotSettingsPage> {
 }
 
 
-
-class Bot {
-  final String name;
-  final String description;
-  final String token;
-  final bool status;
-
-  Bot({
-    required this.name,
-    required this.description,
-    required this.token,
-    this.status = true, // по умолчанию активный
-  });
-
-  Bot copyWith({
-    String? name,
-    String? description,
-    String? token,
-    bool? status,
-  }) {
-    return Bot(
-      name: name ?? this.name,
-      description: description ?? this.description,
-      token: token ?? this.token,
-      status: status ?? this.status,
-    );
-  }
-}
