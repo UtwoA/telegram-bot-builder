@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/pages/login/web/login_page_web.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/widgets/login/web/login_page_web.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class RegistrationPage extends StatelessWidget {
+  const RegistrationPage({super.key});
 
   Widget build(BuildContext context) {
   return LayoutBuilder(

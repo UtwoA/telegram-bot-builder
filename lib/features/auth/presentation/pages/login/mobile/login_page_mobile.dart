@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
-import '../widgets/login_form.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/widgets/login_form.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/core/widgets/text_widget.dart';
 import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';

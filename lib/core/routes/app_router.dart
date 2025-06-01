@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/features/auth/presentation/pages/login_page.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/pages/register_page.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/widgets/registration/web/register_form_web.dart';
 import 'package:telegram_bot_builder/features/bot_builder/presentation/pages/bot_builder_page.dart';
 import 'package:telegram_bot_builder/features/bot_settings/presentation/pages/add_bot_page.dart';
 import 'package:telegram_bot_builder/features/bot_settings/presentation/pages/bot_details_page.dart';
