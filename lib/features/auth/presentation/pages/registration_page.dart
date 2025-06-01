@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/widgets/login/web/login_page_web.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/registration/mobile/registration_page_mobile.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/registration/web/register_page_web.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({super.key});
@@ -8,9 +9,9 @@ class RegistrationPage extends StatelessWidget {
   return LayoutBuilder(
     builder: (context, constraints) {
       if (constraints.maxWidth > 600) {
-        return LoginPageWeb(); // Веб-интерфейс
+        return RegistrationPageWeb(); // Веб-интерфейс
       } else {
-        return LoginPageWeb(); // Мобильный интерфейс
+        return RegistrationPageMobile(); // Мобильный интерфейс
       }
     },
   );

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'package:telegram_bot_builder/core/theme/app_text_styles.dart';
-import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
 
-class RegisterForm extends StatefulWidget {
+class LoginFormWeb extends StatefulWidget {
   final AuthViewModel viewModel;
 
-  const RegisterForm({Key? key, required this.viewModel}) : super(key: key);
+  const LoginFormWeb({super.key, required this.viewModel});
 
   @override
-  _RegisterFormState createState() => _RegisterFormState();
+  State<LoginFormWeb> createState() => _LoginFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
-  final TextEditingController confirmController = TextEditingController();
+class _LoginFormState extends State<LoginFormWeb> {
   bool _obscurePassword = true;
 
   InputDecoration _buildInputDecoration(String label, {Widget? suffixIcon}) {
@@ -26,17 +25,17 @@ class _RegisterFormState extends State<RegisterForm> {
       fillColor: AppColors.textFieldFill,
       isDense: true,
       contentPadding: EdgeInsets.symmetric(
-        vertical: AppDimensions.percentHeight(context, 0.015),
-        horizontal: AppDimensions.percentWidth(context, 0.02),
+        vertical: AppDimensions.percentHeight(context, 0.015), // ~1%
+        horizontal: AppDimensions.percentWidth(context, 0.02), // ~2%
       ),
       suffixIcon: suffixIcon,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.textFieldBorder),
+        borderSide: BorderSide(color: AppColors.textFieldBorder),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.textFieldFocusedBorder),
+        borderSide: BorderSide(color: AppColors.textFieldFocusedBorder),
       ),
     );
   }
@@ -58,7 +57,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
           SizedBox(height: AppDimensions.gapBetweenFields(context)),
 
-          // Пароль
+          // Поле Пароль
           SizedBox(
             width: AppDimensions.textFieldWidth(context),
             child: TextField(
@@ -67,32 +66,6 @@ class _RegisterFormState extends State<RegisterForm> {
               style: const TextStyle(color: AppColors.textFieldText),
               decoration: _buildInputDecoration(
                 'Пароль',
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                    color: AppColors.textFieldLabel,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _obscurePassword = !_obscurePassword;
-                    });
-                  },
-                ),
-              ),
-            ),
-          ),
-
-          SizedBox(height: AppDimensions.gapBetweenFields(context)),
-
-          // Повторите пароль
-          SizedBox(
-            width: AppDimensions.textFieldWidth(context),
-            child: TextField(
-              controller: confirmController,
-              obscureText: _obscurePassword,
-              style: const TextStyle(color: AppColors.textFieldText),
-              decoration: _buildInputDecoration(
-                'Повторите пароль',
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscurePassword ? Icons.visibility_off : Icons.visibility,
@@ -121,42 +94,31 @@ class _RegisterFormState extends State<RegisterForm> {
 
           SizedBox(height: AppDimensions.gapAfterErrorText(context)),
 
-          // Кнопка "Зарегистрироваться"
+          // Кнопка "Войти"
           CustomButton(
-            buttontext: 'Зарегистрироваться',
+            buttontext: 'Войти',
             width: AppDimensions.textFieldWidth(context),
             height: AppDimensions.buttonHeightLogin(context).clamp(
               AppDimensions.minButtonHeight,
               double.infinity,
             ),
-            borderradius: 20,
             bordercolor: AppColors.primary,
+            borderradius: 20,
             fontsize: AppDimensions.welcomeTextSize(context),
             fontweight: FontWeight.bold,
-            fontcolor: Colors.white,
+            fontcolor: AppColors.secondary,
             containercolor: AppColors.primary,
             onPressed: () {
               final email = widget.viewModel.emailController.text.trim();
               final password = widget.viewModel.passwordController.text.trim();
-              final confirmPassword = confirmController.text.trim();
 
-              if (password.isEmpty || confirmPassword.isEmpty) {
+              if (email.isEmpty || password.isEmpty) {
                 widget.viewModel.setError('Заполните все поля');
                 return;
               }
 
-              if (password.length < 6) {
-                widget.viewModel.setError('Пароль должен быть не короче 6 символов');
-                return;
-              }
-
-              if (password != confirmPassword) {
-                widget.viewModel.setError('Пароли не совпадают');
-                return;
-              }
-
               widget.viewModel.setError(null);
-              widget.viewModel.register(email, password);
+              widget.viewModel.login();
             },
           ),
 

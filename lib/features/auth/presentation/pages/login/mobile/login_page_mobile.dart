@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/widgets/login_form.dart';
+import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/core/widgets/text_widget.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
 import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_api.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/widgets/login_form_mobile.dart';
 
 class LoginPageMobile extends StatelessWidget {
   const LoginPageMobile({super.key});
@@ -21,94 +22,161 @@ class LoginPageMobile extends StatelessWidget {
         builder: (context) {
           final viewModel = Provider.of<AuthViewModel>(context);
 
+          // Автоматический переход при авторизации
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (viewModel.isAuthenticated && context.mounted) {
               Navigator.pushReplacementNamed(context, '/main');
             }
           });
 
-          final screenWidth = MediaQuery.of(context).size.width;
-
           return Scaffold(
             backgroundColor: const Color(0xFF242F3D),
             body: SafeArea(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Логотип
-                    Center(
-                      child: Image.asset(
-                        'assets/images/icon207.png',
-                        width: screenWidth * 0.3,
-                        height: screenWidth * 0.3,
+              child: Stack(
+                children: [
+                  // Градиентный фон верхней части
+                  Container(
+                    height: AppDimensions.percentHeight(context, 0.25),
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0xFF41ACE4),
+                          Color(0xFF242F3D),
+                        ],
                       ),
                     ),
+                  ),
 
-                    const SizedBox(height: 16),
-
-                    // Приветствие
-                    Center(child:  TextWidget(
-                      text: 'Добро пожаловать!',
-                      textcolor: Colors.white,
-                      textsize: 22,
-                      fontWeight: FontWeight.bold,
-                    )),
-
-                    const SizedBox(height: 32),
-
-                    // Кнопки Вход / Регистрация
-                    Row(
+                  // Основной контент
+                  Padding(
+                    padding: EdgeInsets.only(top: AppDimensions.percentHeight(context, 0.05)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Expanded(
-                          child: CustomButton(
-                            buttontext: 'Вход',
-                            width: double.infinity,
-                            height: 48,
-                            bordercolor: const Color(0xFF41ACE4),
-                            borderradius: 12,
-                            fontsize: 14,
-                            fontweight: FontWeight.bold,
-                            fontcolor: Colors.white,
-                            containercolor: const Color(0xFF17212B),
-                            onPressed: () {
-                              viewModel.clearError();
-                            },
+                        // Логотип Telegram
+                        Align(
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            'assets/images/icon207.png',
+                            width: AppDimensions.logoSizeMobile(context),
+                            height: AppDimensions.logoSizeMobile(context),
                           ),
                         ),
-                        const SizedBox(width: 12),
+
+                        // Текст приветствия
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: AppDimensions.paddingVerticalWelcomeTextMobile(context),
+                          ),
+                          child: TextWidget(
+                            text: 'Добро пожаловать!',
+                            textcolor: Colors.white,
+                            textsize: AppDimensions.welcomeTextSizeMobile(context),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        SizedBox(height: AppDimensions.gapAfterTitleMobile(context)),
+
+                        // Вкладки: Вход / Регистрация
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildLoginButton(context),
+                            _buildRegisterButton(context),
+                          ],
+                        ),
+
+                        SizedBox(height: AppDimensions.gapAfterButtonsMobile(context)),
+
+                        // Форма авторизации — растягивается и может скроллиться
                         Expanded(
-                          child: CustomButton(
-                            buttontext: 'Регистрация',
-                            width: double.infinity,
-                            height: 48,
-                            bordercolor: const Color(0xFF41ACE4),
-                            borderradius: 12,
-                            fontsize: 14,
-                            fontweight: FontWeight.bold,
-                            fontcolor: Colors.white,
-                            containercolor: const Color(0xFF41ACE4),
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(context, "/register");
-                              viewModel.clearError();
-                            },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppDimensions.paddingHorizontalFormMobile(context),
+                            ),
+                            child: LoginFormMobile(viewModel: viewModel),
                           ),
                         ),
                       ],
                     ),
-
-                    const SizedBox(height: 24),
-
-                    // Форма входа
-                    LoginForm(viewModel: viewModel),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  Widget _buildLoginButton(BuildContext context) {
+    return LayoutBuilder(
+      builder: (_, constraints) {
+        final width = AppDimensions.buttonWidthLoginMobile(context).clamp(
+              AppDimensions.minButtonWidthMobile,
+              double.infinity,
+            );
+        final height = AppDimensions.buttonHeightMobile(context).clamp(
+              AppDimensions.minButtonHeightMobile,
+              double.infinity,
+            );
+
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppDimensions.paddingBetweenButtonsMobile(context)),
+          child: CustomButton(
+            buttontext: 'Вход',
+            width: width,
+            height: height,
+            bordercolor: const Color(0xFF41ACE4),
+            borderradius: 20,
+            fontsize: AppDimensions.buttonTextSizeMobile(context),
+            fontweight: FontWeight.bold,
+            fontcolor: Colors.white,
+            containercolor: const Color(0xFF17212B),
+            onPressed: () {
+              
+              Provider.of<AuthViewModel>(context, listen: false).clearError();
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildRegisterButton(BuildContext context) {
+    return LayoutBuilder(
+      builder: (_, constraints) {
+        final width = AppDimensions.buttonWidthRegisterMobile(context).clamp(
+              AppDimensions.minButtonWidthMobile,
+              double.infinity,
+            );
+        final height = AppDimensions.buttonHeightMobile(context).clamp(
+              AppDimensions.minButtonHeightMobile,
+              double.infinity,
+            );
+
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppDimensions.paddingBetweenButtonsMobile(context)),
+          child: CustomButton(
+            buttontext: 'Регистрация',
+            width: width,
+            height: height,
+            bordercolor: const Color(0xFF17212B),
+            borderradius: 20,
+            fontsize: AppDimensions.buttonTextSizeMobile(context),
+            fontweight: FontWeight.bold,
+            fontcolor: Colors.white,
+            containercolor: const Color(0xFF41ACE4),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, "/register");
+              Provider.of<AuthViewModel>(context, listen: false).clearError();
+            },
+          ),
+        );
+      },
     );
   }
 }

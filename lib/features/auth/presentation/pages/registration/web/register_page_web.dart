@@ -7,10 +7,10 @@ import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_
 import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_api.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/widgets/register_form.dart'; // Импорт
+import 'package:telegram_bot_builder/features/auth/presentation/widgets/register_form_web.dart'; // Импорт
 
-class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
+class RegistrationPageWeb extends StatelessWidget {
+  const RegistrationPageWeb({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class RegisterPage extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                             horizontal: AppDimensions.paddingHorizontalForm(context),
                           ),
-                          child: RegisterForm(viewModel: viewModel),
+                          child: RegisterFormWeb(viewModel: viewModel),
                         ),
                       ),
                     ],

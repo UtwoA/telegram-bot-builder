@@ -27,6 +27,10 @@ class AppTextStyles {
         color: AppColors.error,
         fontSize: 10,
       );
+  static TextStyle get errorMobile => const TextStyle(
+        color: AppColors.error,
+        fontSize: 14,
+      );
 
   // === НОВЫЙ СТИЛЬ ДЛЯ ТЕКСТА В ПОЛЯХ ВВОДА ===
   static TextStyle get textFieldText => const TextStyle(

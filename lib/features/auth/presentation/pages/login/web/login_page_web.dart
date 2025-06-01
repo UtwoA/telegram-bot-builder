@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/widgets/login_form.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/core/widgets/text_widget.dart';
 import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_api.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/widgets/login_form_web.dart';
 
 class LoginPageWeb extends StatelessWidget {
   const LoginPageWeb({super.key});
@@ -95,7 +95,7 @@ class LoginPageWeb extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                             horizontal: AppDimensions.paddingHorizontalForm(context),
                           ),
-                          child: LoginForm(viewModel: viewModel),
+                          child: LoginFormWeb(viewModel: viewModel),
                         ),
                       ),
                     ],
@@ -160,7 +160,7 @@ class LoginPageWeb extends StatelessWidget {
             buttontext: 'Регистрация',
             width: width,
             height: height,
-            bordercolor: const Color(0xFF41ACE4),
+            bordercolor: const Color(0xFF17212B),
             borderradius: 20,
             fontsize: AppDimensions.buttonTextSize(context),
             fontweight: FontWeight.bold,

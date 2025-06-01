@@ -129,4 +129,38 @@ class AppDimensions {
   // Текст
   static double welcomeTextSize(BuildContext context) => percentWidth(context, 0.01);
   static double buttonTextSize(BuildContext context) => percentWidth(context, 0.012);
+
+  // Registration page mobile
+  // Размеры для мобильной версии
+  static double logoSizeMobile(BuildContext context) => percentWidth(context, 0.5);
+  static double welcomeTextSizeMobile(BuildContext context) => percentWidth(context, 0.06);
+  static double paddingVerticalWelcomeTextMobile(BuildContext context) => percentHeight(context, 0.02);
+  static double gapAfterTitleMobile(BuildContext context) => percentHeight(context, 0.02);
+  static double gapAfterButtonsMobile(BuildContext context) => percentHeight(context, 0.02);
+  static double paddingHorizontalFormMobile(BuildContext context) => percentWidth(context, 0.05);
+
+  // Кнопки
+  static double buttonWidthLoginMobile(BuildContext context) => percentWidth(context, 0.4);
+  static double buttonWidthRegisterMobile(BuildContext context) => percentWidth(context, 0.4);
+  static double buttonHeightMobile(BuildContext context) => percentHeight(context, 0.06);
+  static double buttonTextSizeMobile(BuildContext context) => percentWidth(context, 0.04);
+  static double paddingBetweenButtonsMobile(BuildContext context) => percentWidth(context, 0.02);
+
+  // Минимальные размеры кнопок
+  static const double minButtonWidthMobile = 120;
+  static const double minButtonHeightMobile = 40;
+
+  // Reg form mobile
+  // Размеры полей и кнопок
+  static double textFieldWidthMobile(BuildContext context) => MediaQuery.of(context).size.width - 80;
+  static double gapBetweenFieldsMobile(BuildContext context) => percentHeight(context, 0.02);
+  static double gapAfterErrorTextMobile(BuildContext context) => percentHeight(context, 0.015);
+  static double gapBetweenButtonsMobile(BuildContext context) => percentHeight(context, 0.015);
+
+  // Размеры кнопок form
+  static double buttonHeightRegisterFormMobile(BuildContext context) => percentHeight(context, 0.05);
+  static double buttonWidthRegisterFormMobile(BuildContext context) => percentHeight(context, 0.05);
+  // Текст кнопок form
+  static double buttonTextSizeFormMobile(BuildContext context) => percentWidth(context, 0.04);
+
 }

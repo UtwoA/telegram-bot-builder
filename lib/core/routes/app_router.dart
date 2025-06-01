@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/features/auth/presentation/pages/login_page.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/widgets/registration/web/register_form_web.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/registration_page.dart';
 import 'package:telegram_bot_builder/features/bot_builder/presentation/pages/bot_builder_page.dart';
 import 'package:telegram_bot_builder/features/bot_settings/presentation/pages/add_bot_page.dart';
 import 'package:telegram_bot_builder/features/bot_settings/presentation/pages/bot_details_page.dart';
@@ -26,7 +26,7 @@ class AppRouter {
       case '/login':
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case '/register':
-        return MaterialPageRoute(builder: (_) => const RegisterPage());
+        return MaterialPageRoute(builder: (_) => const RegistrationPage());
       case '/dashboard':
         return MaterialPageRoute(builder: (_) => const DashboardPage());
       case '/main':
