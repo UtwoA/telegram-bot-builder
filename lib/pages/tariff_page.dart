@@ -7,14 +7,32 @@ class TariffPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Тарифные планы'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.of(context).pop(); // Возвращаемся назад
+          },
+        ),
+        title: const Text(
+          'Тарифные планы',
+          style: TextStyle(
+            color: Colors.white, // Светлый текст заголовка
+            fontSize: 18,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
         backgroundColor: const Color(0xFF0E1621),
+        centerTitle: false,
+        titleTextStyle: const TextStyle(
+          color: Colors.white, // Гарантируем светлый цвет текста
+        ),
       ),
       backgroundColor: const Color(0xFF0E1621),
       body: const Center(
         child: Text(
           'Здесь будут тарифные планы',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
     );

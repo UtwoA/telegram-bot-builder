@@ -67,11 +67,13 @@ Widget buildInputField(
   );
 }
 
-Widget buildHelpLink(String text) {
+Widget buildHelpLink(String text, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(top: 4),
     child: TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, '/helpcenter');
+      },
       style: TextButton.styleFrom(
         padding: EdgeInsets.zero,
         foregroundColor: Colors.white,

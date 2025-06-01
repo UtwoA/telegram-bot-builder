@@ -14,16 +14,22 @@ class BotBuilderPage extends StatefulWidget {
 }
 
 class _BotBuilderPageState extends State<BotBuilderPage> {
+  late final List<Widget> _pages;
+
   bool isSidebarExpanded = true;
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
-    PersonalAccountScreen(),
-    ConstructorPage(),
-    StatsPage(),
-    BotSettingsPage(),
-    PlatformSettingsPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      PersonalAccountScreen(onItemTapped: onItemTapped),
+      ConstructorPage(),
+      StatsPage(),
+      BotSettingsPage(),
+      PlatformSettingsPage(),
+    ];
+  }
 
   void onItemTapped(int index) {
     setState(() {
@@ -42,14 +48,12 @@ class _BotBuilderPageState extends State<BotBuilderPage> {
     return Scaffold(
       body: Row(
         children: [
-          // 🔹 Боковая панель
           BotSideBar(
             isExpanded: isSidebarExpanded,
             onToggle: toggleSidebar,
             selectedIndex: _selectedIndex,
             onSlideTap: onItemTapped,
           ),
-
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(0),

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
-import 'package:telegram_bot_builder/features/profile/presentation/widgets/helper_widgets.dart'; // Импортируем AppDimensions
+import 'package:telegram_bot_builder/core/widgets/wsized.dart';
 
 class StatsCard extends StatelessWidget {
-  const StatsCard({super.key});
+    final Function(int)? onItemTapped; // Принимаем callback
+
+  const StatsCard({super.key, this.onItemTapped});
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,11 @@ class StatsCard extends StatelessWidget {
                   fontweight: FontWeight.bold,
                   fontcolor: Colors.black,
                   containercolor: AppColors.buttonBorder,
-                  onPressed: () {},
+                  onPressed: () {
+                    if (onItemTapped != null) {
+                      onItemTapped!(2);
+                    }
+                  },
                 ),
               ),
               WSizedBox(wval: 0, hval: 0.01), // ~1%

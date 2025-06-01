@@ -67,7 +67,9 @@ class TariffCard extends StatelessWidget {
                   fontweight: FontWeight.bold,
                   fontcolor: Colors.black,
                   containercolor: AppColors.buttonBorder,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/tariff');
+                  },
                 ),
               ),
               WSizedBox(wval: 0, hval: 0.012), // ~1.5%
@@ -82,7 +84,9 @@ class TariffCard extends StatelessWidget {
                   fontweight: FontWeight.normal,
                   fontcolor: Colors.white,
                   containercolor: const Color(0xFF17212B),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/payment-history');
+                  },
                 ),
               ),
               WSizedBox(wval: 0, hval: 0.012), // ~1.5%
@@ -97,10 +101,11 @@ class TariffCard extends StatelessWidget {
                   fontweight: FontWeight.normal,
                   fontcolor: Colors.white,
                   containercolor: const Color(0xFF17212B),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/feedback');
+                  },
                 ),
               ),
-              
             ],
           ),
         ),

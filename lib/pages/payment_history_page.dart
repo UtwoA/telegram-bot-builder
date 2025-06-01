@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HelpCenterPage extends StatelessWidget {
-  const HelpCenterPage({super.key});
+class PaymentHistoryPage extends StatelessWidget {
+  const PaymentHistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +11,13 @@ class HelpCenterPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios_new),
           color: Colors.white,
           onPressed: () {
-            Navigator.of(context).pop(); 
+            Navigator.of(context).pop(); // Возвращаемся назад
           },
         ),
         title: const Text(
-          'База знаний',
+          'История платежей',
           style: TextStyle(
-            color: Colors.white, 
+            color: Colors.white, // Светлый текст заголовка
             fontSize: 18,
             fontWeight: FontWeight.normal,
           ),
@@ -25,15 +25,14 @@ class HelpCenterPage extends StatelessWidget {
         backgroundColor: const Color(0xFF0E1621),
         centerTitle: false,
         titleTextStyle: const TextStyle(
-          color: Colors.white,
+          color: Colors.white, // Гарантируем светлый цвет текста
         ),
       ),
       backgroundColor: const Color(0xFF0E1621),
       body: const Center(
         child: Text(
-          'Здесь будет обучающий контент',
+          'Здесь будут истории платежей',
           style: TextStyle(color: Colors.white, fontSize: 18),
-          textAlign: TextAlign.center,
         ),
       ),
     );

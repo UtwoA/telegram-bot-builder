@@ -5,7 +5,13 @@ import 'package:telegram_bot_builder/features/profile/presentation/widgets/tarif
 import 'package:telegram_bot_builder/features/profile/presentation/widgets/stats_card.dart';
 
 class PersonalAccountScreen extends StatelessWidget {
-  const PersonalAccountScreen({super.key});
+  final Function(int)? onItemTapped;
+
+  // Конструктор с onItemTapped (для BotBuilderPage)
+  const PersonalAccountScreen({super.key, required this.onItemTapped}) : assert(onItemTapped != null);
+
+  // Конструктор без onItemTapped (для навигации через роут)
+  const PersonalAccountScreen.route({super.key}) : onItemTapped = null;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +38,9 @@ class PersonalAccountScreen extends StatelessWidget {
                 children: [
                   const HelpCenterCard(),
                   const SizedBox(height: 10),
-                  const StatsCard(),
+                  StatsCard(
+                    onItemTapped: onItemTapped ?? (int index) {}, // Если null — заглушка
+                  ),
                 ],
               ),
             ),

@@ -40,10 +40,10 @@ class HelpCenterCard extends StatelessWidget {
                 ],
               ),
               WSizedBox(wval: 0, hval: 0.01), // 1% высоты экрана
-              buildHelpLink('Как создать первого бота?'),
-              buildHelpLink('Как работают условия if?'),
-              buildHelpLink('Где получить токен?'),
-              buildHelpLink('Почему мой бот не работает?'),
+              buildHelpLink('Как создать первого бота?', context),
+              buildHelpLink('Как работают условия if?', context),
+              buildHelpLink('Где получить токен?', context),
+              buildHelpLink('Почему мой бот не работает?', context),
               WSizedBox(wval: 0, hval: 0.02), // 2%
               Center(
                 child: CustomButton(
@@ -56,7 +56,9 @@ class HelpCenterCard extends StatelessWidget {
                   fontweight: FontWeight.bold,
                   fontcolor: Colors.black,
                   containercolor: AppColors.buttonBorder,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/helpcenter');
+                  },
                 ),
               ),
               WSizedBox(wval: 0, hval: 0.01), // 1%

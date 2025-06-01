@@ -8,6 +8,7 @@ import 'package:telegram_bot_builder/features/bot_settings/presentation/pages/bo
 import 'package:telegram_bot_builder/features/constructor/constructor_page.dart';
 import 'package:telegram_bot_builder/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:telegram_bot_builder/features/profile/presentation/pages/profile_page.dart';
+import 'package:telegram_bot_builder/pages/payment_history_page.dart';
 import 'package:telegram_bot_builder/pages/start_page.dart';
 import 'package:telegram_bot_builder/pages/feedback_page.dart';
 import 'package:telegram_bot_builder/pages/tariff_page.dart';
@@ -36,12 +37,14 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const HelpCenterPage());
       case '/tariff':
         return MaterialPageRoute(builder: (_) => const TariffPage());
+      case '/payment-history':
+        return MaterialPageRoute(builder: (_) => const PaymentHistoryPage());
       case '/stats':
         return MaterialPageRoute(builder: (_) => StatsPage());
       case '/constructor':
         return MaterialPageRoute(builder: (_) => const ConstructorPage());
       case '/profile':
-        return MaterialPageRoute(builder: (_) => const PersonalAccountScreen());
+        return MaterialPageRoute(builder: (_) => const PersonalAccountScreen.route());
       case '/bot-settings':
         return MaterialPageRoute(builder: (_) => const BotSettingsPage());
       case '/bot-settings/add':
