@@ -7,7 +7,7 @@ import 'package:telegram_bot_builder/core/widgets/text_widget.dart';
 import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_api.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/widgets/login_form_web.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/widgets/login/login_form_web.dart';
 
 class LoginPageWeb extends StatelessWidget {
   const LoginPageWeb({super.key});

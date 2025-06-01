@@ -6,6 +6,7 @@ class BotSideBar extends StatelessWidget {
   final VoidCallback onToggle;
   final int selectedIndex;
   final ValueSetter<int> onSlideTap;
+  final bool canExpand; // Новый параметр
 
   const BotSideBar({
     super.key,
@@ -13,6 +14,7 @@ class BotSideBar extends StatelessWidget {
     required this.onToggle,
     required this.selectedIndex,
     required this.onSlideTap,
+    required this.canExpand, // Передаём из главного экрана
   });
 
   @override
@@ -23,34 +25,34 @@ class BotSideBar extends StatelessWidget {
       color: AppColors.cardBackground,
       child: Column(
         children: [
-          // Кнопка сворачивания
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (isExpanded)
-                  const Text('Меню', style: TextStyle(color: Colors.white)),
-                IconButton(
-                  icon: Icon(
-                    isExpanded ? Icons.arrow_back_ios : Icons.arrow_forward_ios,
-                    color: Colors.white70,
-                    size: 16,
+          if (canExpand) // Показываем только если можно сворачивать
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (isExpanded)
+                    const Text('Меню', style: TextStyle(color: Colors.white)),
+                  IconButton(
+                    icon: Icon(
+                      isExpanded ? Icons.arrow_back_ios : Icons.arrow_forward_ios,
+                      color: Colors.white70,
+                      size: 16,
+                    ),
+                    onPressed: onToggle,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
                   ),
-                  onPressed: onToggle,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
 
-          const Divider(color: Colors.white12, height: 1),
+          if (canExpand) // Разделитель тоже только для веб
+            const Divider(color: Colors.white12, height: 1),
 
-          // Меню
           Expanded(
             child: ListView(
-              physics: const NeverScrollableScrollPhysics(), // отключаем скролл
+              physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
               children: [
                 _buildMenuItem(Icons.person, 'Личный кабинет', isExpanded, 0),

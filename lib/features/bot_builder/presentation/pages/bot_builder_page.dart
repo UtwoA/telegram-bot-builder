@@ -15,6 +15,7 @@ class BotBuilderPage extends StatefulWidget {
 
 class _BotBuilderPageState extends State<BotBuilderPage> {
   late final List<Widget> _pages;
+  late bool isMobile;
 
   bool isSidebarExpanded = true;
   int _selectedIndex = 0;
@@ -45,6 +46,15 @@ class _BotBuilderPageState extends State<BotBuilderPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Определяем, мобильное ли устройство
+    final screenWidth = MediaQuery.of(context).size.width;
+    isMobile = screenWidth < 600;
+
+    // Автоматически сворачиваем сайдбар на мобильных
+    if (isMobile && isSidebarExpanded) {
+      isSidebarExpanded = false;
+    }
+
     return Scaffold(
       body: Row(
         children: [
@@ -53,6 +63,7 @@ class _BotBuilderPageState extends State<BotBuilderPage> {
             onToggle: toggleSidebar,
             selectedIndex: _selectedIndex,
             onSlideTap: onItemTapped,
+            canExpand: !isMobile, // Не даём сворачивать на мобильных
           ),
           Expanded(
             child: Padding(

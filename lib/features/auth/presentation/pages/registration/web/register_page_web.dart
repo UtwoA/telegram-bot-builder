@@ -7,7 +7,7 @@ import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_
 import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_api.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/widgets/register_form_web.dart'; // Импорт
+import 'package:telegram_bot_builder/features/auth/presentation/widgets/registration/register_form_web.dart'; // Импорт
 
 class RegistrationPageWeb extends StatelessWidget {
   const RegistrationPageWeb({super.key});

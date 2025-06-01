@@ -7,7 +7,7 @@ import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_
 import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_api.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/widgets/registration_form_mobile.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/widgets/registration/registration_form_mobile.dart';
 
 class RegistrationPageMobile extends StatelessWidget {
   const RegistrationPageMobile({super.key});
