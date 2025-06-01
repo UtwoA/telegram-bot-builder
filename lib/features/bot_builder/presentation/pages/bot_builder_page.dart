@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/features/bot_settings/presentation/pages/bot_settings_page.dart';
+import 'package:telegram_bot_builder/features/constructor/constructor_page.dart';
 import 'package:telegram_bot_builder/features/platform_settings/presentation/pages/platform_settings_page.dart';
 import 'package:telegram_bot_builder/features/profile/presentation/pages/profile_page.dart';
 import 'package:telegram_bot_builder/features/stats/presentation/pages/stats_page.dart';
@@ -18,7 +19,7 @@ class _BotBuilderPageState extends State<BotBuilderPage> {
 
   final List<Widget> _pages = [
     PersonalAccountScreen(),
-    Text(''),
+    ConstructorPage(),
     StatsPage(),
     BotSettingsPage(),
     PlatformSettingsPage(),
@@ -29,8 +30,6 @@ class _BotBuilderPageState extends State<BotBuilderPage> {
       _selectedIndex = index;
     });
   }
-
-  
 
   void toggleSidebar() {
     setState(() {
@@ -54,7 +53,6 @@ class _BotBuilderPageState extends State<BotBuilderPage> {
           // 🔸 Разделитель
           const VerticalDivider(width: 1, thickness: 1),
 
-          
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(0),
