@@ -1,86 +1,106 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
+import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
+import 'package:telegram_bot_builder/features/profile/presentation/widgets/helper_widgets.dart'; // Импортируем AppDimensions
 
 class TariffCard extends StatelessWidget {
   const TariffCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    final buttonWidth = screenWidth * 0.1;
-    final buttonHeight = screenHeight * 0.03;
-
     return SizedBox(
-      width: screenWidth * 0.4,
-      height: screenHeight * 0.3,
+      width: AppDimensions.tariffCardWidth(context),
+      height: AppDimensions.tariffCardHeight(context),
       child: Card(
         color: AppColors.textFieldFill,
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppDimensions.percentWidth(context, 0.01)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Тарифный план', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                  Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white70),
+                  Text(
+                    'Тарифный план',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: AppDimensions.tariffTitleSize(context),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: AppDimensions.tariffTextSize(context) * 0.9,
+                    color: Colors.white70,
+                  ),
                 ],
               ),
-              const SizedBox(height: 12),
-              const Text('Ваш тариф:', style: TextStyle(color: Colors.white)),
-              const SizedBox(height: 12),
-              const Text('Free до 01.01.1980', style: TextStyle(color: Colors.white)),
-              const SizedBox(height: 24),
+              WSizedBox(wval: 0, hval: 0.012), // ~1% высоты
+              Text(
+                'Ваш тариф:',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: AppDimensions.tariffTextSize(context),
+                ),
+              ),
+              WSizedBox(wval: 0, hval: 0.012), // ~1.5%
+              Text(
+                'Free до 01.01.1980',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: AppDimensions.tariffTextSize(context),
+                ),
+              ),
+              WSizedBox(wval: 0, hval: 0.012), // ~2%
               Center(
                 child: CustomButton(
                   buttontext: 'Тарифы',
-                  width: buttonWidth,
-                  height: buttonHeight * 1.5,
+                  width: AppDimensions.tariffButtonWidth(context),
+                  height: AppDimensions.tariffButtonHeight(context) * 1.5,
                   borderradius: 10,
                   bordercolor: AppColors.buttonBorder,
-                  fontsize: 14,
+                  fontsize: AppDimensions.tariffTextSize(context),
                   fontweight: FontWeight.bold,
                   fontcolor: Colors.black,
                   containercolor: AppColors.buttonBorder,
                   onPressed: () {},
                 ),
               ),
-              const SizedBox(height: 12),
+              WSizedBox(wval: 0, hval: 0.012), // ~1.5%
               Center(
                 child: CustomButton(
                   buttontext: 'История платежей',
-                  width: buttonWidth,
-                  height: buttonHeight,
+                  width: AppDimensions.tariffButtonWidth(context),
+                  height: AppDimensions.tariffButtonHeight(context),
                   borderradius: 10,
-                  bordercolor: Color(0xFF17212B),
-                  fontsize: 14,
+                  bordercolor: const Color(0xFF17212B),
+                  fontsize: AppDimensions.tariffTextSize(context),
                   fontweight: FontWeight.normal,
                   fontcolor: Colors.white,
-                  containercolor: Color(0xFF17212B),
+                  containercolor: const Color(0xFF17212B),
                   onPressed: () {},
                 ),
               ),
-              const SizedBox(height: 12),
+              WSizedBox(wval: 0, hval: 0.012), // ~1.5%
               Center(
                 child: CustomButton(
                   buttontext: 'Связь с поддержкой',
-                  width: buttonWidth,
-                  height: buttonHeight,
+                  width: AppDimensions.tariffButtonWidth(context),
+                  height: AppDimensions.tariffButtonHeight(context),
                   borderradius: 10,
-                  bordercolor: Color(0xFF17212B),
-                  fontsize: 14,
+                  bordercolor: const Color(0xFF17212B),
+                  fontsize: AppDimensions.tariffTextSize(context),
                   fontweight: FontWeight.normal,
                   fontcolor: Colors.white,
-                  containercolor: Color(0xFF17212B),
+                  containercolor: const Color(0xFF17212B),
                   onPressed: () {},
                 ),
               ),
+              
             ],
           ),
         ),

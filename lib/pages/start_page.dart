@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
+import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
-import 'package:telegram_bot_builder/core/widgets/custom_image.dart';
 import 'package:telegram_bot_builder/core/widgets/text_widget.dart';
-import 'package:telegram_bot_builder/core/widgets/wsized.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
-
     return Scaffold(
       backgroundColor: const Color(0xFF242F3D),
       body: Stack(
         children: [
           // Градиентный фон верхней части
           Container(
-            height: screenHeight * 0.3,
+            height: AppDimensions.percentHeight(context, 0.3),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -34,8 +27,10 @@ class StartPage extends StatelessWidget {
               ),
             ),
           ),
+
+          // Основной контент
           Container(
-            padding: EdgeInsets.only(top: screenHeight * 0.01), // 10% от высоты экрана сверху
+            padding: EdgeInsets.only(top: AppDimensions.percentHeight(context, 0.01)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -44,44 +39,46 @@ class StartPage extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Image.asset(
                     'assets/images/icon207.png',
-                    width: screenWidth * 0.15,
-                    height: screenWidth * 0.15,
+                    width: AppDimensions.logoSize(context),
+                    height: AppDimensions.logoSize(context),
                   ),
                 ),
 
                 // Текст приветствия
                 Padding(
-                  padding: EdgeInsets.only(top: screenHeight * 0.1), // 10% от высоты экрана сверху
+                  padding: EdgeInsets.only(top: AppDimensions.percentHeight(context, 0.1)),
                   child: TextWidget(
                     text: 'Добро пожаловать!',
                     textcolor: Colors.white,
-                    textsize: 20,
+                    textsize: AppDimensions.welcomeTextSize(context),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                // Текст добавочный
+
+                // Дополнительный текст
                 Padding(
-                  padding: EdgeInsets.only(top: screenHeight * 0.1), // 10% от высоты экрана сверху
+                  padding: EdgeInsets.only(top: AppDimensions.percentHeight(context, 0.05)),
                   child: TextWidget(
                     text: 'Начните творить что-то там...',
                     textcolor: Colors.white,
-                    textsize: 16,
+                    textsize: AppDimensions.welcomeTextSize(context) * 0.8,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
+
+                // Кнопка
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.1), // 10% от высоты экрана сверху
+                      padding: EdgeInsets.only(top: AppDimensions.percentHeight(context, 0.1)),
                       child: CustomButton(
                         buttontext: 'Создать своего телеграм бота',
-                        width: screenWidth * 0.2,
-                        height: screenHeight * 0.05,
+                        width: AppDimensions.buttonWidth(context),
+                        height: AppDimensions.buttonHeight(context),
                         bordercolor: const Color(0xFF41ACE4),
                         borderradius: 20,
-                        fontsize: 14,
+                        fontsize: AppDimensions.buttonTextSize(context),
                         fontweight: FontWeight.bold,
                         fontcolor: Colors.white,
                         containercolor: const Color(0xFF41ACE4),

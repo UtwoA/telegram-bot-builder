@@ -50,9 +50,6 @@ class _BotBuilderPageState extends State<BotBuilderPage> {
             onSlideTap: onItemTapped,
           ),
 
-          // 🔸 Разделитель
-          const VerticalDivider(width: 1, thickness: 1),
-
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(0),

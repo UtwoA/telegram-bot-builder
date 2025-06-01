@@ -31,7 +31,7 @@ class PersonalAccountScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const HelpCenterCard(),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
                   const StatsCard(),
                 ],
               ),

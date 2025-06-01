@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
+import '../widgets/login_form.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/core/widgets/text_widget.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
 import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_api.dart';
 import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
-import 'package:telegram_bot_builder/features/auth/presentation/widgets/register_form.dart'; // Импорт
 
-class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
+class LoginPageWeb extends StatelessWidget {
+  const LoginPageWeb({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,6 @@ class RegisterPage extends StatelessWidget {
         builder: (context) {
           final viewModel = Provider.of<AuthViewModel>(context);
 
-          // Автоматический переход при авторизации
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (viewModel.isAuthenticated && context.mounted) {
               Navigator.pushReplacementNamed(context, '/main');
@@ -50,7 +49,7 @@ class RegisterPage extends StatelessWidget {
 
                 // Основной контент
                 Container(
-                  padding: EdgeInsets.only(top: AppDimensions.percentHeight(context, 0.01)),
+                  padding: EdgeInsets.only(top: AppDimensions.percentHeight(context, 0.03)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -90,13 +89,13 @@ class RegisterPage extends StatelessWidget {
 
                       SizedBox(height: AppDimensions.gapAfterButtons(context)),
 
-                      // Форма регистрации — растягивается и может скроллиться
+                      // Форма входа — растягивается и может скроллиться
                       Expanded(
                         child: Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: AppDimensions.paddingHorizontalForm(context),
                           ),
-                          child: RegisterForm(viewModel: viewModel),
+                          child: LoginForm(viewModel: viewModel),
                         ),
                       ),
                     ],
@@ -133,9 +132,8 @@ class RegisterPage extends StatelessWidget {
             fontsize: AppDimensions.buttonTextSize(context),
             fontweight: FontWeight.bold,
             fontcolor: Colors.white,
-            containercolor: const Color(0xFF41ACE4),
+            containercolor: const Color(0xFF17212B),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, "/login");
               Provider.of<AuthViewModel>(context, listen: false).clearError();
             },
           ),
@@ -167,8 +165,9 @@ class RegisterPage extends StatelessWidget {
             fontsize: AppDimensions.buttonTextSize(context),
             fontweight: FontWeight.bold,
             fontcolor: Colors.white,
-            containercolor: const Color(0xFF17212B),
+            containercolor: const Color(0xFF41ACE4),
             onPressed: () {
+              Navigator.pushReplacementNamed(context, "/register");
               Provider.of<AuthViewModel>(context, listen: false).clearError();
             },
           ),

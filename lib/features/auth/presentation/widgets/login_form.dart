@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'package:telegram_bot_builder/core/theme/app_text_styles.dart';
@@ -24,7 +25,10 @@ class _LoginFormState extends State<LoginForm> {
       filled: true,
       fillColor: AppColors.textFieldFill,
       isDense: true,
-      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      contentPadding: EdgeInsets.symmetric(
+        vertical: AppDimensions.percentHeight(context, 0.015), // ~1%
+        horizontal: AppDimensions.percentWidth(context, 0.02), // ~2%
+      ),
       suffixIcon: suffixIcon,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -39,15 +43,12 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           // Поле Email
           SizedBox(
-            width: screenWidth * 0.2,
+            width: AppDimensions.textFieldWidth(context),
             child: TextField(
               controller: widget.viewModel.emailController,
               style: const TextStyle(color: AppColors.textFieldText),
@@ -55,11 +56,11 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: AppDimensions.gapBetweenFields(context)),
 
           // Поле Пароль
           SizedBox(
-            width: screenWidth * 0.2,
+            width: AppDimensions.textFieldWidth(context),
             child: TextField(
               controller: widget.viewModel.passwordController,
               obscureText: _obscurePassword,
@@ -84,7 +85,7 @@ class _LoginFormState extends State<LoginForm> {
           // Сообщение об ошибке
           if (widget.viewModel.error != null)
             Padding(
-              padding: const EdgeInsets.only(top: 8),
+              padding: EdgeInsets.only(top: AppDimensions.gapAfterErrorText(context)),
               child: Text(
                 widget.viewModel.error!,
                 style: AppTextStyles.error,
@@ -92,16 +93,19 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
 
-          const SizedBox(height: 24),
+          SizedBox(height: AppDimensions.gapAfterErrorText(context)),
 
           // Кнопка "Войти"
           CustomButton(
             buttontext: 'Войти',
-            width: screenWidth * 0.2,
-            height: screenHeight * 0.04,
+            width: AppDimensions.textFieldWidth(context),
+            height: AppDimensions.buttonHeightLogin(context).clamp(
+              AppDimensions.minButtonHeight,
+              double.infinity,
+            ),
             bordercolor: AppColors.primary,
             borderradius: 20,
-            fontsize: 16,
+            fontsize: AppDimensions.welcomeTextSize(context),
             fontweight: FontWeight.bold,
             fontcolor: AppColors.secondary,
             containercolor: AppColors.primary,
@@ -119,34 +123,40 @@ class _LoginFormState extends State<LoginForm> {
             },
           ),
 
-          const SizedBox(height: 24),
+          SizedBox(height: AppDimensions.gapBetweenButtons(context)),
 
           // Продолжить с Google
           CustomButton(
             buttontext: 'Продолжить с Google',
             leadingIconPath: 'assets/images/ggl.png',
-            width: screenWidth * 0.2,
-            height: screenHeight * 0.04,
+            width: AppDimensions.textFieldWidth(context),
+            height: AppDimensions.buttonHeightLogin(context).clamp(
+              AppDimensions.minButtonHeight,
+              double.infinity,
+            ),
             bordercolor: Colors.white,
             borderradius: 20,
-            fontsize: 16,
+            fontsize: AppDimensions.welcomeTextSize(context),
             fontweight: FontWeight.bold,
             fontcolor: Colors.black,
             containercolor: Colors.white,
             onPressed: () {},
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(height: AppDimensions.gapBetweenButtons(context)),
 
           // Продолжить с VK
           CustomButton(
             buttontext: 'Продолжить с VK',
             leadingIconPath: 'assets/images/vk.png',
-            width: screenWidth * 0.2,
-            height: screenHeight * 0.04,
+            width: AppDimensions.textFieldWidth(context),
+            height: AppDimensions.buttonHeightLogin(context).clamp(
+              AppDimensions.minButtonHeight,
+              double.infinity,
+            ),
             bordercolor: const Color(0xFF456DBE),
             borderradius: 20,
-            fontsize: 16,
+            fontsize: AppDimensions.welcomeTextSize(context),
             fontweight: FontWeight.bold,
             fontcolor: Colors.white,
             containercolor: const Color(0xFF456DBE),

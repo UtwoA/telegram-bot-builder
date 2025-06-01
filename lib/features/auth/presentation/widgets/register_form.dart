@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'package:telegram_bot_builder/core/theme/app_text_styles.dart';
+import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
 
@@ -24,7 +25,10 @@ class _RegisterFormState extends State<RegisterForm> {
       filled: true,
       fillColor: AppColors.textFieldFill,
       isDense: true,
-      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      contentPadding: EdgeInsets.symmetric(
+        vertical: AppDimensions.percentHeight(context, 0.015),
+        horizontal: AppDimensions.percentWidth(context, 0.02),
+      ),
       suffixIcon: suffixIcon,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -39,15 +43,12 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           // Поле Email
           SizedBox(
-            width: screenWidth * 0.2,
+            width: AppDimensions.textFieldWidth(context),
             child: TextField(
               controller: widget.viewModel.emailController,
               style: const TextStyle(color: AppColors.textFieldText),
@@ -55,11 +56,11 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: AppDimensions.gapBetweenFields(context)),
 
           // Пароль
           SizedBox(
-            width: screenWidth * 0.2,
+            width: AppDimensions.textFieldWidth(context),
             child: TextField(
               controller: widget.viewModel.passwordController,
               obscureText: _obscurePassword,
@@ -80,17 +81,18 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
             ),
           ),
-          const SizedBox(height: 10),
-                      
+
+          SizedBox(height: AppDimensions.gapBetweenFields(context)),
+
           // Повторите пароль
           SizedBox(
-            width: screenWidth * 0.2,
+            width: AppDimensions.textFieldWidth(context),
             child: TextField(
               controller: confirmController,
               obscureText: _obscurePassword,
               style: const TextStyle(color: AppColors.textFieldText),
               decoration: _buildInputDecoration(
-                'Пароль',
+                'Повторите пароль',
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscurePassword ? Icons.visibility_off : Icons.visibility,
@@ -109,7 +111,7 @@ class _RegisterFormState extends State<RegisterForm> {
           // Сообщение об ошибке
           if (widget.viewModel.error != null)
             Padding(
-              padding: const EdgeInsets.only(top: 8),
+              padding: EdgeInsets.only(top: AppDimensions.gapAfterErrorText(context)),
               child: Text(
                 widget.viewModel.error!,
                 style: AppTextStyles.error,
@@ -117,16 +119,19 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
             ),
 
-          const SizedBox(height: 24),
+          SizedBox(height: AppDimensions.gapAfterErrorText(context)),
 
           // Кнопка "Зарегистрироваться"
           CustomButton(
             buttontext: 'Зарегистрироваться',
-            width: screenWidth * 0.2,
-            height: screenHeight * 0.04,
+            width: AppDimensions.textFieldWidth(context),
+            height: AppDimensions.buttonHeightLogin(context).clamp(
+              AppDimensions.minButtonHeight,
+              double.infinity,
+            ),
             borderradius: 20,
             bordercolor: AppColors.primary,
-            fontsize: 16,
+            fontsize: AppDimensions.welcomeTextSize(context),
             fontweight: FontWeight.bold,
             fontcolor: Colors.white,
             containercolor: AppColors.primary,
@@ -155,35 +160,40 @@ class _RegisterFormState extends State<RegisterForm> {
             },
           ),
 
-          const SizedBox(height: 24),
+          SizedBox(height: AppDimensions.gapBetweenButtons(context)),
 
           // Продолжить с Google
           CustomButton(
             buttontext: 'Продолжить с Google',
             leadingIconPath: 'assets/images/ggl.png',
-            width: screenWidth * 0.2,
-            height: screenHeight * 0.04,
+            width: AppDimensions.textFieldWidth(context),
+            height: AppDimensions.buttonHeightLogin(context).clamp(
+              AppDimensions.minButtonHeight,
+              double.infinity,
+            ),
             bordercolor: Colors.white,
             borderradius: 20,
-            fontsize: 16,
+            fontsize: AppDimensions.welcomeTextSize(context),
             fontweight: FontWeight.bold,
             fontcolor: Colors.black,
             containercolor: Colors.white,
             onPressed: () {},
           ),
 
-
-          const SizedBox(height: 6),
+          SizedBox(height: AppDimensions.gapBetweenButtons(context)),
 
           // Продолжить с VK
           CustomButton(
             buttontext: 'Продолжить с VK',
             leadingIconPath: 'assets/images/vk.png',
-            width: screenWidth * 0.2,
-            height: screenHeight * 0.04,
+            width: AppDimensions.textFieldWidth(context),
+            height: AppDimensions.buttonHeightLogin(context).clamp(
+              AppDimensions.minButtonHeight,
+              double.infinity,
+            ),
             bordercolor: const Color(0xFF456DBE),
             borderradius: 20,
-            fontsize: 16,
+            fontsize: AppDimensions.welcomeTextSize(context),
             fontweight: FontWeight.bold,
             fontcolor: Colors.white,
             containercolor: const Color(0xFF456DBE),
