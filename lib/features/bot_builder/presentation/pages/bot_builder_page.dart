@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:telegram_bot_builder/features/profile/presentation/pages/personal_account.dart';
+import 'package:telegram_bot_builder/features/bot_settings/presentation/pages/bot_settings_page.dart';
+import 'package:telegram_bot_builder/features/platform_settings/presentation/pages/platform_settings_page.dart';
+import 'package:telegram_bot_builder/features/profile/presentation/pages/profile_page.dart';
+import 'package:telegram_bot_builder/features/stats/presentation/pages/stats_page.dart';
 import '../widgets/bot_sidebar.dart';
 
 class BotBuilderPage extends StatefulWidget {
@@ -14,11 +17,11 @@ class _BotBuilderPageState extends State<BotBuilderPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    PersonalAccount(),
+    PersonalAccountScreen(),
     Text(''),
-    Text(''),
-    Text(''),
-    Text(''),
+    StatsPage(),
+    BotSettingsPage(),
+    PlatformSettingsPage(),
   ];
 
   void onItemTapped(int index) {
