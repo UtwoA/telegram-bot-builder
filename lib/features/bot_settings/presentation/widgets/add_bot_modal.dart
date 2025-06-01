@@ -8,8 +8,8 @@ class AddBotModal extends StatelessWidget {
 
   const AddBotModal({
     Key? key,
-    this.widthPercent = 60,
-    this.heightPercent = 40,
+    this.widthPercent = 35,
+    this.heightPercent = 42,
   }) : super(key: key);
 
   @override

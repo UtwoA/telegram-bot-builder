@@ -74,7 +74,7 @@ class _AddBotPageState extends State<AddBotPage> {
                 fillColor: AppColors.textFieldFill,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
 
             // === Кнопки с управлением положением и размером ===
             _buildButton("Сохранить", onPressed: () {
@@ -85,18 +85,16 @@ class _AddBotPageState extends State<AddBotPage> {
                   token: _tokenController.text,
                   status: true,
                 );
+                BotStorage().bots.add(newBot);
                 Navigator.of(context).pop(newBot);
               } else {
                 setState(() {
                   _autoValidate = true;
                 });
               }
-            }, widthPercent: 10, heightPercent: 4, alignment: Alignment.center),
-
-            const SizedBox(height: 16),
-
-            _buildButton("Отмена", onPressed: Navigator.of(context).pop,
-                widthPercent: 10, heightPercent: 4, alignment: Alignment.center),
+            }),
+            const SizedBox(height: 12),
+            _buildButton("Отмена", onPressed: Navigator.of(context).pop),
           ],
         ),
       ),
@@ -104,65 +102,48 @@ class _AddBotPageState extends State<AddBotPage> {
   }
 
   Widget _buildButton(
-    String text, {
-    required VoidCallback? onPressed,
-    double? widthPercent,
-    double? heightPercent,
-    AlignmentGeometry alignment = Alignment.centerLeft,
-    Color? color,
-  }) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+  String text, {
+  required VoidCallback? onPressed,
+  Color? color,
+}) {
+  final screenWidth = MediaQuery.of(context).size.width;
+  final screenHeight = MediaQuery.of(context).size.height;
+  final isLargeScreen = screenWidth > 600;
 
-    final calculatedWidth = widthPercent != null
-        ? (screenWidth * widthPercent / 100)
-        : double.infinity;
-    final calculatedHeight = heightPercent != null
-        ? (screenHeight * heightPercent / 100)
-        : null;
+  // Динамические параметры
+  final widthPercent = isLargeScreen ? 20.0 : 50.0;
+  final alignment =
+      isLargeScreen ? Alignment.center : Alignment.center;
 
-    return Align(
-      alignment: alignment,
-      child: Container(
-        width: calculatedWidth,
-        height: calculatedHeight,
-        constraints: BoxConstraints(
-          minWidth: calculatedWidth,
-          maxWidth: calculatedWidth,
-          minHeight: calculatedHeight ?? 0,
-          maxHeight: calculatedHeight ?? double.infinity,
-        ),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: color ?? AppColors.primary,
-            foregroundColor: AppColors.secondary,
-            textStyle: AppTextStyles.button,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)),
-          ),
-          onPressed: () {
-    if (_formKey.currentState?.validate() == true) {
-      final newBot = Bot(
-        name: _nameController.text,
-        description: _descriptionController.text,
-        token: _tokenController.text,
-        status: true,
-          );
-          // Добавляем бота в временное хранилище
-          BotStorage().bots.add(newBot);
+  final calculatedWidth = screenWidth * widthPercent / 100;
+  final calculatedHeight = screenHeight * 4 / 100;
 
-          Navigator.of(context).pop(newBot);
-        } else {
-          setState(() {
-            _autoValidate = true;
-              });
-            }
-          },
-          child: Text(text),
-        ),
+  return Align(
+    alignment: alignment,
+    child: Container(
+      width: calculatedWidth,
+      height: calculatedHeight,
+      constraints: BoxConstraints(
+        minWidth: calculatedWidth,
+        maxWidth: calculatedWidth,
+        minHeight: calculatedHeight,
+        maxHeight: calculatedHeight,
       ),
-    );
-  }
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color ?? AppColors.primary,
+          foregroundColor: AppColors.secondary,
+          textStyle: AppTextStyles.button,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Text(text),
+      ),
+    ),
+  );
+}
 
   @override
   void dispose() {

@@ -37,7 +37,7 @@ class BotDetailsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(bot.name ?? "Бот", style: AppTextStyles.textFieldLabel),
+        title: Text('Назад', style: AppTextStyles.textFieldLabel),
         backgroundColor: AppColors.background,
         elevation: 0,
       ),
@@ -47,74 +47,69 @@ class BotDetailsPage extends StatelessWidget {
         child: ListView(
           children: [
             // === Информация о боте ===
-            _buildSectionTitle("Основная информация"),
-            _buildTextField("Имя", nameController,
-                widthPercent: 30, heightPercent: 7),
-            _buildTextField("Описание", descriptionController,
-                widthPercent: 30, heightPercent: 7),
-            _buildTextField("Telegram токен", tokenController,
-                widthPercent: 30, heightPercent: 7),
+          _buildSectionTitle("Основная информация"),
+          const SizedBox(height: 16),
+          _buildTextField("Имя", nameController),
+          const SizedBox(height: 8),
+          _buildTextField("Описание", descriptionController),
+          const SizedBox(height: 8),
+          _buildTextField("Telegram токен", tokenController),
 
-            const SizedBox(height: 32),
+          const SizedBox(height: 12),
 
-            // === Кнопки действий ===
-            _buildButton(
-              "Сохранить изменения",
-              onPressed: () {
-                final updatedBot = bot.copyWith(
-                  name: nameController.text,
-                  description: descriptionController.text,
-                  token: tokenController.text,
-                );
-                Navigator.of(context).pop(updatedBot); // ← Закрываем модальное окно и передаем обновленного бота
-              },
-              widthPercent: 10,
-              heightPercent: 4,
-              color: AppColors.primary,
-            ),
-            const SizedBox(height: 16),
-            _buildButton(
-              "Удалить",
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => AlertDialog(
-                    backgroundColor: AppColors.cardBackground,
-                    title: Text(
-                      "Удалить бота",
-                      style: AppTextStyles.textFieldLabel,
-                    ),
-                    content: Text(
-                      "Вы уверены, что хотите удалить этого бота?",
-                      style: AppTextStyles.textFieldLabel,
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: Navigator.of(context).pop,
-                        child: Text(
-                          "Отмена",
-                          style: AppTextStyles.textFieldLabel
-                              ?.copyWith(color: AppColors.primary),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop(); // Закрыть модалку и страницу
-                        },
-                        child: Text(
-                          "Удалить",
-                          style: AppTextStyles.button.copyWith(color: Colors.white),
-                        ),
-                      ),
-                    ],
+          // === Кнопки действий ===
+          _buildButton(
+            "Сохранить изменения",
+            onPressed: () {
+              final updatedBot = bot.copyWith(
+                name: nameController.text,
+                description: descriptionController.text,
+                token: tokenController.text,
+              );
+              Navigator.of(context).pop(updatedBot);
+            },
+            color: AppColors.primary,
+          ),
+          const SizedBox(height: 16),
+          _buildButton(
+            "Удалить",
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  backgroundColor: AppColors.cardBackground,
+                  title: Text(
+                    "Удалить бота",
+                    style: AppTextStyles.textFieldLabel,
                   ),
-                );
-              },
-              widthPercent: 10,
-              heightPercent: 4,
-              color: Colors.red,
-            ),
+                  content: Text(
+                    "Вы уверены, что хотите удалить этого бота?",
+                    style: AppTextStyles.textFieldLabel,
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: Navigator.of(context).pop,
+                      child: Text(
+                        "Отмена",
+                        style: AppTextStyles.textFieldLabel?.copyWith(color: AppColors.primary),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(); // Закрыть модалку и страницу
+                      },
+                      child: Text(
+                        "Удалить",
+                        style: AppTextStyles.button.copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            color: Colors.red,
+),
           ],
         ),
       ),
@@ -124,43 +119,44 @@ class BotDetailsPage extends StatelessWidget {
   // === Вспомогательные методы ===
 
   Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Center(
       child: Text(
         title,
-        style: AppTextStyles.textFieldLabel
-            ?.copyWith(fontWeight: FontWeight.bold, fontSize: 16),
+        style: AppTextStyles.textFieldLabel?.copyWith(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
       ),
-    );
-  }
+    ),
+  );
+}
 
-Widget _buildTextField(String label, TextEditingController controller,
-    {double? widthPercent, double? heightPercent}) {
+Widget _buildTextField(String label, TextEditingController controller) {
   return LayoutBuilder(
     builder: (context, _) {
       final screenWidth = MediaQuery.of(context).size.width;
       final screenHeight = MediaQuery.of(context).size.height;
 
-      final calculatedWidth = widthPercent != null
-          ? (screenWidth * widthPercent / 100)
-          : double.infinity;
-      final calculatedHeight = heightPercent != null
-          ? (screenHeight * heightPercent / 100)
-          : null;
+      // Адаптируем ширину
+      final isLargeScreen = screenWidth > 600;
+      final widthPercent = isLargeScreen ? 30.0 : 50.0;
+      final heightPercent = isLargeScreen ? 7.0 : 6.0;
+
+      final calculatedWidth = screenWidth * widthPercent / 100;
+      final calculatedHeight = screenHeight * heightPercent / 100;
 
       return Align(
-        alignment: Alignment.center, // можно изменить на center
+        alignment: Alignment.center,
         child: Container(
           width: calculatedWidth,
           height: calculatedHeight,
           constraints: BoxConstraints(
             minWidth: calculatedWidth,
             maxWidth: calculatedWidth,
-            minHeight: calculatedHeight ?? 0,
-            maxHeight: calculatedHeight ?? double.infinity,
-          ),
-          decoration: BoxDecoration(
-            // border: Border.all(color: Colors.red), // для отладки
+            minHeight: calculatedHeight,
+            maxHeight: calculatedHeight,
           ),
           child: TextField(
             controller: controller,
@@ -180,51 +176,46 @@ Widget _buildTextField(String label, TextEditingController controller,
     },
   );
 }
-Widget _buildButton(String text,
-    {required VoidCallback? onPressed,
-    double? widthPercent,
-    double? heightPercent,
-    Color? color}) {
-  return LayoutBuilder(
-    builder: (context, _) {
-      final screenWidth = MediaQuery.of(context).size.width;
-      final screenHeight = MediaQuery.of(context).size.height;
 
-      final calculatedWidth = widthPercent != null
-          ? (screenWidth * widthPercent / 100)
-          : double.infinity;
-      final calculatedHeight = heightPercent != null
-          ? (screenHeight * heightPercent / 100)
-          : null;
+  Widget _buildButton(String text,
+      {required VoidCallback? onPressed, Color? color}) {
+    return LayoutBuilder(
+      builder: (context, _) {
+        final screenWidth = MediaQuery.of(context).size.width;
+        final screenHeight = MediaQuery.of(context).size.height;
 
-      return Align(
-        alignment: Alignment.center, // или Alignment.center
-        child: Container(
-          width: calculatedWidth,
-          height: calculatedHeight,
-          constraints: BoxConstraints(
-            minWidth: calculatedWidth,
-            maxWidth: calculatedWidth,
-            minHeight: calculatedHeight ?? 0,
-            maxHeight: calculatedHeight ?? double.infinity,
-          ),
-          decoration: BoxDecoration(
-            // border: Border.all(color: Colors.blue), // для отладки
-          ),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: color ?? AppColors.primary,
-              foregroundColor: AppColors.secondary,
-              textStyle: AppTextStyles.button,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+        final isLargeScreen = screenWidth > 600;
+        final widthPercent = isLargeScreen ? 15.0 : 45.0;
+        final heightPercent = isLargeScreen ? 3.0 : 4.0;
+
+        final calculatedWidth = screenWidth * widthPercent / 100;
+        final calculatedHeight = screenHeight * heightPercent / 100;
+
+        return Align(
+          alignment: Alignment.center,
+          child: Container(
+            width: calculatedWidth,
+            height: calculatedHeight,
+            constraints: BoxConstraints(
+              minWidth: calculatedWidth,
+              maxWidth: calculatedWidth,
+              minHeight: calculatedHeight,
+              maxHeight: calculatedHeight,
             ),
-            onPressed: onPressed,
-            child: Text(text),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: color ?? AppColors.primary,
+                foregroundColor: AppColors.secondary,
+                textStyle: AppTextStyles.button?.copyWith(fontSize: 12),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: onPressed,
+              child: Text(text),
+            ),
           ),
-        ),
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
 }

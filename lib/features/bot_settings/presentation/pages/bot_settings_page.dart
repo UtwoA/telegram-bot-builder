@@ -3,8 +3,8 @@ import 'package:telegram_bot_builder/core/services/bot.dart';
 import 'package:telegram_bot_builder/core/services/bot_storage.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'package:telegram_bot_builder/core/theme/app_text_styles.dart';
-import 'package:telegram_bot_builder/features/bot_settings/presentation/widgets/AddBotModal.dart';
-import 'package:telegram_bot_builder/features/bot_settings/presentation/widgets/BotDetailsModal.dart';
+import 'package:telegram_bot_builder/features/bot_settings/presentation/widgets/add_bot_modal.dart';
+import 'package:telegram_bot_builder/features/bot_settings/presentation/widgets/bot_details_modal.dart';
 
 class BotSettingsPage extends StatefulWidget {
   const BotSettingsPage({Key? key}) : super(key: key);
@@ -52,17 +52,17 @@ class _BotSettingsPageState extends State<BotSettingsPage> {
   }
 
   void _showBotDetailsModal(BuildContext context, int index, Bot bot) async {
-    final updatedBot = await showDialog<Bot>(
-      context: context,
-      builder: (context) => BotDetailsModal(bot: bot),
-    );
+  final updatedBot = await showDialog<Bot>(
+    context: context,
+    builder: (context) => BotDetailsModal(bot: bot),
+  );
 
-    if (updatedBot != null && mounted) {
-      setState(() {
-        bots[index] = updatedBot;
-      });
-    }
+  if (updatedBot != null && mounted) {
+    setState(() {
+      bots[index] = updatedBot;
+    });
   }
+}
 
   @override
   Widget build(BuildContext context) {

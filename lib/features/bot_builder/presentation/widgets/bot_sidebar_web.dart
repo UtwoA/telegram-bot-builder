@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 
-class BotSideBar extends StatelessWidget {
+class BotSideBarWeb extends StatelessWidget {
   final bool isExpanded;
   final VoidCallback onToggle;
   final int selectedIndex;
   final ValueSetter<int> onSlideTap;
-  final bool canExpand; // Новый параметр
 
-  const BotSideBar({
+  const BotSideBarWeb({
     super.key,
     required this.isExpanded,
     required this.onToggle,
     required this.selectedIndex,
     required this.onSlideTap,
-    required this.canExpand, // Передаём из главного экрана
   });
 
   @override
@@ -25,34 +23,34 @@ class BotSideBar extends StatelessWidget {
       color: AppColors.cardBackground,
       child: Column(
         children: [
-          if (canExpand) // Показываем только если можно сворачивать
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (isExpanded)
-                    const Text('Меню', style: TextStyle(color: Colors.white)),
-                  IconButton(
-                    icon: Icon(
-                      isExpanded ? Icons.arrow_back_ios : Icons.arrow_forward_ios,
-                      color: Colors.white70,
-                      size: 16,
-                    ),
-                    onPressed: onToggle,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
+          // Кнопка сворачивания
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (isExpanded)
+                  const Text('Меню', style: TextStyle(color: Colors.white)),
+                IconButton(
+                  icon: Icon(
+                    isExpanded ? Icons.arrow_back_ios : Icons.arrow_forward_ios,
+                    color: Colors.white70,
+                    size: 16,
                   ),
-                ],
-              ),
+                  onPressed: onToggle,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
+              ],
             ),
+          ),
 
-          if (canExpand) // Разделитель тоже только для веб
-            const Divider(color: Colors.white12, height: 1),
+          const Divider(color: Colors.white12, height: 1),
 
+          // Меню
           Expanded(
             child: ListView(
-              physics: const NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(), // отключаем скролл
               padding: EdgeInsets.zero,
               children: [
                 _buildMenuItem(Icons.person, 'Личный кабинет', isExpanded, 0),

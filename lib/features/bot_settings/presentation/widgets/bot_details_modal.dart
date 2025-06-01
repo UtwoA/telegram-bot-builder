@@ -4,14 +4,10 @@ import 'package:telegram_bot_builder/features/bot_settings/presentation/pages/bo
 
 class BotDetailsModal extends StatelessWidget {
   final dynamic bot;
-  final double widthPercent;
-  final double heightPercent;
 
   const BotDetailsModal({
     Key? key,
     required this.bot,
-    this.widthPercent = 60,
-    this.heightPercent = 50,
   }) : super(key: key);
 
   @override
@@ -19,22 +15,27 @@ class BotDetailsModal extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    // Определяем параметры на основе ширины экрана
+    final isLargeScreen = screenWidth > 600;
+    final widthPercent = isLargeScreen ? 35.0 : 90.0;
+    final heightPercent = isLargeScreen ? 48.0 : 50.0;
+
     final calculatedWidth = screenWidth * widthPercent / 100;
     final calculatedHeight = screenHeight * heightPercent / 100;
 
     return Dialog(
-      backgroundColor: Colors.transparent, // ← Прозрачный фон диалога
-      insetPadding: EdgeInsets.all(16), // Отступы по краям экрана
-      elevation: 0, // Убираем тень от Dialog
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(16),
+      elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20), // ← Дублируем радиус здесь
+        borderRadius: BorderRadius.circular(20),
         child: Container(
           width: calculatedWidth,
           height: calculatedHeight,
-          color: AppColors.background, // Цвет фона внутри
+          color: AppColors.background,
           child: BotDetailsPage(bot: bot),
         ),
       ),

@@ -163,4 +163,17 @@ class AppDimensions {
   // Текст кнопок form
   static double buttonTextSizeFormMobile(BuildContext context) => percentWidth(context, 0.04);
 
+  // Размеры start page mobile
+  static double buttonHeightStartPageMobile(BuildContext context) => percentHeight(context, 0.05);
+  static double buttonWidthStartPageMobile(BuildContext context) => percentHeight(context, 0.3);
+  static double buttonTextSizeStartPageMobile(BuildContext context) => percentWidth(context, 0.035);
+
+  // Размеры start page mobile
+  static double buttonHeightStartPageWeb(BuildContext context) => percentHeight(context, 0.05);
+  static double buttonWidthStartPageWeb(BuildContext context) => percentHeight(context, 0.3);
+  static double buttonTextSizeStartPageWeb(BuildContext context) => percentWidth(context, 0.01);
+  static double startTextSize(BuildContext context) => percentWidth(context, 0.02);
+
+
+
 }

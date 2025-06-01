@@ -113,9 +113,8 @@ class _LoginFormMobileState extends State<LoginFormMobile> {
               onPressed: () {
                 final email = widget.viewModel.emailController.text.trim();
                 final password = widget.viewModel.passwordController.text.trim();
-                final confirmPassword = confirmController.text.trim();
 
-                if (password.isEmpty || confirmPassword.isEmpty) {
+                if (password.isEmpty || email.isEmpty) {
                   widget.viewModel.setError('Заполните все поля');
                   return;
                 }
