@@ -5,7 +5,6 @@ import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
 import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
 import 'features/auth/presentation/pages/auth_view_model.dart';
 import 'core/routes/app_router.dart';
-import 'core/theme/app_theme.dart';
 
 void main() {
   final repository = AuthRepository(AuthApi(), AuthPrefs());
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Telegram Bot Builder',
       // theme: AppTheme.darkTheme,
-      initialRoute: '/main', // начальная страница
+      initialRoute: '/start', // начальная страница
       onGenerateRoute: AppRouter.generateRoute, // навигация через AppRouter
       debugShowCheckedModeBanner: false,
     );

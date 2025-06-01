@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
