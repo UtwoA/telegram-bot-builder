@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'helper_widgets.dart';
@@ -22,107 +23,140 @@ class _ProfileCardState extends State<ProfileCard> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-    final buttonWidth = screenWidth * 0.1;
-    final buttonHeight = screenHeight * 0.03;
+    final screenSize = MediaQuery.of(context).size;
 
     return SizedBox(
-      width: screenWidth * 0.4,
-      height: screenHeight * 0.6,
+      width: AppDimensions.profileCardWidthFromSize(screenSize),
+      height: AppDimensions.profileCardHeightFromSize(screenSize),
       child: Card(
         color: AppColors.cardBackground,
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppDimensions.percentWidthFromSize(screenSize, 0.01)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text('Профиль', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-              const Divider(color: Colors.white12),
-              const Text('Имя', style: TextStyle(color: Colors.white)),
-              const SizedBox(height: 4),
-              buildInputField('user', enabled: true, hintSize: 14),
-              const SizedBox(height: 8),
-              const Text('Эл. почта', style: TextStyle(color: Colors.white)),
-              const SizedBox(height: 4),
-              buildInputField('user@example.com', enabled: false, hintSize: 14),
-              const SizedBox(height: 8),
-              const Text('Telegram username', style: TextStyle(color: Colors.white)),
-              const SizedBox(height: 4),
-              buildInputField('@username', enabled: false, hintSize: 14),
-              const SizedBox(height: 20),
+              Text(
+                'Профиль',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: AppDimensions.profileTitleSizeFromSize(screenSize),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Divider(color: Colors.white12),
+              Text(
+                'Имя',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: AppDimensions.profileTextSizeFromSize(screenSize),
+                ),
+              ),
+              WSizedBox(wval: 0, hval: 0.005),
+              buildInputField('user', enabled: true, hintSize: AppDimensions.profileTextSizeFromSize(screenSize)),
+              WSizedBox(wval: 0, hval: 0.007),
+              Text(
+                'Эл. почта',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: AppDimensions.profileTextSizeFromSize(screenSize),
+                ),
+              ),
+              WSizedBox(wval: 0, hval: 0.005),
+              buildInputField('user@example.com', enabled: false, hintSize: AppDimensions.profileTextSizeFromSize(screenSize)),
+              WSizedBox(wval: 0, hval: 0.007),
+              Text(
+                'Telegram username',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: AppDimensions.profileTextSizeFromSize(screenSize),
+                ),
+              ),
+              WSizedBox(wval: 0, hval: 0.005),
+              buildInputField('@username', enabled: false, hintSize: AppDimensions.profileTextSizeFromSize(screenSize)),
+              WSizedBox(wval: 0, hval: 0.015),
               Center(
                 child: CustomButton(
                   buttontext: 'Сменить Telegram',
-                  width: buttonWidth,
-                  height: buttonHeight,
+                  width: AppDimensions.profileButtonWidthFromSize(screenSize),
+                  height: AppDimensions.profileButtonHeightFromSize(screenSize),
                   borderradius: 20,
                   bordercolor: AppColors.buttonBorder,
-                  fontsize: 14,
+                  fontsize: AppDimensions.profileTextSizeFromSize(screenSize),
                   fontweight: FontWeight.normal,
                   fontcolor: Colors.black,
                   containercolor: AppColors.buttonBorder,
-                  onPressed: () => showChangeTelegramDialog(context),
+                  onPressed: () {
+                    showChangeTelegramDialog(context);},
                 ),
               ),
-              const SizedBox(height: 12),
+              WSizedBox(wval: 0, hval: 0.015),
               Center(
                 child: CustomButton(
                   buttontext: 'Сменить Email',
-                  width: buttonWidth,
-                  height: buttonHeight,
+                  width: AppDimensions.profileButtonWidthFromSize(screenSize),
+                  height: AppDimensions.profileButtonHeightFromSize(screenSize),
                   borderradius: 20,
                   bordercolor: AppColors.buttonBorder,
-                  fontsize: 14,
+                  fontsize: AppDimensions.profileTextSizeFromSize(screenSize),
                   fontweight: FontWeight.normal,
                   fontcolor: Colors.black,
                   containercolor: AppColors.buttonBorder,
                   onPressed: () => showChangeEmailDialog(context),
                 ),
               ),
-              const SizedBox(height: 12),
+              WSizedBox(wval: 0, hval: 0.015),
               Center(
                 child: CustomButton(
                   buttontext: 'Сменить пароль',
-                  width: buttonWidth,
-                  height: buttonHeight,
+                  width: AppDimensions.profileButtonWidthFromSize(screenSize),
+                  height: AppDimensions.profileButtonHeightFromSize(screenSize),
                   borderradius: 20,
                   bordercolor: AppColors.buttonBorder,
-                  fontsize: 14,
+                  fontsize: AppDimensions.profileTextSizeFromSize(screenSize),
                   fontweight: FontWeight.normal,
                   fontcolor: Colors.black,
                   containercolor: AppColors.buttonBorder,
                   onPressed: () => showChangePasswordDialog(context),
                 ),
               ),
-              const SizedBox(height: 16),
+              WSizedBox(wval: 0, hval: 0.015),
               GestureDetector(
                 onTap: _toggleCross,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: 24,
-                      height: 24,
+                      width: AppDimensions.percentWidthFromSize(screenSize, 0.016),
+                      height: AppDimensions.percentWidthFromSize(screenSize, 0.016),
                       decoration: BoxDecoration(
                         color: AppColors.textFieldFill,
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: Colors.white30),
                       ),
                       child: Center(
                         child: _showCross
-                            ? Icon(Icons.close, size: 16, color: Colors.white)
+                            ? Icon(
+                                Icons.check,
+                                size: AppDimensions.percentWidthFromSize(screenSize, 0.015),
+                                color: Colors.white,
+                              )
                             : const SizedBox.shrink(),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    const Text('Получать уведомления', style: TextStyle(color: Colors.white)),
+                    WSizedBox(wval: 0.01, hval: 0),
+                    Text(
+                      'Получать уведомления',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: AppDimensions.profileTextSizeFromSize(screenSize),
+                      ),
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              WSizedBox(wval: 0, hval: 0.01),
             ],
           ),
         ),

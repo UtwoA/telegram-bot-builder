@@ -30,6 +30,58 @@ class AppDimensions {
   static double buttonHeight(BuildContext context) => percentHeight(context, 0.05);
   static double buttonWidth(BuildContext context) => percentWidth(context, 0.2);
   
+  //show dialoge
+ 
+  static const double minDialogWidth = 300.0;
+  static const double minDialogHeight = 300.0;
+  static double dialogButtonMinWidth(BuildContext context) =>
+      percentWidth(context, 0.15);
+
+  static double dialogButtonMinHeight(BuildContext context) =>
+      percentHeight(context, 0.04);
+
+  static double dialogButtonTextSize(BuildContext context) =>
+      percentWidth(context, 0.014);
+
+  static double dialogTitleFontSize(BuildContext context) =>
+      percentWidth(context, 0.016);
+
+  static EdgeInsets dialogInsetPadding(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final dialogWidth = width *0.5;
+    final horizontalPadding = (width - dialogWidth) / 2;
+    return EdgeInsets.symmetric(horizontal: horizontalPadding);
+  }
+
+  //helperwidget
+  static double inputFieldWidth(BuildContext context) => percentWidth(context, 0.4);
+  static double inputFieldHeight(BuildContext context) => percentHeight(context, 0.05);
+
+  static double inputTextSize(BuildContext context) => percentWidth(context, 0.014);
+  static double inputHintSize(BuildContext context) => percentWidth(context, 0.013);
+
+  static double helpLinkTextSize(BuildContext context) => percentWidth(context, 0.014);
+
+  // profilecard
+
+  static const double profileCardWidthFactor = 0.4;
+  static const double profileCardHeightFactor = 0.6;
+
+  static const double profileButtonWidthFactor = 0.13;
+  static const double profileButtonHeightFactor = 0.035;
+
+  static double percentWidthFromSize(Size size, double percent) => size.width * percent;
+  static double percentHeightFromSize(Size size, double percent) => size.height * percent;
+
+  static double profileCardWidthFromSize(Size size) => percentWidthFromSize(size, profileCardWidthFactor);
+  static double profileCardHeightFromSize(Size size) => percentHeightFromSize(size, profileCardHeightFactor);
+
+  static double profileButtonWidthFromSize(Size size) => percentWidthFromSize(size, profileButtonWidthFactor);
+  static double profileButtonHeightFromSize(Size size) => percentHeightFromSize(size, profileButtonHeightFactor);
+
+  static double profileTextSizeFromSize(Size size) => percentWidthFromSize(size, 0.01);
+  static double profileTitleSizeFromSize(Size size) => percentWidthFromSize(size, 0.012);
+
   // helpCenter
 
   static double helpCardWidth(BuildContext context) => percentWidth(context, 0.4);
@@ -41,6 +93,7 @@ class AppDimensions {
 
   static double helpCardTextSize(BuildContext context) => percentWidth(context, 0.014);
   static double helpCardTitleSize(BuildContext context) => percentWidth(context, 0.012);
+
 
   // statscard
 
@@ -55,7 +108,7 @@ class AppDimensions {
 
   //tariff
   static double tariffCardWidth(BuildContext context) => percentWidth(context, 0.4);
-  static double tariffCardHeight(BuildContext context) => percentHeight(context, 0.33);
+  static double tariffCardHeight(BuildContext context) => percentHeight(context, 0.32);
 
   static double tariffButtonWidth(BuildContext context) => percentWidth(context, 0.1);
   static double tariffButtonHeight(BuildContext context) => percentHeight(context, 0.03);
