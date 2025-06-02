@@ -72,7 +72,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-FRONTEND_URL = 'https://your-frontend.com'
+FRONTEND_URL = 'https://your-frontend.com'#чето они тут хотят
 PASSWORD_RESET_TIMEOUT = 86400
 
 CORS_ALLOW_ALL_ORIGINS = False
@@ -83,6 +83,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5554',
     'http://localhost:56417',
     'http://localhost:49930',
+    'http://localhost:8686',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -91,6 +92,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5554',
     'http://localhost:56417',
     'http://localhost:49930',
+    'http://localhost:8686',
 ]
 
 SESSION_COOKIE_SAMESITE = 'Lax'
