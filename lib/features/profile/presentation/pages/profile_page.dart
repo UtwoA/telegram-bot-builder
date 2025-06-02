@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:telegram_bot_builder/features/profile/presentation/widgets/mobile/help_center_card_mobile.dart';
+import 'package:telegram_bot_builder/features/profile/presentation/widgets/mobile/profile_card_mobile.dart';
+import 'package:telegram_bot_builder/features/profile/presentation/widgets/mobile/tariff_card_mobile.dart';
 import 'package:telegram_bot_builder/features/profile/presentation/widgets/profile_card.dart';
 import 'package:telegram_bot_builder/features/profile/presentation/widgets/help_center_card.dart';
 import 'package:telegram_bot_builder/features/profile/presentation/widgets/tariff_card.dart';
@@ -20,32 +23,57 @@ class PersonalAccountScreen extends StatelessWidget {
       color: const Color(0xFF0E1621),
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxWidth > 600) {
+              // Веб версия - две колонки
+              return Row(
                 children: [
-                  ProfileCard(email:email),
-                  const SizedBox(height: 16),
-                  const TariffCard(),
-                ],
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const HelpCenterCard(),
-                  const SizedBox(height: 10),
-                  StatsCard(
-                    onItemTapped: onItemTapped ?? (int index) {}, // Если null — заглушка
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ProfileCard(email: email),
+                        const SizedBox(height: 16),
+                        const TariffCard(),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const HelpCenterCard(),
+                        const SizedBox(height: 10),
+                        StatsCard(
+                          onItemTapped: onItemTapped ?? (int index) {},
+                        ),
+                      ],
+                    ),
                   ),
                 ],
-              ),
-            ),
-          ],
+              );
+            } else {
+              // Мобильная версия - одна колонка с прокруткой
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ProfileCardMobile(email: email),
+                    const SizedBox(height: 16),
+                    const TariffCardMobile(),
+                    const SizedBox(height: 16),
+                    const HelpCenterCardMobile(),
+                    //const SizedBox(height: 10),
+                    //StatsCard(
+                      //onItemTapped: onItemTapped ?? (int index) {},
+                    //),
+                  ],
+                ),
+              );
+            }
+          },
         ),
       ),
     );

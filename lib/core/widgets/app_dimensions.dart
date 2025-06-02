@@ -171,9 +171,58 @@ class AppDimensions {
   // Размеры start page mobile
   static double buttonHeightStartPageWeb(BuildContext context) => percentHeight(context, 0.05);
   static double buttonWidthStartPageWeb(BuildContext context) => percentHeight(context, 0.3);
-  static double buttonTextSizeStartPageWeb(BuildContext context) => percentWidth(context, 0.01);
+  static double buttonTextSizeStartPageWeb(BuildContext context) => percentWidth(context, 0.008);
   static double startTextSize(BuildContext context) => percentWidth(context, 0.02);
 
+    // profilecard Mobile
 
+  static const double profileCardWidthFactorMobile = 1;
+  static const double profileCardHeightFactorMobile = 1;
+
+  static const double profileButtonWidthFactorMobile = 0.3;
+  static const double profileButtonHeightFactorMobile = 0.03;
+
+  static double percentWidthFromSizeMobile(Size size, double percent) => size.width * percent;
+  static double percentHeightFromSizeMobile(Size size, double percent) => size.height * percent;
+
+  static double profileCardWidthFromSizeMobile(Size size) => percentWidthFromSizeMobile(size, profileCardWidthFactorMobile);
+  static double profileCardHeightFromSizeMobile(Size size) => percentHeightFromSizeMobile(size, profileCardHeightFactorMobile);
+
+  static double profileButtonWidthFromSizeMobile(Size size) => percentWidthFromSizeMobile(size, profileButtonWidthFactorMobile);
+  static double profileButtonHeightFromSizeMobile(Size size) => percentHeightFromSizeMobile(size, profileButtonHeightFactorMobile);
+
+  static double profileTextSizeFromSizeMobile(Size size) => percentWidthFromSizeMobile(size, 0.03);
+  static double profileTitleSizeFromSizeMobile(Size size) => percentWidthFromSizeMobile(size, 0.05);
+
+
+    //tariffMobile
+  static const double tariffCardWidthFactorMobile = 1;
+  static const double tariffCardHeightFactorMobile = 1;
+
+  static const double tariffButtonWidthFactorMobile = 0.3;
+  static const double tariffButtonHeightFactorMobile = 0.03;
+
+
+  static double tariffCardWidthFromSizeMobile(Size size) => percentWidthFromSizeMobile(size, tariffCardWidthFactorMobile);
+  static double tariffCardHeightFromSizeMobile(Size size) => percentHeightFromSizeMobile(size, tariffCardHeightFactorMobile);
+
+
+  static double tariffButtonWidthMobile(BuildContext context) => percentWidth(context, 0.1);
+  static double tariffButtonHeightMobile(BuildContext context) => percentHeight(context, 0.03);
+
+  static double tariffTextSizeMobile(BuildContext context) => percentWidth(context, 0.01);
+  static double tariffTitleSizeMobile(BuildContext context) => percentWidth(context, 0.012);
+
+    // helpCenterMobile
+
+  static double helpCardWidthMobile(BuildContext context) => percentWidth(context, 0.4);
+  static double helpCardHeightMobile(BuildContext context) => percentHeight(context, 0.4);
+
+  static double helpCardPaddingMobile(BuildContext context) => percentWidth(context, 0.01);
+  static double helpCardButtonWidthMobile(BuildContext context) => percentWidth(context, 0.5);
+  static double helpCardButtonHeightMobile(BuildContext context) => percentHeight(context, 0.05);
+
+  static double helpCardTextSizeMobile(BuildContext context) => percentWidth(context, 0.014);
+  static double helpCardTitleSizeMobile(BuildContext context) => percentWidth(context, 0.012);
 
 }

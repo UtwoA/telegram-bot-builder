@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
-import 'helper_widgets.dart';
-import 'custom_dialogs.dart';
+import 'package:telegram_bot_builder/features/profile/presentation/widgets/mobile/custom_dialogs_mobile.dart';
+import 'package:telegram_bot_builder/features/profile/presentation/widgets/helper_widgets.dart';
 
-class ProfileCard extends StatefulWidget {
-  const ProfileCard({super.key,required this.email});
+
+class ProfileCardMobile extends StatefulWidget {
+  const ProfileCardMobile({super.key,required this.email});
   final String email;
   @override
-  State<ProfileCard> createState() => _ProfileCardState();
+  State<ProfileCardMobile> createState() => _ProfileCardState();
 }
 
-class _ProfileCardState extends State<ProfileCard> {
+class _ProfileCardState extends State<ProfileCardMobile> {
   bool _showCross = true;
 
   void _toggleCross() {
@@ -26,8 +27,8 @@ class _ProfileCardState extends State<ProfileCard> {
     final screenSize = MediaQuery.of(context).size;
 
     return SizedBox(
-      width: AppDimensions.profileCardWidthFromSize(screenSize),
-      height: AppDimensions.profileCardHeightFromSize(screenSize),
+      width: AppDimensions.percentWidthFromSizeMobile(screenSize, 1),
+      height: AppDimensions.percentHeightFromSizeMobile(screenSize, 0.48),
       child: Card(
         color: AppColors.cardBackground,
         elevation: 2,
@@ -41,7 +42,7 @@ class _ProfileCardState extends State<ProfileCard> {
                 'Профиль',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: AppDimensions.profileTitleSizeFromSize(screenSize),
+                  fontSize: AppDimensions.profileTitleSizeFromSizeMobile(screenSize),
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -50,40 +51,40 @@ class _ProfileCardState extends State<ProfileCard> {
                 'Имя',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: AppDimensions.profileTextSizeFromSize(screenSize),
+                  fontSize: AppDimensions.profileTextSizeFromSizeMobile(screenSize),
                 ),
               ),
               WSizedBox(wval: 0, hval: 0.005),
-              buildInputField('user', enabled: true, hintSize: AppDimensions.profileTextSizeFromSize(screenSize)),
+              buildInputField('user', enabled: true, hintSize: AppDimensions.profileTextSizeFromSizeMobile(screenSize)),
               WSizedBox(wval: 0, hval: 0.007),
               Text(
                 'Эл. почта',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: AppDimensions.profileTextSizeFromSize(screenSize),
+                  fontSize: AppDimensions.profileTextSizeFromSizeMobile(screenSize),
                 ),
               ),
               WSizedBox(wval: 0, hval: 0.005),
-              buildInputField(widget.email, enabled: false, hintSize: AppDimensions.profileTextSizeFromSize(screenSize)),
+              buildInputField(widget.email, enabled: false, hintSize: AppDimensions.profileTextSizeFromSizeMobile(screenSize)),
               WSizedBox(wval: 0, hval: 0.007),
               Text(
                 'Telegram username',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: AppDimensions.profileTextSizeFromSize(screenSize),
+                  fontSize: AppDimensions.profileTextSizeFromSizeMobile(screenSize),
                 ),
               ),
               WSizedBox(wval: 0, hval: 0.005),
-              buildInputField('@username', enabled: false, hintSize: AppDimensions.profileTextSizeFromSize(screenSize)),
+              buildInputField('@username', enabled: false, hintSize: AppDimensions.profileTextSizeFromSizeMobile(screenSize)),
               WSizedBox(wval: 0, hval: 0.015),
               Center(
                 child: CustomButton(
                   buttontext: 'Сменить Telegram',
-                  width: AppDimensions.profileButtonWidthFromSize(screenSize),
-                  height: AppDimensions.profileButtonHeightFromSize(screenSize),
+                  width: AppDimensions.profileButtonWidthFromSizeMobile(screenSize),
+                  height: AppDimensions.profileButtonHeightFromSizeMobile(screenSize),
                   borderradius: 20,
                   bordercolor: AppColors.buttonBorder,
-                  fontsize: AppDimensions.profileTextSizeFromSize(screenSize),
+                  fontsize: AppDimensions.profileTextSizeFromSizeMobile(screenSize),
                   fontweight: FontWeight.normal,
                   fontcolor: Colors.black,
                   containercolor: AppColors.buttonBorder,
@@ -95,11 +96,11 @@ class _ProfileCardState extends State<ProfileCard> {
               Center(
                 child: CustomButton(
                   buttontext: 'Сменить Email',
-                  width: AppDimensions.profileButtonWidthFromSize(screenSize),
-                  height: AppDimensions.profileButtonHeightFromSize(screenSize),
+                  width: AppDimensions.profileButtonWidthFromSizeMobile(screenSize),
+                  height: AppDimensions.profileButtonHeightFromSizeMobile(screenSize),
                   borderradius: 20,
                   bordercolor: AppColors.buttonBorder,
-                  fontsize: AppDimensions.profileTextSizeFromSize(screenSize),
+                  fontsize: AppDimensions.profileTextSizeFromSizeMobile(screenSize),
                   fontweight: FontWeight.normal,
                   fontcolor: Colors.black,
                   containercolor: AppColors.buttonBorder,
@@ -110,11 +111,11 @@ class _ProfileCardState extends State<ProfileCard> {
               Center(
                 child: CustomButton(
                   buttontext: 'Сменить пароль',
-                  width: AppDimensions.profileButtonWidthFromSize(screenSize),
-                  height: AppDimensions.profileButtonHeightFromSize(screenSize),
+                  width: AppDimensions.profileButtonWidthFromSizeMobile(screenSize),
+                  height: AppDimensions.profileButtonHeightFromSizeMobile(screenSize),
                   borderradius: 20,
                   bordercolor: AppColors.buttonBorder,
-                  fontsize: AppDimensions.profileTextSizeFromSize(screenSize),
+                  fontsize: AppDimensions.profileTextSizeFromSizeMobile(screenSize),
                   fontweight: FontWeight.normal,
                   fontcolor: Colors.black,
                   containercolor: AppColors.buttonBorder,
@@ -128,8 +129,8 @@ class _ProfileCardState extends State<ProfileCard> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: AppDimensions.percentWidthFromSize(screenSize, 0.016),
-                      height: AppDimensions.percentWidthFromSize(screenSize, 0.016),
+                      width: AppDimensions.percentWidthFromSize(screenSize, 0.06),
+                      height: AppDimensions.percentWidthFromSize(screenSize, 0.06),
                       decoration: BoxDecoration(
                         color: AppColors.textFieldFill,
                         borderRadius: BorderRadius.circular(10),
@@ -139,7 +140,7 @@ class _ProfileCardState extends State<ProfileCard> {
                         child: _showCross
                             ? Icon(
                                 Icons.check,
-                                size: AppDimensions.percentWidthFromSize(screenSize, 0.015),
+                                size: AppDimensions.percentWidthFromSize(screenSize, 0.06),
                                 color: Colors.white,
                               )
                             : const SizedBox.shrink(),
@@ -150,7 +151,7 @@ class _ProfileCardState extends State<ProfileCard> {
                       'Получать уведомления',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: AppDimensions.profileTextSizeFromSize(screenSize),
+                        fontSize: AppDimensions.profileTextSizeFromSizeMobile(screenSize),
                       ),
                     ),
                   ],
