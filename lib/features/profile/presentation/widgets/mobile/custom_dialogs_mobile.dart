@@ -66,8 +66,8 @@ void showChangePasswordDialog(BuildContext context) {
           Center(
             child: CustomButton(
               buttontext: 'Сохранить',
-              width: dialogButtonWidth * 0.3,
-              height: dialogButtonHeight * 0.03,
+              width: dialogButtonWidth * 2,
+              height: dialogButtonHeight * 0.6,
               borderradius: 12,
               bordercolor: AppColors.buttonBorder,
               fontsize: 14,
@@ -101,12 +101,12 @@ void showChangeEmailDialog(BuildContext context) {
           buildInputField('Пароль', obscureText: true),
           WSizedBox(wval: 0, hval: 0.01),
           buildInputField('Новый Email'),
-          WSizedBox(wval: 0, hval: 0.05),
+          WSizedBox(wval: 0, hval: 0.02),
           Center(
             child: CustomButton(
               buttontext: 'Сохранить',
-              width: dialogButtonWidth * 0.3,
-              height: dialogButtonHeight * 0.03,
+              width: dialogButtonWidth * 2,
+              height: dialogButtonHeight * 0.6,
               borderradius: 12,
               bordercolor: AppColors.buttonBorder,
               fontsize: 14,
