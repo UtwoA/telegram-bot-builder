@@ -78,17 +78,19 @@ PASSWORD_RESET_TIMEOUT = 86400
 CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
-    'https://59b1-45-10-42-117.ngrok-free.app',
+    'http://109.73.198.252:8000',
     'http://localhost:8000',
     'http://localhost:5554',
     'http://localhost:56417',
+    'http://localhost:49930',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://7ee9-45-10-42-117.ngrok-free.app',
+    'http://109.73.198.252:8000',
     'http://localhost:8000',
     'http://localhost:5554',
     'http://localhost:56417',
+    'http://localhost:49930',
 ]
 
 SESSION_COOKIE_SAMESITE = 'Lax'
