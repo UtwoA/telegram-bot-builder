@@ -29,6 +29,13 @@ class ChangeEmailView(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
+            # Проверяем, не используется ли новый email кем-то ещё
+            if User.objects.filter(email__iexact=new_email).exclude(pk=user.pk).exists():
+                return Response(
+                    {"error": "Этот email уже используется другим пользователем"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
             # Обновляем email
             user.email = new_email
             user.save()
