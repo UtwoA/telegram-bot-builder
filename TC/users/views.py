@@ -32,18 +32,25 @@ class CreateUserAPIView(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request):
-        # Получаем данные из запроса
-        user_data = request.data
-        serializer = UserSerializer(data=user_data)
+        serializer = UserSerializer(data=request.data)
 
-        # Проверяем валидность данных
-        serializer.is_valid(raise_exception=True)
+        if serializer.is_valid():
+            user = serializer.save()
 
-        # Сохраняем пользователя
-        serializer.save()
+            # Генерируем JWT токены
+            refresh = RefreshToken.for_user(user)
 
-        # Возвращаем успешный ответ с данными пользователя
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({
+                "user": {
+                    "email": user.email,
+                    "telegram_login": user.telegram_login or None,
+                },
+                "token": {
+                    "access": str(refresh.access_token),
+                }
+            }, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -76,7 +83,7 @@ def authenticate_user(request):
         # Проверяем пароль
         if not user.check_password(password):
             return Response(
-                {'error': 'Invalid credentials'},
+                {'error': 'Неверные данные'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
 
@@ -93,9 +100,8 @@ def authenticate_user(request):
                 "email": user.email,
                 "telegram_login": user.telegram_login or None,
             },
-            "tokens": {
+            "token": {
                 "access": str(refresh.access_token),
-                "refresh": str(refresh),
             }
         }
 
