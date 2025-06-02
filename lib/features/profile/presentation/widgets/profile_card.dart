@@ -6,8 +6,8 @@ import 'helper_widgets.dart';
 import 'custom_dialogs.dart';
 
 class ProfileCard extends StatefulWidget {
-  const ProfileCard({super.key});
-
+  const ProfileCard({super.key,required this.email});
+  final String email;
   @override
   State<ProfileCard> createState() => _ProfileCardState();
 }
@@ -64,7 +64,7 @@ class _ProfileCardState extends State<ProfileCard> {
                 ),
               ),
               WSizedBox(wval: 0, hval: 0.005),
-              buildInputField('user@example.com', enabled: false, hintSize: AppDimensions.profileTextSizeFromSize(screenSize)),
+              buildInputField(widget.email, enabled: false, hintSize: AppDimensions.profileTextSizeFromSize(screenSize)),
               WSizedBox(wval: 0, hval: 0.007),
               Text(
                 'Telegram username',

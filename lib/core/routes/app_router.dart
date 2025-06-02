@@ -30,7 +30,10 @@ class AppRouter {
       case '/dashboard':
         return MaterialPageRoute(builder: (_) => const DashboardPage());
       case '/main':
-        return MaterialPageRoute(builder: (_) => const BotBuilderPage());
+        return MaterialPageRoute(builder: (_) {
+          final arguments = settings.arguments as Map<String, dynamic>?;
+          return  BotBuilderPage(email: arguments?['email']??'otsosite');
+        });
       case '/feedback':
         return MaterialPageRoute(builder: (_) => const FeedbackPage());
       case '/helpcenter':
@@ -44,7 +47,7 @@ class AppRouter {
       case '/constructor':
         return MaterialPageRoute(builder: (_) => const ConstructorPage());
       case '/profile':
-        return MaterialPageRoute(builder: (_) => const PersonalAccountScreen.route());
+        return MaterialPageRoute(builder: (_) => const PersonalAccountScreen.route(email: ''));
       case '/bot-settings':
         return MaterialPageRoute(builder: (_) => const BotSettingsPage());
       case '/bot-settings/add':
@@ -54,8 +57,6 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => BotDetailsPage(bot: bot));
       case '/bot-builder':
         return MaterialPageRoute(builder: (_) => const ConstructorPage());
-      
-
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(

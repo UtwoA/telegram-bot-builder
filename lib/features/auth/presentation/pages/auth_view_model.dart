@@ -16,6 +16,15 @@ class AuthViewModel extends ChangeNotifier {
 
   late final AuthRepository _repository;
   String? _token;
+  String? EEmail;
+  String? TToken;
+
+  Future<String?> get_token() async{
+    return _repository.prefs.getToken();
+  }
+  Future<String?> get_email() async{
+    return _repository.prefs.getEMail();
+  }
 
   bool get isAuthenticated => _token != null;
 
@@ -47,6 +56,8 @@ class AuthViewModel extends ChangeNotifier {
       await _repository.login(email, password);
       error = null;
       _token = await _repository.getToken();
+      TToken=_token;
+      EEmail=email;
     } catch (e) {
       error = e.toString().replaceAll('Exception: ', '');
     }
@@ -65,6 +76,8 @@ class AuthViewModel extends ChangeNotifier {
       await _repository.register(email, password);
       error = null;
       _token = await _repository.getToken();
+      TToken=_token;
+      EEmail=email;
     } catch (e) {
       error = e.toString().replaceAll('Exception: ', '');
     }

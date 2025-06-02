@@ -7,8 +7,8 @@ import 'package:telegram_bot_builder/features/profile/presentation/pages/profile
 import 'package:telegram_bot_builder/features/stats/presentation/pages/stats_page.dart';
 
 class BotBuilderPageMobile extends StatefulWidget {
-  const BotBuilderPageMobile({super.key});
-
+  const BotBuilderPageMobile({super.key,required this.email});
+  final String email;
   @override
   State<BotBuilderPageMobile> createState() => _BotBuilderPageMobileState();
 }
@@ -21,7 +21,7 @@ class _BotBuilderPageMobileState extends State<BotBuilderPageMobile> {
   void initState() {
     super.initState();
     _pages = [
-      PersonalAccountScreen(onItemTapped: onItemTapped),
+      PersonalAccountScreen(onItemTapped: onItemTapped,email: widget.email),
       ConstructorPage(),
       StatsPage(),
       BotSettingsPage(),

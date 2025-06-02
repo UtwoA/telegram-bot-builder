@@ -6,12 +6,13 @@ import 'package:telegram_bot_builder/features/profile/presentation/widgets/stats
 
 class PersonalAccountScreen extends StatelessWidget {
   final Function(int)? onItemTapped;
+  final String email;
 
   // Конструктор с onItemTapped (для BotBuilderPage)
-  const PersonalAccountScreen({super.key, required this.onItemTapped}) : assert(onItemTapped != null);
+  const PersonalAccountScreen({super.key, required this.onItemTapped, required this.email}) : assert(onItemTapped != null);
 
   // Конструктор без onItemTapped (для навигации через роут)
-  const PersonalAccountScreen.route({super.key}) : onItemTapped = null;
+  const PersonalAccountScreen.route({super.key, required this.email}) : onItemTapped = null;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class PersonalAccountScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const ProfileCard(),
+                  ProfileCard(email:email),
                   const SizedBox(height: 16),
                   const TariffCard(),
                 ],

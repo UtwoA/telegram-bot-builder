@@ -24,7 +24,7 @@ class LoginPageWeb extends StatelessWidget {
 
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (viewModel.isAuthenticated && context.mounted) {
-              Navigator.pushReplacementNamed(context, '/main');
+              Navigator.pushReplacementNamed(context, '/main',arguments: {'email':viewModel.EEmail,'token':viewModel.TToken});
             }
           });
 
