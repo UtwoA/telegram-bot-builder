@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -75,31 +75,14 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 FRONTEND_URL = 'https://your-frontend.com'#чето они тут хотят
 PASSWORD_RESET_TIMEOUT = 86400
 
-CORS_ALLOW_ALL_ORIGINS = False
-
-CORS_ALLOWED_ORIGINS = [
-    'http://109.73.198.252:8000',
-    'http://localhost:8000',
-    'http://localhost:5554',
-    'http://localhost:56417',
-    'http://localhost:49930',
-    'http://localhost:8686',
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    'http://109.73.198.252:8000',
-    'http://localhost:8000',
-    'http://localhost:5554',
-    'http://localhost:56417',
-    'http://localhost:49930',
-    'http://localhost:8686',
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 SESSION_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = False
 CSRF_USE_SESSIONS = False
-CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_HTTPONLY = True
 
 CORS_ALLOW_METHODS = ['POST', 'OPTIONS']
 CORS_ALLOW_HEADERS = ['content-type', 'accept']
