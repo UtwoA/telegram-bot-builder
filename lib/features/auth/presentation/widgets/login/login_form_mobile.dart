@@ -120,7 +120,7 @@ class _LoginFormMobileState extends State<LoginFormMobile> {
                 }
 
                 widget.viewModel.setError(null);
-                widget.viewModel.register(email, password);
+                widget.viewModel.login();
               },
             ),
 
