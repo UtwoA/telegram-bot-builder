@@ -76,24 +76,13 @@ PASSWORD_RESET_TIMEOUT = 86400
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-]
 
 SESSION_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_SECURE = False
 SESSION_COOKIE_HTTPONLY = False
 
 CORS_ALLOW_METHODS = ['POST', 'OPTIONS']
-CORS_ALLOW_HEADERS = ['content-type', 'accept']
+CORS_ALLOW_HEADERS = ['content-type', 'accept', 'Authorization',]
 
 ROOT_URLCONF = 'django_auth.urls'
 
