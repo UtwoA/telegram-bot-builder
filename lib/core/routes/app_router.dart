@@ -32,7 +32,7 @@ class AppRouter {
       case '/main':
         return MaterialPageRoute(builder: (_) {
           final arguments = settings.arguments as Map<String, dynamic>?;
-          return  BotBuilderPage(email: arguments?['email']??'otsosite');
+          return  BotBuilderPage(email: arguments?['email']??'Email не найден');
         });
       case '/feedback':
         return MaterialPageRoute(builder: (_) => const FeedbackPage());

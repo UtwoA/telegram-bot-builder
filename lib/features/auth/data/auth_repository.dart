@@ -31,4 +31,14 @@ class AuthRepository {
   Future<String?> getToken() async {
   return prefs.getToken();
 }
+  Future<String?> getEmail() async {
+  return prefs.getEMail();
+}
+Future<void> changeEmail( String password, String newEmail,String Token) async {
+  try {
+    await api.changeEmail( password, newEmail, Token);
+  } catch (e) {
+    rethrow;
+  }
+}
 }

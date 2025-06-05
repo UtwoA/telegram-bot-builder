@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
 import 'package:telegram_bot_builder/features/profile/presentation/widgets/mobile/helper_widgets_mobile.dart';
 
 void showChangeTelegramDialog(BuildContext context) {
@@ -45,8 +46,10 @@ void showChangeTelegramDialog(BuildContext context) {
 void showChangePasswordDialog(BuildContext context) {
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
-  final dialogButtonWidth = screenWidth * 0.1;
-  final dialogButtonHeight = screenHeight * 0.05;
+
+  // Размеры для полей и кнопки
+  final dialogWidth = screenWidth * 0.8; // ширина всего диалога
+  final buttonHeight = screenHeight * 0.03; // адекватная высота кнопки
 
   showDialog(
     context: context,
@@ -54,20 +57,38 @@ void showChangePasswordDialog(BuildContext context) {
       context,
       title: 'Сменить пароль',
       widthFactor: 0.8,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          buildInputField('Старый пароль', obscureText: true),
-          WSizedBox(wval: 0, hval: 0.01),
-          buildInputField('Новый пароль', obscureText: true),
-          WSizedBox(wval: 0, hval: 0.01),
-          buildInputField('Повторите пароль', obscureText: true),
-          WSizedBox(wval: 0, hval: 0.02),
-          Center(
-            child: CustomButton(
+      child: SizedBox(
+        width: dialogWidth,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Поле: Старый пароль
+            FractionallySizedBox(
+              widthFactor: 0.9,
+              child: buildInputField('Старый пароль', obscureText: true, hintSize: 14),
+            ),
+            WSizedBox(wval: 0, hval: 0.01),
+
+            // Поле: Новый пароль
+            FractionallySizedBox(
+              widthFactor: 0.9,
+              child: buildInputField('Новый пароль', obscureText: true, hintSize: 14),
+            ),
+            WSizedBox(wval: 0, hval: 0.01),
+
+            // Поле: Повторите пароль
+            FractionallySizedBox(
+              widthFactor: 0.9,
+              child: buildInputField('Повторите пароль', obscureText: true, hintSize: 14),
+            ),
+            WSizedBox(wval: 0, hval: 0.02),
+
+            // Кнопка: Сохранить
+            CustomButton(
               buttontext: 'Сохранить',
-              width: dialogButtonWidth * 2,
-              height: dialogButtonHeight * 0.6,
+              width: dialogWidth * 0.6, // 60% от ширины диалога
+              height: buttonHeight,
               borderradius: 12,
               bordercolor: AppColors.buttonBorder,
               fontsize: 14,
@@ -76,50 +97,101 @@ void showChangePasswordDialog(BuildContext context) {
               containercolor: AppColors.buttonBorder,
               onPressed: Navigator.of(context).pop,
             ),
-          ),
-        ],
+            WSizedBox(wval: 0, hval: 0.02),
+          ],
+        ),
       ),
     ),
   );
 }
 
-void showChangeEmailDialog(BuildContext context) {
+void showChangeEmailDialog(BuildContext context, AuthViewModel viewModel) async {
+  final passwordController = TextEditingController();
+  final newEmailController = TextEditingController();
+
+  String? error;
+
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
-  final dialogButtonWidth = screenWidth * 0.1;
-  final dialogButtonHeight = screenHeight * 0.05;
+  final dialogButtonWidth = screenWidth;
+  final dialogButtonHeight = screenHeight;
 
-  showDialog(
+  await showDialog(
     context: context,
-    builder: (_) => _buildDialog(
-      context,
-      title: 'Сменить Email',
-      widthFactor: 0.8,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          buildInputField('Пароль', obscureText: true),
-          WSizedBox(wval: 0, hval: 0.01),
-          buildInputField('Новый Email'),
-          WSizedBox(wval: 0, hval: 0.02),
-          Center(
-            child: CustomButton(
-              buttontext: 'Сохранить',
-              width: dialogButtonWidth * 2,
-              height: dialogButtonHeight * 0.6,
-              borderradius: 12,
-              bordercolor: AppColors.buttonBorder,
-              fontsize: 14,
-              fontweight: FontWeight.normal,
-              fontcolor: Colors.black,
-              containercolor: AppColors.buttonBorder,
-              onPressed: Navigator.of(context).pop,
+    builder: (_) => StatefulBuilder(
+      builder: (context, setState) => _buildDialog(
+        context,
+        title: 'Сменить Email',
+        widthFactor: 0.8, // Занимает 80% ширины экрана
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            buildInputField('Пароль',
+              controller: passwordController,
+              obscureText: true,
+              hintSize: 14,
             ),
-          ),
-        ],
+            WSizedBox(wval: 0, hval: 0.01),
+
+            buildInputField('Новый Email',
+              controller: newEmailController,
+              hintSize: 14,
+            ),
+            WSizedBox(wval: 0, hval: 0.01),
+
+            if (error != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  error!,
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
+
+            WSizedBox(wval: 0, hval: 0.02),
+
+            Center(
+              child: CustomButton(
+                buttontext: 'Сохранить',
+                width: dialogButtonWidth * 0.3,
+                height: dialogButtonHeight * 0.03,
+                borderradius: 12,
+                bordercolor: AppColors.buttonBorder,
+                fontsize: 14,
+                fontweight: FontWeight.normal,
+                fontcolor: Colors.black,
+                containercolor: AppColors.buttonBorder,
+                onPressed: () async {
+                  final password = passwordController.text.trim();
+                  final newEmail = newEmailController.text.trim();
+
+                  if (password.isEmpty || newEmail.isEmpty) {
+                    setState(() {
+                      error = 'Все поля должны быть заполнены';
+                    });
+                    return;
+                  }
+
+                  try {
+                    await viewModel.changeEmail(password, newEmail);
+                    Navigator.of(context).pop(); // закрыть диалог
+                  } catch (e) {
+                    setState(() {
+                      error = e.toString().replaceAll('Exception: ', '');
+                    });
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     ),
   );
+
+  // Очистка контроллеров после использования
+  passwordController.dispose();
+  newEmailController.dispose();
 }
 
 Widget _buildDialog(BuildContext context,

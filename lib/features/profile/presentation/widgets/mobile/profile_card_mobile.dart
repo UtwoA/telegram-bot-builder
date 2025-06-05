@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:telegram_bot_builder/core/widgets/app_dimensions.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
 import 'package:telegram_bot_builder/features/profile/presentation/widgets/mobile/custom_dialogs_mobile.dart';
 import 'package:telegram_bot_builder/features/profile/presentation/widgets/helper_widgets.dart';
 
@@ -26,6 +28,9 @@ class _ProfileCardState extends State<ProfileCardMobile> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
+    return Consumer<AuthViewModel>(
+          builder: (context, viewModel, _) {
+            final displayedEmail = viewModel.EEmail ?? widget.email;
     return SizedBox(
       width: AppDimensions.percentWidthFromSizeMobile(screenSize, 1),
       height: AppDimensions.percentHeightFromSizeMobile(screenSize, 0.48),
@@ -65,7 +70,7 @@ class _ProfileCardState extends State<ProfileCardMobile> {
                 ),
               ),
               WSizedBox(wval: 0, hval: 0.005),
-              buildInputField(widget.email, enabled: false, hintSize: AppDimensions.profileTextSizeFromSizeMobile(screenSize)),
+              buildInputField(displayedEmail, enabled: false, hintSize: AppDimensions.profileTextSizeFromSizeMobile(screenSize)),
               WSizedBox(wval: 0, hval: 0.007),
               Text(
                 'Telegram username',
@@ -104,7 +109,7 @@ class _ProfileCardState extends State<ProfileCardMobile> {
                   fontweight: FontWeight.normal,
                   fontcolor: Colors.black,
                   containercolor: AppColors.buttonBorder,
-                  onPressed: () => showChangeEmailDialog(context),
+                  onPressed: () => showChangeEmailDialog(context,viewModel),
                 ),
               ),
               WSizedBox(wval: 0, hval: 0.015),
@@ -162,5 +167,5 @@ class _ProfileCardState extends State<ProfileCardMobile> {
         ),
       ),
     );
-  }
-}
+  });
+}}

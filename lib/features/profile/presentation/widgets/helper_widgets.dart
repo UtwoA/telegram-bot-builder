@@ -22,18 +22,20 @@ class WSizedBox extends StatelessWidget {
 Widget buildInputField(
   String hintText, {
   bool obscureText = false,
-  double widthFactor = 0.4,
+  double widthFactor = 0.8,
   double height = 35,
   Color fillColor = const Color(0xFFD9D9D9),
   bool enabled = true,
   double textsize = 12,
   double hintSize = 12,
+  TextEditingController? controller, // <-- НОВЫЙ ПАРАМЕТР
 }) {
   return FractionallySizedBox(
     widthFactor: widthFactor,
     child: SizedBox(
       height: height,
       child: TextField(
+        controller: controller, // <-- ИСПОЛЬЗУЕМ КОНТРОЛЛЕР
         obscureText: obscureText,
         enabled: enabled,
         style: TextStyle(

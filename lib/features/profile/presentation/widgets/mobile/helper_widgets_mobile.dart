@@ -28,12 +28,14 @@ Widget buildInputField(
   bool enabled = true,
   double textsize = 12,
   double hintSize = 12,
+  TextEditingController? controller, // <-- НОВЫЙ ПАРАМЕТР
 }) {
   return FractionallySizedBox(
     widthFactor: widthFactor,
     child: SizedBox(
       height: height,
       child: TextField(
+        controller: controller,
         obscureText: obscureText,
         enabled: enabled,
         style: TextStyle(

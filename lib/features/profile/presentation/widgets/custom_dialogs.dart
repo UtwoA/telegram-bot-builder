@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
 import 'package:telegram_bot_builder/core/widgets/custom_button.dart';
+import 'package:telegram_bot_builder/features/auth/presentation/pages/auth_view_model.dart';
 import 'helper_widgets.dart';
 
 void showChangeTelegramDialog(BuildContext context) {
@@ -83,43 +84,100 @@ void showChangePasswordDialog(BuildContext context) {
   );
 }
 
-void showChangeEmailDialog(BuildContext context) {
+void showChangeEmailDialog(BuildContext context, AuthViewModel viewModel) async {
+  final passwordController = TextEditingController();
+  final newEmailController = TextEditingController();
+
+  String? error;
+
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
   final dialogButtonWidth = screenWidth * 0.1;
   final dialogButtonHeight = screenHeight * 0.05;
 
-  showDialog(
+  await showDialog(
     context: context,
-    builder: (_) => _buildDialog(
-      context,
-      title: 'Сменить Email',
-      widthFactor: 0.25,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          buildInputField('Пароль', obscureText: true),
-          WSizedBox(wval: 0, hval: 0.01),
-          buildInputField('Новый Email'),
-          WSizedBox(wval: 0, hval: 0.02),
-          Center(
-            child: CustomButton(
-              buttontext: 'Сохранить',
-              width: dialogButtonWidth * 0.6,
-              height: dialogButtonHeight * 0.6,
-              borderradius: 12,
-              bordercolor: AppColors.buttonBorder,
-              fontsize: 14,
-              fontweight: FontWeight.normal,
-              fontcolor: Colors.black,
-              containercolor: AppColors.buttonBorder,
-              onPressed: Navigator.of(context).pop,
+    builder: (_) => StatefulBuilder(
+      builder: (context, setState) => _buildDialog(
+        context,
+        title: 'Сменить Email',
+        widthFactor: 0.25, // <-- Сужаем диалог до 25% ширины экрана
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Пароль', style: TextStyle(fontSize: 14, color: Colors.white)),
+            WSizedBox(wval: 0, hval: 0.01),
+            buildInputField(
+              'Пароль',
+              controller: passwordController,
+              obscureText: true,
+              hintSize: 14,
             ),
-          ),
-        ],
+            WSizedBox(wval: 0, hval: 0.015),
+
+            Text('Новый Email', style: TextStyle(fontSize: 14, color: Colors.white)),
+            WSizedBox(wval: 0, hval: 0.01),
+            buildInputField(
+              'Новый Email',
+              controller: newEmailController,
+              hintSize: 14,
+            ),
+
+            if (error != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  error!,
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
+
+            WSizedBox(wval: 0, hval: 0.02),
+
+            Align(
+              alignment: Alignment.center,
+              child: CustomButton(
+                buttontext: 'Сохранить',
+                width: dialogButtonWidth * 0.6,
+                height: dialogButtonHeight * 0.6,
+                borderradius: 12,
+                bordercolor: AppColors.buttonBorder,
+                fontsize: 14,
+                fontweight: FontWeight.normal,
+                fontcolor: Colors.black,
+                containercolor: AppColors.buttonBorder,
+                onPressed: () async {
+                  final password = passwordController.text.trim();
+                  final newEmail = newEmailController.text.trim();
+
+                  if (password.isEmpty || newEmail.isEmpty) {
+                    setState(() {
+                      error = 'Все поля должны быть заполнены';
+                    });
+                    return;
+                  }
+
+                  try {
+                    await viewModel.changeEmail(password, newEmail);
+                    Navigator.of(context).pop(); // закрыть диалог
+                  } catch (e) {
+                    setState(() {
+                      error = e.toString().replaceAll('Exception: ', '');
+                    });
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     ),
   );
+
+  // Очистка контроллеров после закрытия
+  passwordController.dispose();
+  newEmailController.dispose();
 }
 
 Widget _buildDialog(BuildContext context,

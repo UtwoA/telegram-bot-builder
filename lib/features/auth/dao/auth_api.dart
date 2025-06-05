@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AuthApi {
-  final String baseUrl = 'https://7ee9-45-10-42-117.ngrok-free.app';
+  final String baseUrl = 'http://tgbuilder.tw1.ru:8000';
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await http.post(
@@ -39,5 +39,20 @@ class AuthApi {
   }
 
   return data;
+}
+Future<void> changeEmail(String password, String newEmail,String accessToken) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/user/profile/change-email/'),
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $accessToken'},
+    body: jsonEncode({
+      'password': password,
+      'new_email': newEmail,
+    }),    
+  );
+  
+  if (response.statusCode != 200) {
+    final data = jsonDecode(response.body);
+    throw Exception(data['message'] ?? 'Не удалось изменить email');
+  }
 }
 }

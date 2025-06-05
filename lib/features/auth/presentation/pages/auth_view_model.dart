@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telegram_bot_builder/features/auth/dao/auth_prefs.dart';
 import 'package:telegram_bot_builder/features/auth/data/auth_repository.dart';
 
 class AuthViewModel extends ChangeNotifier {
@@ -16,9 +17,15 @@ class AuthViewModel extends ChangeNotifier {
 
   late final AuthRepository _repository;
   String? _token;
-  String? EEmail;
   String? TToken;
+  String? _email;
 
+  String? get EEmail => _email;
+
+  set EEmail(String? value) {
+    _email = value;
+    notifyListeners(); // <-- Уведомляем о изменении
+  } 
   Future<String?> get_token() async{
     return _repository.prefs.getToken();
   }
@@ -84,7 +91,17 @@ class AuthViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
-
+  Future<void> changeEmail(String password, String newEmail) async {
+  try {
+    
+    await _repository.changeEmail(password, newEmail,await _repository.getToken()??'');
+    EEmail = newEmail; // Обновляем локальный email
+    error = null;
+  } catch (e) {
+    error = e.toString().replaceAll('Exception: ', '');
+  }
+  notifyListeners();
+}
   void setError(String? message) {
     error = message;
     notifyListeners();

@@ -25,7 +25,7 @@ class RegistrationPageWeb extends StatelessWidget {
           // Автоматический переход при авторизации
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (viewModel.isAuthenticated && context.mounted) {
-              Navigator.pushReplacementNamed(context, '/main');
+              Navigator.pushReplacementNamed(context, '/main',arguments: {'email':viewModel.EEmail,'token':viewModel.TToken});
             }
           });
 
