@@ -123,7 +123,7 @@ class ProfileCard extends StatelessWidget {
                       fontweight: FontWeight.normal,
                       fontcolor: Colors.black,
                       containercolor: AppColors.buttonBorder,
-                      onPressed: () => showChangePasswordDialog(context),
+                      onPressed: () => showChangePasswordDialog(context,viewModel),
                     ),
                   ),
                   WSizedBox(wval: 0, hval: 0.015),

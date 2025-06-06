@@ -55,4 +55,21 @@ Future<void> changeEmail(String password, String newEmail,String accessToken) as
     throw Exception(data['message'] ?? 'Не удалось изменить email');
   }
 }
+Future<void> changePassword(String password, String newpassword,String confirm, String accessToken) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/user/profile/change-password/'),
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $accessToken'},
+    body: jsonEncode({
+      'old_password': password,
+      'new_password': newpassword,
+      "confirm_new_password": confirm
+    }),    
+  );
+  
+  if (response.statusCode != 200) {
+    final data = jsonDecode(response.body);
+    throw Exception(data['message'] ?? 'Не удалось изменить пароль');
+  }
+}
+
 }

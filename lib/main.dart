@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Telegram Bot Builder',
       // theme: AppTheme.darkTheme,
-      initialRoute: '/main', // начальная страница
+      initialRoute: '/start', // начальная страница
       onGenerateRoute: AppRouter.generateRoute, // навигация через AppRouter
       debugShowCheckedModeBanner: false,
     );

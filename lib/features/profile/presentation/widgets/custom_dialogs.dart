@@ -43,45 +43,124 @@ void showChangeTelegramDialog(BuildContext context) {
   );
 }
 
-void showChangePasswordDialog(BuildContext context) {
+void showChangePasswordDialog(BuildContext context, AuthViewModel viewModel) async {
+  final oldPassController = TextEditingController();
+  final newPassController = TextEditingController();
+  final confirmPassController = TextEditingController();
+
+  String? error;
+
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
   final dialogButtonWidth = screenWidth * 0.1;
   final dialogButtonHeight = screenHeight * 0.05;
 
-  showDialog(
+  await showDialog(
     context: context,
-    builder: (_) => _buildDialog(
-      context,
-      title: 'Сменить пароль',
-      widthFactor: 0.25,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          buildInputField('Старый пароль', obscureText: true),
-          WSizedBox(wval: 0, hval: 0.01),
-          buildInputField('Новый пароль', obscureText: true),
-          WSizedBox(wval: 0, hval: 0.01),
-          buildInputField('Повторите пароль', obscureText: true),
-          WSizedBox(wval: 0, hval: 0.02),
-          Center(
-            child: CustomButton(
-              buttontext: 'Сохранить',
-              width: dialogButtonWidth * 0.6,
-              height: dialogButtonHeight * 0.6,
-              borderradius: 12,
-              bordercolor: AppColors.buttonBorder,
-              fontsize: 14,
-              fontweight: FontWeight.normal,
-              fontcolor: Colors.black,
-              containercolor: AppColors.buttonBorder,
-              onPressed: Navigator.of(context).pop,
+    builder: (_) => StatefulBuilder(
+      builder: (context, setState) => _buildDialog(
+        context,
+        title: 'Сменить пароль',
+        widthFactor: 0.25,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Старый пароль', style: TextStyle(fontSize: 14, color: Colors.white)),
+            WSizedBox(wval: 0, hval: 0.01),
+            buildInputField(
+              'Старый пароль',
+              controller: oldPassController,
+              obscureText: true,
+              hintSize: 14,
             ),
-          ),
-        ],
+            WSizedBox(wval: 0, hval: 0.015),
+
+            Text('Новый пароль', style: TextStyle(fontSize: 14, color: Colors.white)),
+            WSizedBox(wval: 0, hval: 0.01),
+            buildInputField(
+              'Новый пароль',
+              controller: newPassController,
+              obscureText: true,
+              hintSize: 14,
+            ),
+            WSizedBox(wval: 0, hval: 0.015),
+
+            Text('Подтвердите пароль', style: TextStyle(fontSize: 14, color: Colors.white)),
+            WSizedBox(wval: 0, hval: 0.01),
+            buildInputField(
+              'Подтвердите пароль',
+              controller: confirmPassController,
+              obscureText: true,
+              hintSize: 14,
+            ),
+
+            if (error != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  error!,
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
+
+            WSizedBox(wval: 0, hval: 0.02),
+
+            Align(
+              alignment: Alignment.center,
+              child: CustomButton(
+                buttontext: 'Сохранить',
+                width: dialogButtonWidth * 0.6,
+                height: dialogButtonHeight * 0.6,
+                borderradius: 12,
+                bordercolor: AppColors.buttonBorder,
+                fontsize: 14,
+                fontweight: FontWeight.normal,
+                fontcolor: Colors.black,
+                containercolor: AppColors.buttonBorder,
+                onPressed: () async {
+                  final oldPass = oldPassController.text.trim();
+                  final newPass = newPassController.text.trim();
+                  final confirmPass = confirmPassController.text.trim();
+
+                  // Валидация полей
+                  if (oldPass.isEmpty || newPass.isEmpty || confirmPass.isEmpty) {
+                    setState(() {
+                      error = 'Все поля должны быть заполнены';
+                    });
+                    return;
+                  }
+
+                  if (newPass != confirmPass) {
+                    setState(() {
+                      error = 'Пароли не совпадают';
+                    });
+                    return;
+                  }
+
+                  try {
+                    // ✅ Вызываем твой существующий метод
+                    await viewModel.changePassword(oldPass, newPass, confirmPass);
+
+                    Navigator.of(context).pop(); // закрываем диалог
+                  } catch (e) {
+                    setState(() {
+                      error = e.toString().replaceAll('Exception: ', '');
+                    });
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     ),
   );
+
+  // Очистка контроллеров после использования
+  oldPassController.dispose();
+  newPassController.dispose();
+  confirmPassController.dispose();
 }
 
 void showChangeEmailDialog(BuildContext context, AuthViewModel viewModel) async {

@@ -19,6 +19,14 @@ class AuthViewModel extends ChangeNotifier {
   String? _token;
   String? TToken;
   String? _email;
+  String? _password;
+
+  String? get Password => _password;
+
+  set Password(String? value) {
+    _password = value;
+    notifyListeners(); // <-- Уведомляем о изменении
+  } 
 
   String? get EEmail => _email;
 
@@ -102,6 +110,20 @@ class AuthViewModel extends ChangeNotifier {
   }
   notifyListeners();
 }
+
+Future<void> changePassword(String password, String newpassword,String confirm) async {
+  try {
+    
+    await _repository.changePassword(password, newpassword,confirm, await _repository.getToken()??'');
+    Password = confirm; 
+    error = null;
+  } catch (e) {
+    error = e.toString().replaceAll('Exception: ', '');
+  }
+  notifyListeners();
+}
+
+
   void setError(String? message) {
     error = message;
     notifyListeners();

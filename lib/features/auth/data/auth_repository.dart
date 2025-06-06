@@ -41,4 +41,11 @@ Future<void> changeEmail( String password, String newEmail,String Token) async {
     rethrow;
   }
 }
+Future<void> changePassword( String password, String newpassword,String confirm,String Token) async {
+  try {
+    await api.changePassword( password, newpassword,confirm, Token);
+  } catch (e) {
+    rethrow;
+  }
+}
 }
