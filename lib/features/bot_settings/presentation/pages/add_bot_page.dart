@@ -32,7 +32,8 @@ class _AddBotPageState extends State<AddBotPage> {
           children: [
             Text(
               "Добавить нового бота",
-              style: AppTextStyles.textFieldLabel?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+              style: AppTextStyles.textFieldLabel
+                  ?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
 
@@ -85,7 +86,7 @@ class _AddBotPageState extends State<AddBotPage> {
                   token: _tokenController.text,
                   status: true,
                 );
-                BotStorage().bots.add(newBot);
+                // BotStorage().bots.add(newBot);
                 Navigator.of(context).pop(newBot);
               } else {
                 setState(() {
@@ -102,48 +103,47 @@ class _AddBotPageState extends State<AddBotPage> {
   }
 
   Widget _buildButton(
-  String text, {
-  required VoidCallback? onPressed,
-  Color? color,
-}) {
-  final screenWidth = MediaQuery.of(context).size.width;
-  final screenHeight = MediaQuery.of(context).size.height;
-  final isLargeScreen = screenWidth > 600;
+    String text, {
+    required VoidCallback? onPressed,
+    Color? color,
+  }) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isLargeScreen = screenWidth > 600;
 
-  // Динамические параметры
-  final widthPercent = isLargeScreen ? 20.0 : 50.0;
-  final alignment =
-      isLargeScreen ? Alignment.center : Alignment.center;
+    // Динамические параметры
+    final widthPercent = isLargeScreen ? 20.0 : 50.0;
+    final alignment = isLargeScreen ? Alignment.center : Alignment.center;
 
-  final calculatedWidth = screenWidth * widthPercent / 100;
-  final calculatedHeight = screenHeight * 4 / 100;
+    final calculatedWidth = screenWidth * widthPercent / 100;
+    final calculatedHeight = screenHeight * 4 / 100;
 
-  return Align(
-    alignment: alignment,
-    child: Container(
-      width: calculatedWidth,
-      height: calculatedHeight,
-      constraints: BoxConstraints(
-        minWidth: calculatedWidth,
-        maxWidth: calculatedWidth,
-        minHeight: calculatedHeight,
-        maxHeight: calculatedHeight,
-      ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: color ?? AppColors.primary,
-          foregroundColor: AppColors.secondary,
-          textStyle: AppTextStyles.button,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
+    return Align(
+      alignment: alignment,
+      child: Container(
+        width: calculatedWidth,
+        height: calculatedHeight,
+        constraints: BoxConstraints(
+          minWidth: calculatedWidth,
+          maxWidth: calculatedWidth,
+          minHeight: calculatedHeight,
+          maxHeight: calculatedHeight,
         ),
-        onPressed: onPressed,
-        child: Text(text),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color ?? AppColors.primary,
+            foregroundColor: AppColors.secondary,
+            textStyle: AppTextStyles.button,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+          onPressed: onPressed,
+          child: Text(text),
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   @override
   void dispose() {

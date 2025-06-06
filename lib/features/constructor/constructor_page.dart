@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telegram_bot_builder/features/constructor/constructor_model.dart';
 
 class ConstructorPage extends StatelessWidget {
   const ConstructorPage({Key? key}) : super(key: key);
@@ -6,17 +7,7 @@ class ConstructorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text(
-          'Конструктор в процессе реализации\nЗаглушка для Глеба',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.grey,
-            fontStyle: FontStyle.italic,
-          ),
-        ),
-      ),
+      body: const Center(child: ConstructorPageModel()),
     );
   }
 }

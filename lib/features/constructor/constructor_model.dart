@@ -337,7 +337,7 @@ class _MyHomePageState extends State<ConstructorPageModel> {
                     Handler.bottomCenter,
                     Handler.topCenter,
                     Handler.leftCenter,
-                    Handler.rightCenter,
+                    // Handler.rightCenter,
                   ],
                 ),
               );
@@ -355,32 +355,12 @@ class _MyHomePageState extends State<ConstructorPageModel> {
                   // ignore: avoid_redundant_argument_values
                   kind: ElementKind.rectangle,
                   handlers: [
-                    Handler.bottomCenter,
-                    Handler.topCenter,
+                    // Handler.bottomCenter,
+                    // Handler.topCenter,
                     Handler.leftCenter,
                     Handler.rightCenter,
                   ],
                 ),
-              );
-            },
-          ),
-          ActionChip(
-            label: const Text(
-              'Add rect (draggable, resizable, not connectable)',
-            ),
-            onPressed: () {
-              dashboard.addElement(
-                FlowElement(
-                  position: position,
-                  size: const Size(100, 50),
-                  text: '${dashboard.elements.length}',
-                  handlerSize: 25,
-                  // ignore: avoid_redundant_argument_values
-                  kind: ElementKind.rectangle,
-                )
-                  ..isDraggable = true
-                  ..isResizable = true
-                  ..isConnectable = false,
               );
             },
           ),
@@ -395,9 +375,9 @@ class _MyHomePageState extends State<ConstructorPageModel> {
                   handlerSize: 25,
                   kind: ElementKind.oval,
                   handlers: [
-                    Handler.bottomCenter,
-                    Handler.topCenter,
-                    Handler.leftCenter,
+                    // Handler.bottomCenter,
+                    // Handler.topCenter,
+                    // Handler.leftCenter,
                     Handler.rightCenter,
                   ],
                 ),
@@ -414,7 +394,7 @@ class _MyHomePageState extends State<ConstructorPageModel> {
                   text: '${dashboard.elements.length}',
                   handlerSize: 25,
                   kind: ElementKind.parallelogram,
-                  handlers: [Handler.bottomCenter, Handler.topCenter],
+                  handlers: [Handler.leftCenter],
                 ),
               );
             },
@@ -455,30 +435,6 @@ class _MyHomePageState extends State<ConstructorPageModel> {
                     Handler.rightCenter,
                   ],
                 ),
-              );
-            },
-          ),
-          ActionChip(
-            label: const Text('Add image'),
-            onPressed: () async {
-              final bytes = await pickImageBytes();
-              if (bytes == null) return;
-
-              dashboard.addElement(
-                FlowElement(
-                  position: position,
-                  // size: const Size(200, 200),
-                  // text: '${dashboard.elements.length}',
-                  handlerSize: 25,
-                  kind: ElementKind.image,
-                  handlers: [
-                    Handler.topCenter,
-                    Handler.bottomCenter,
-                    Handler.leftCenter,
-                    Handler.rightCenter,
-                  ],
-                  data: Image.memory(bytes).image,
-                )..isResizable = true,
               );
             },
           ),

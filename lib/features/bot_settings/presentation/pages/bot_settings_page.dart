@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:telegram_bot_builder/core/services/bot.dart';
 import 'package:telegram_bot_builder/core/services/bot_storage.dart';
 import 'package:telegram_bot_builder/core/theme/app_colors.dart';
@@ -16,8 +19,6 @@ class BotSettingsPage extends StatefulWidget {
 }
 
 class _BotSettingsPageState extends State<BotSettingsPage> {
-  
-
   late List<Bot> bots;
 
   @override
@@ -26,18 +27,41 @@ class _BotSettingsPageState extends State<BotSettingsPage> {
     bots = BotStorage().bots; // ← Берём данные из хранилища
   }
 
-  void _showAddBotModal(BuildContext context) async {
-  final newBot = await showDialog<Bot>(
-    context: context,
-    builder: (context) => const AddBotModal(),
-  );
+  Future<void> botActivate(String token, bool activate) async {
+    final url = Uri.parse(
+        'http://127.0.0.1:5000/${activate ? 'activate' : 'deactivate'}/$token');
+    final headers = {'Content-Type': 'application/json'};
 
-  if (newBot != null && mounted) {
-    setState(() {
-      bots.add(newBot);
-    });
+    try {
+      final response = await http.post(
+        url,
+        headers: headers,
+      );
+
+      if (response.statusCode == 200) {
+        print('Данные успешно отправлены');
+      } else {
+        print('Ошибка при отправке данных: ${response.statusCode}');
+        print(response.body);
+      }
+    } catch (e) {
+      print('Произошла ошибка: $e');
+    }
   }
-}
+
+  void _showAddBotModal(BuildContext context) async {
+    final newBot = await showDialog<Bot>(
+      context: context,
+      builder: (context) => const AddBotModal(),
+    );
+
+    if (newBot != null && mounted) {
+      setState(() {
+        bots.add(newBot);
+        print(newBot);
+      });
+    }
+  }
 
   void _deleteBot(int index) {
     setState(() {
@@ -45,50 +69,61 @@ class _BotSettingsPageState extends State<BotSettingsPage> {
     });
   }
 
+  void _usedBot(int index) {
+    setState(() {
+      if (bots[index].used) {
+        bots[index].used = false;
+      } else {
+        bots[index].used = true;
+      }
+      for (int i = 0; i < bots.length; ++i) {
+        if (i != index) bots[i].used = false;
+      }
+    });
+  }
+
   void _toggleBotStatus(int index) {
     setState(() {
-      bots[index] = bots[index].copyWith(status: !bots[index].status);
+      bots[index].status = !bots[index].status;
+      botActivate(bots[index].token, bots[index].status);
     });
   }
 
   void _showBotDetailsModal(BuildContext context, int index, Bot bot) async {
-  final updatedBot = await showDialog<Bot>(
-    context: context,
-    builder: (context) => BotDetailsModal(bot: bot),
-  );
+    final updatedBot = await showDialog<Bot>(
+      context: context,
+      builder: (context) => BotDetailsModal(bot: bot),
+    );
 
-  if (updatedBot != null && mounted) {
-    setState(() {
-      bots[index] = updatedBot;
-    });
+    if (updatedBot != null && mounted) {
+      setState(() {
+        bots[index] = updatedBot;
+      });
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
-      
       backgroundColor: AppColors.background,
       body: Padding(
-        
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          
           children: [
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
                 fixedSize: const Size(double.infinity, 40),
               ),
-              onPressed: () => _showAddBotModal(context), // ← Вызов модального окна
+              onPressed: () =>
+                  _showAddBotModal(context), // ← Вызов модального окна
               icon: Icon(Icons.add, color: AppColors.secondary),
               label: Text("Добавить нового бота", style: AppTextStyles.button),
             ),
             const SizedBox(height: 16),
             Expanded(
-              
               child: ListView.builder(
                 itemCount: bots.length,
                 itemBuilder: (context, index) {
@@ -98,7 +133,9 @@ class _BotSettingsPageState extends State<BotSettingsPage> {
                       _showBotDetailsModal(context, index, bot);
                     },
                     child: Card(
-                      color: AppColors.cardBackground,
+                      color: !bot.used
+                          ? AppColors.cardBackground
+                          : AppColors.menuItemSelected,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                       child: Padding(
@@ -117,8 +154,14 @@ class _BotSettingsPageState extends State<BotSettingsPage> {
                                 Row(
                                   children: [
                                     IconButton(
-                                      onPressed: () =>
-                                          _toggleBotStatus(index),
+                                      onPressed: () => _usedBot(index),
+                                      icon: Icon(Icons.select_all,
+                                          color: bot.used
+                                              ? Colors.green
+                                              : Colors.grey),
+                                    ),
+                                    IconButton(
+                                      onPressed: () => _toggleBotStatus(index),
                                       icon: Icon(
                                         bot.status
                                             ? Icons.pause_circle_outline
@@ -129,10 +172,9 @@ class _BotSettingsPageState extends State<BotSettingsPage> {
                                       ),
                                     ),
                                     IconButton(
-                                      onPressed: () =>
-                                          _deleteBot(index),
-                                      icon: Icon(Icons.delete,
-                                          color: Colors.red),
+                                      onPressed: () => _deleteBot(index),
+                                      icon:
+                                          Icon(Icons.delete, color: Colors.red),
                                     ),
                                   ],
                                 ),
@@ -160,5 +202,3 @@ class _BotSettingsPageState extends State<BotSettingsPage> {
     );
   }
 }
-
-
