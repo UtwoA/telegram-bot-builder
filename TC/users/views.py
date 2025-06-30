@@ -4,19 +4,19 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.signals import user_logged_in
 from django.contrib.auth.tokens import default_token_generator
-
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.conf import settings
 from django.contrib.auth import get_user_model
-
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.exceptions import ObjectDoesNotExist
+from .serializers import PasswordResetSerializer
+from django.contrib.auth.models import User
+import os
 
 from .serializers import (
     UserSerializer,
@@ -135,8 +135,10 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 class PasswordResetView(APIView):
     permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = PasswordResetSerializer(data=request.data)
         if serializer.is_valid():
@@ -151,12 +153,13 @@ class PasswordResetView(APIView):
                 # Формируем ссылку
                 reset_link = f"{settings.FRONTEND_URL}/reset-password/{uid}/{token}/"
 
-                # Отправка письма
+                # Отправляем письмо через Resend
                 send_mail(
                     subject="Восстановление пароля",
                     message=f"Для восстановления пароля перейдите по ссылке: {reset_link}",
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[email],
+                    fail_silently=False,
                 )
 
                 return Response(
